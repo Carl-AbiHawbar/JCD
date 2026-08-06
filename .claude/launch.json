@@ -4,7 +4,7 @@
     {
       "name": "jcd-dev",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["--prefix", "jcd-website", "run", "dev"],
+      "runtimeArgs": ["run", "dev"],
       "port": 3000
     }
   ]

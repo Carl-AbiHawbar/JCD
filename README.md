@@ -168,6 +168,28 @@ reading it:
   `create_order()` used a temp table and died on `DELETE requires a WHERE
   clause`. It is now a single data-modifying CTE, which is atomic anyway.
 
+## Deploying
+
+The app lives at the repository root — `package.json`, `app/` and `proxy.ts`
+are all top level — so Vercel's defaults work with **Root Directory left
+blank**. It was previously nested one folder down, which meant Vercel found no
+project at the root and built nothing.
+
+Two environment variables must be set in the Vercel project (Settings →
+Environment Variables), for Production, Preview and Development:
+
+```
+NEXT_PUBLIC_SUPABASE_URL
+NEXT_PUBLIC_SUPABASE_ANON_KEY
+```
+
+Both come from the Supabase dashboard under Project Settings → API. They are
+git-ignored on purpose, so a fresh deploy will not have them.
+
+Without them the site still renders — `loadSiteData()` falls back to the static
+composition in `lib/sections.ts` — but the shop is empty, the cart cannot check
+out, and the dashboard cannot sign anyone in.
+
 ## Status
 
 Built and verified:
