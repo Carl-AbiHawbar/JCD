@@ -1,0 +1,13 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Fills whatever viewport height remains below the help bar, so the page
+   always ends in the cream band the mockup starts to show. */
+.cream {
+  flex: 1;
+  min-height: 84px;
+  background: var(--cream);
+}

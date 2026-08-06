@@ -1,0 +1,70 @@
+.bar {
+  display: flex;
+  align-items: center;
+  height: var(--helpbar-h);
+  background: var(--slate);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 43px;
+  width: 100%;
+}
+
+/* --- copy block (visually right) ------------------------------------ */
+
+.heading {
+  color: var(--on-dark);
+  font-size: 19px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.subheading {
+  margin-top: 8px;
+  color: var(--on-dark-muted);
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.4;
+}
+
+/* --- phone button (visually left) ----------------------------------- */
+
+.phone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 207px;
+  height: 48px;
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--teal);
+}
+
+.phoneIcon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.phoneLabel {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+@media (max-width: 860px) {
+  .bar {
+    height: auto;
+    padding-block: 20px;
+  }
+
+  .inner {
+    flex-direction: column;
+    gap: 18px;
+    text-align: center;
+  }
+}

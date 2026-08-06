@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "jcd-dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "jcd-website", "run", "dev"],
+      "port": 3000
+    }
+  ]
+}

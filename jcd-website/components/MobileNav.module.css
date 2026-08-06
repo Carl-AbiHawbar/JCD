@@ -1,0 +1,80 @@
+/* `composes` is only valid in top-level rules, so the bar variants are
+   declared here and the media query only toggles visibility and layout. */
+
+.toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 40px;
+  height: 32px;
+  padding: 0 8px;
+}
+
+.bar {
+  display: block;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--on-dark);
+  transition: transform 0.18s ease, opacity 0.18s ease;
+}
+
+.barTop {
+  composes: bar;
+  transform: translateY(7px) rotate(45deg);
+}
+
+.barBottom {
+  composes: bar;
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+.barHidden {
+  composes: bar;
+  opacity: 0;
+}
+
+.panel {
+  display: none;
+  position: fixed;
+  z-index: 40;
+  inset: var(--header-h) 0 auto 0;
+  max-height: calc(100vh - var(--header-h));
+  overflow-y: auto;
+  background: var(--slate);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 0 14px;
+}
+
+.link {
+  display: block;
+  padding: 13px 24px;
+  color: var(--on-dark);
+  font-size: 15px;
+}
+
+.link:active,
+.link:focus-visible {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+@media (max-width: 860px) {
+  .toggle {
+    display: flex;
+  }
+
+  .panel {
+    display: block;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bar {
+    transition: none;
+  }
+}

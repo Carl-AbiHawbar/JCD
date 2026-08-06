@@ -1,0 +1,749 @@
+/* Band colours sampled from the mockup. */
+
+.section {
+  padding-block: 80px;
+}
+
+.cream {
+  composes: section;
+  background: var(--cream);
+  color: #1c1c1e;
+}
+
+.sand {
+  composes: section;
+  background: #f2efe9;
+  color: #1c1c1e;
+}
+
+.mint {
+  composes: section;
+  background: #e4efe9;
+  color: #1c1c1e;
+}
+
+.dark {
+  composes: section;
+  background: #2f3436;
+  color: #ffffff;
+}
+
+.teal {
+  composes: section;
+  background: #40968a;
+  color: #ffffff;
+}
+
+.inner {
+  width: min(1216px, calc(100% - 64px));
+  margin: 0 auto;
+}
+
+/* --- shared headings -------------------------------------------------- */
+
+.heading {
+  margin: 0 0 10px;
+  font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.headingTeal {
+  composes: heading;
+  color: var(--teal);
+}
+
+.subheading {
+  max-width: 64ch;
+  margin: 0 auto 44px;
+  opacity: 0.72;
+  font-size: 0.98rem;
+  line-height: 1.8;
+  text-align: center;
+}
+
+.headingGap {
+  margin-bottom: 44px;
+}
+
+/* --- split ------------------------------------------------------------ */
+
+/* LTR on the grid itself so `grid-column: 1` means the left-hand column on
+   screen; the cells switch back to RTL for their text. */
+.split {
+  direction: ltr;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 64px;
+  align-items: center;
+}
+
+.split > * {
+  direction: rtl;
+}
+
+.media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.07);
+  box-shadow: 0 14px 34px rgba(21, 63, 58, 0.1);
+}
+
+.media img {
+  object-fit: cover;
+}
+
+/* The photo is placed by explicit column so RTL flow can't flip it. */
+.mediaLeft {
+  composes: media;
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.mediaRight {
+  composes: media;
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.copyLeft {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.copyRight {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.blockHeading {
+  margin: 0 0 14px;
+  color: var(--teal);
+  font-size: clamp(1.15rem, 1.8vw, 1.45rem);
+  font-weight: 700;
+}
+
+.block + .block {
+  margin-top: 26px;
+}
+
+.block p {
+  margin: 0 0 10px;
+  opacity: 0.8;
+  line-height: 1.95;
+}
+
+.block p:last-child {
+  margin-bottom: 0;
+}
+
+/* --- feature ---------------------------------------------------------- */
+
+.featureMedia {
+  position: relative;
+  aspect-ratio: 24 / 9;
+  overflow: hidden;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.07);
+  box-shadow: 0 14px 34px rgba(21, 63, 58, 0.1);
+}
+
+.featureMedia img {
+  object-fit: cover;
+}
+
+/* --- card grid -------------------------------------------------------- */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #fff;
+  color: #1c1c1e;
+  box-shadow: 0 12px 30px rgba(21, 63, 58, 0.08);
+}
+
+.cardMedia {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  background: rgba(0, 0, 0, 0.07);
+}
+
+.cardMedia img {
+  object-fit: cover;
+}
+
+.cardBody {
+  padding: 18px 20px 22px;
+}
+
+.alignCenter .cardBody {
+  text-align: center;
+}
+
+.cardMeta {
+  margin: 0 0 6px;
+  color: var(--teal);
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.cardBadge {
+  display: inline-flex;
+  margin-bottom: 12px;
+  padding: 5px 14px;
+  border-radius: 999px;
+  background: var(--teal);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.cardTitle {
+  margin: 0 0 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.55;
+}
+
+.cardTitleTeal {
+  composes: cardTitle;
+  color: var(--teal);
+}
+
+.cardText {
+  margin: 0;
+  opacity: 0.72;
+  font-size: 0.92rem;
+  line-height: 1.85;
+}
+
+/* overlay variant: copy sits on the photo */
+
+.overlayCard {
+  position: relative;
+  aspect-ratio: 16 / 11;
+  overflow: hidden;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.overlayCard img {
+  object-fit: cover;
+}
+
+.overlayScrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.72) 0%,
+    rgba(0, 0, 0, 0.35) 45%,
+    rgba(0, 0, 0, 0.1) 100%
+  );
+}
+
+.overlayBody {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  padding: 18px 20px;
+  color: #fff;
+}
+
+.overlayTitle {
+  margin: 0 0 6px;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.overlayText {
+  margin: 0;
+  opacity: 0.9;
+  font-size: 0.88rem;
+  line-height: 1.7;
+}
+
+/* --- steps ------------------------------------------------------------ */
+
+.steps {
+  display: grid;
+  gap: 18px;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 16px;
+  align-items: center;
+}
+
+.stepNumber {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--teal);
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.stepCard {
+  padding: 18px 24px;
+  border-radius: 12px;
+  background: #e4efe9;
+}
+
+.stepTitle {
+  margin: 0 0 4px;
+  color: var(--teal);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.stepText {
+  margin: 0;
+  opacity: 0.78;
+  line-height: 1.8;
+}
+
+/* --- donate ----------------------------------------------------------- */
+
+.donate {
+  position: relative;
+  overflow: hidden;
+}
+
+.donateMedia {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.donateMedia img {
+  object-fit: cover;
+  opacity: 0.35;
+}
+
+.donateInner {
+  position: relative;
+  text-align: center;
+}
+
+.amounts {
+  /* ascending right-to-left, as in the mockup */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.amount {
+  min-width: 110px;
+  padding: 14px 22px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 8px;
+  background: transparent;
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 150ms ease;
+}
+
+.amount:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.amountOn {
+  composes: amount;
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.donateForm {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.donateInput {
+  flex: 1 1 220px;
+  min-width: 0;
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font: inherit;
+}
+
+.donateInput::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.donateNote {
+  margin: 18px 0 0;
+  font-weight: 700;
+}
+
+.donateError {
+  margin: 14px 0 0;
+  color: #ffd7d7;
+  font-weight: 700;
+}
+
+.newsletterNote {
+  margin: 12px 0 0;
+  color: var(--teal);
+  font-weight: 700;
+}
+
+.donateCta {
+  display: inline-flex;
+  align-items: center;
+  height: 52px;
+  padding-inline: 44px;
+  border-radius: 10px;
+  background: #40968a;
+  color: #fff;
+  font-weight: 700;
+}
+
+/* --- products --------------------------------------------------------- */
+
+.products {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+}
+
+.product {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 12px 30px rgba(21, 63, 58, 0.08);
+}
+
+.wish {
+  position: absolute;
+  inset-inline-start: 16px;
+  top: 16px;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #fff;
+  color: #1c1c1e;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+}
+
+.wishOn {
+  composes: wish;
+  color: #c0392b;
+}
+
+.wishOn svg {
+  fill: currentColor;
+}
+
+.productMedia {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: #e4e2e7;
+}
+
+.productMedia img {
+  object-fit: cover;
+}
+
+.productBody {
+  padding: 18px 20px 22px;
+  text-align: center;
+}
+
+.productTitle {
+  margin: 0 0 6px;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.productPrice {
+  margin: 0 0 16px;
+  color: var(--teal);
+  font-weight: 700;
+}
+
+.addToCart {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--teal);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--teal);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 150ms ease, color 150ms ease;
+}
+
+.addToCart:hover {
+  background: var(--teal);
+  color: #fff;
+}
+
+/* --- newsletter ------------------------------------------------------- */
+
+.newsletter {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 40px 36px;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 12px 30px rgba(21, 63, 58, 0.08);
+  text-align: center;
+}
+
+.newsletterIcon {
+  color: var(--teal);
+}
+
+.newsletterHeading {
+  margin: 14px 0 22px;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.newsletterForm {
+  display: flex;
+  gap: 10px;
+}
+
+.newsletterInput {
+  flex: 1;
+  min-width: 0;
+  padding: 13px 16px;
+  border: 1px solid #dce4e1;
+  border-radius: 8px;
+  font: inherit;
+}
+
+.newsletterButton {
+  padding: 13px 30px;
+  border-radius: 8px;
+  background: var(--teal);
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* --- stats ------------------------------------------------------------ */
+
+/* The mockup reads 24/7 · 85% · +15 · 2000+ left-to-right, so array order
+   maps to screen order rather than being reversed by RTL flow. */
+.stats {
+  direction: ltr;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  text-align: center;
+}
+
+.stats > * {
+  direction: rtl;
+}
+
+.statValue {
+  font-size: clamp(1.7rem, 3vw, 2.4rem);
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.statLabel {
+  margin-top: 8px;
+  opacity: 0.9;
+  font-size: 0.92rem;
+}
+
+/* --- icon cards ------------------------------------------------------- */
+
+.iconCards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 34px;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.iconCard {
+  display: block;
+  padding: 34px 28px;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 12px 30px rgba(21, 63, 58, 0.08);
+  text-align: center;
+  transition: transform 160ms ease;
+}
+
+.iconCard:hover {
+  transform: translateY(-2px);
+}
+
+.iconCardIcon {
+  color: var(--teal);
+}
+
+.iconCardTitle {
+  margin: 16px 0 8px;
+  font-size: 1.08rem;
+  font-weight: 700;
+}
+
+.iconCardText {
+  margin: 0;
+  opacity: 0.72;
+  font-size: 0.94rem;
+  line-height: 1.7;
+}
+
+/* --- accordion -------------------------------------------------------- */
+
+.accordion {
+  display: grid;
+  gap: 16px;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.row {
+  overflow: hidden;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 8px 22px rgba(21, 63, 58, 0.06);
+}
+
+.rowButton {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  padding: 20px 24px;
+  font: inherit;
+  font-weight: 700;
+  text-align: start;
+  cursor: pointer;
+}
+
+.chevron {
+  flex: 0 0 auto;
+  opacity: 0.55;
+  transition: transform 180ms ease;
+}
+
+.chevronOpen {
+  composes: chevron;
+  transform: rotate(180deg);
+}
+
+.answer {
+  padding: 0 24px 22px;
+  opacity: 0.75;
+  line-height: 1.85;
+}
+
+@media (max-width: 900px) {
+  .section,
+  .cream,
+  .sand,
+  .mint,
+  .dark,
+  .teal {
+    padding-block: 52px;
+  }
+
+  .inner {
+    width: calc(100% - 40px);
+  }
+
+  .split {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .mediaLeft,
+  .mediaRight {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .copyLeft,
+  .copyRight {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .grid,
+  .products {
+    grid-template-columns: 1fr;
+  }
+
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px 16px;
+  }
+
+  .iconCards {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .step {
+    grid-template-columns: 44px 1fr;
+    gap: 12px;
+  }
+
+  .stepNumber {
+    width: 42px;
+    height: 42px;
+  }
+
+  .newsletterForm {
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chevron,
+  .chevronOpen,
+  .iconCard,
+  .amount,
+  .addToCart {
+    transition: none;
+  }
+}

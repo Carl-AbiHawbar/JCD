@@ -1,0 +1,78 @@
+/*
+ * Every px value here is measured off the Canva mockup
+ * ("JCD Organization Website Redesign Mockups", design DAHLU10UT9c),
+ * which was authored at a 1366 x 768 viewport.
+ */
+
+:root {
+  /* surfaces */
+  --slate: #828893;
+  --cream: #faf9f7;
+  --pill: #9b9fa8;
+
+  /* brand */
+  --teal: #357a6d;
+  --teal-cta: #40968a;
+
+  /* text on dark surfaces */
+  --on-dark: #ffffff;
+  --on-dark-muted: rgba(255, 255, 255, 0.9);
+
+  /* structure */
+  --header-h: 56px;
+  --hero-h: 538px;
+  --helpbar-h: 90px;
+  --edge-start: 59px;
+  --edge-end: 74px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  background: var(--cream);
+  color: #1c1c1e;
+  font-family: var(--font-tajawal), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+ul {
+  list-style: none;
+}

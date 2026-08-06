@@ -1,0 +1,110 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--header-h);
+  padding-inline: var(--edge-end) var(--edge-start);
+  background: var(--slate);
+}
+
+/* --- brand group (visually left) ------------------------------------ */
+
+.brandGroup {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  gap: 14px;
+}
+
+.langToggle {
+  width: 40px;
+  height: 24px;
+  border-radius: 4px;
+  background: var(--pill);
+  color: var(--on-dark);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  line-height: 24px;
+  text-align: center;
+}
+
+.cartLink {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  color: var(--on-dark);
+}
+
+.cartCount {
+  position: absolute;
+  inset-inline-end: -4px;
+  top: -3px;
+  min-width: 17px;
+  height: 17px;
+  padding-inline: 4px;
+  border-radius: 999px;
+  background: var(--teal);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 17px;
+  text-align: center;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  display: block;
+  width: 81px;
+  height: 38px;
+}
+
+/* --- nav (visually right) ------------------------------------------- */
+
+.navList {
+  /* the mockup reads left-to-right: من نحن … تواصل */
+  direction: ltr;
+  display: flex;
+  align-items: center;
+  gap: 33px;
+}
+
+/* No letter-spacing on Arabic anywhere in this project: browsers correctly
+   refuse to apply it to cursive scripts, so it is silently a no-op. The
+   mockup's wider tracking came from the design tool breaking the letter
+   joins, which is not something to reproduce in real text. See DESIGN.md. */
+.navLink {
+  display: block;
+  color: var(--on-dark);
+  font-size: 13px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+@media (max-width: 1200px) {
+  .header {
+    padding-inline: 32px;
+  }
+
+  .navList {
+    gap: 22px;
+  }
+
+  .navLink {
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+}
+
+@media (max-width: 860px) {
+  /* The inline list gives way to the disclosure menu in MobileNav. */
+  .navList {
+    display: none;
+  }
+}
