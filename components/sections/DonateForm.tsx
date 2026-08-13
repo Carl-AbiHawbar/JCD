@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 
+import { pledgeDonation } from "@/lib/firebase/public-writes";
 import styles from "./sections.module.css";
 
 type State = { kind: "idle" | "sending" | "sent" | "error"; message: string };
@@ -27,30 +28,21 @@ export default function DonateForm({
 
     const isEmail = contact.includes("@");
     try {
-      const response = await fetch("/api/donations", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          amountCents,
-          name,
-          email: isEmail ? contact : "",
-          phone: isEmail ? "" : contact,
-        }),
+      await pledgeDonation({
+        amountCents,
+        name,
+        email: isEmail ? contact : "",
+        phone: isEmail ? "" : contact,
       });
-      const body = (await response.json().catch(() => ({}))) as { error?: string };
-      if (!response.ok) throw new Error(body.error);
-
       setState({
         kind: "sent",
         message: "شكراً لك. تم تسجيل تبرعك وسنتواصل معك قريباً.",
       });
       setOpen(false);
-    } catch (cause) {
+    } catch {
       setState({
         kind: "error",
-        message: cause instanceof Error && cause.message
-          ? cause.message
-          : "تعذّر تسجيل التبرع.",
+        message: "تعذّر تسجيل التبرع. يرجى المحاولة لاحقاً.",
       });
     }
   }

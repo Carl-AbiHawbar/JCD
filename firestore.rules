@@ -1,0 +1,214 @@
+rules_version = '2';
+
+// JCD Firestore security rules.
+//
+// This app has no Admin SDK and no Cloud Functions, so there is no trusted
+// server that can write on a visitor's behalf. Everything below is therefore
+// enforced here, in the rules, and the data model is shaped so that the values
+// that matter can actually be checked:
+//
+//   * Order line items live in a subcollection, one document each, so a rule
+//     can verify every line's price against the product document with get().
+//     Rules have no loops, so an array of lines on the order document could
+//     not be validated this way.
+//   * The order document deliberately stores no total. The dashboard sums the
+//     validated line items instead, so there is no total to tamper with.
+//   * A discount's percentage is checked against the discountCodes document
+//     rather than trusted from the client.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ---------------------------------------------------------------- helpers
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    function isPublished() {
+      return resource.data.status == 'published';
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    // Only the listed keys may be present, and the required ones must be.
+    function onlyFields(required, optional) {
+      return incoming().keys().hasOnly(required.concat(optional))
+        && incoming().keys().hasAll(required);
+    }
+
+    function isShortText(value, max) {
+      return value is string && value.size() > 0 && value.size() <= max;
+    }
+
+    // ----------------------------------------------------------------- admins
+    // Membership of this collection is what grants admin rights, so it is
+    // never writable from a client. Add the first document in the console.
+
+    match /admins/{uid} {
+      allow get: if signedIn() && request.auth.uid == uid;
+      allow list: if isAdmin();
+      allow write: if false;
+    }
+
+    // --------------------------------------------------------------- content
+    // Published rows are world readable; everything else is admin only.
+
+    match /products/{id} {
+      allow get, list: if isPublished() || isAdmin();
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /programs/{id} {
+      allow get, list: if isPublished() || isAdmin();
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /events/{id} {
+      allow get, list: if isPublished() || isAdmin();
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /faqs/{id} {
+      allow get, list: if isPublished() || isAdmin();
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /testimonials/{id} {
+      allow get, list: if isPublished() || isAdmin();
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /collections/{id} {
+      allow get, list: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /siteSettings/{id} {
+      allow get: if true;
+      allow list, create, update, delete: if isAdmin();
+    }
+
+    // -------------------------------------------------------- discount codes
+    // `get` is allowed so checkout can validate a code the shopper typed, but
+    // `list` is denied so the catalogue of codes cannot be enumerated.
+
+    match /discountCodes/{code} {
+      allow get: if resource.data.active == true || isAdmin();
+      allow list: if isAdmin();
+      allow create, update, delete: if isAdmin();
+    }
+
+    // ---------------------------------------------------------------- orders
+    // Anyone may place an order; only an admin may read one back. Note there
+    // is no `subtotalCents` — see the header comment.
+
+    function validDiscount() {
+      return !('discountCode' in incoming())
+        || (
+          incoming().discountCode is string
+          && exists(/databases/$(database)/documents/discountCodes/$(incoming().discountCode))
+          && get(/databases/$(database)/documents/discountCodes/$(incoming().discountCode)).data.active == true
+          && incoming().discountPercent
+             == get(/databases/$(database)/documents/discountCodes/$(incoming().discountCode)).data.percent
+        );
+    }
+
+    match /orders/{orderId} {
+      allow create: if
+        onlyFields(
+          ['reference', 'customerName', 'customerPhone', 'status',
+           'paymentMethod', 'currency', 'createdAt'],
+          ['customerEmail', 'addressAr', 'note', 'discountCode', 'discountPercent']
+        )
+        && isShortText(incoming().reference, 24)
+        && isShortText(incoming().customerName, 120)
+        && isShortText(incoming().customerPhone, 32)
+        && incoming().status == 'pending'
+        && incoming().paymentMethod == 'cod'
+        && incoming().currency == 'USD'
+        && incoming().createdAt == request.time
+        && validDiscount();
+
+      allow get, list: if isAdmin();
+      allow update, delete: if isAdmin();
+
+      // Each line is checked against the product it names: the product must be
+      // published and the unit price must equal the catalogue price.
+      match /items/{itemId} {
+        function product() {
+          return get(/databases/$(database)/documents/products/$(incoming().productId)).data;
+        }
+
+        allow create: if
+          onlyFields(['productId', 'titleAr', 'unitPriceCents', 'quantity'], [])
+          && incoming().productId is string
+          && exists(/databases/$(database)/documents/products/$(incoming().productId))
+          && product().status == 'published'
+          && incoming().unitPriceCents == product().priceCents
+          && incoming().titleAr == product().titleAr
+          && incoming().quantity is int
+          && incoming().quantity >= 1
+          && incoming().quantity <= 99;
+
+        allow get, list: if isAdmin();
+        allow update, delete: if isAdmin();
+      }
+    }
+
+    // ------------------------------------------------------------- donations
+    // Pledges only — no payment provider is connected.
+
+    match /donations/{id} {
+      allow create: if
+        onlyFields(['amountCents', 'currency', 'status', 'createdAt'],
+                   ['donorName', 'donorEmail', 'donorPhone', 'note'])
+        && incoming().amountCents is int
+        && incoming().amountCents >= 0
+        && incoming().amountCents <= 1000000
+        && incoming().currency == 'USD'
+        && incoming().status == 'pledged'
+        && incoming().createdAt == request.time;
+
+      allow get, list, update, delete: if isAdmin();
+    }
+
+    // ----------------------------------------------------------- subscribers
+
+    match /subscribers/{id} {
+      allow create: if
+        onlyFields(['email', 'createdAt'], ['unsubscribed'])
+        && incoming().email is string
+        && incoming().email.matches('^[^@\\s]+@[^@\\s]+\\.[^@\\s]{2,}$')
+        && incoming().email.size() <= 254
+        && incoming().createdAt == request.time;
+
+      allow get, list, update, delete: if isAdmin();
+    }
+
+    // ----------------------------------------------------------- assessments
+    // Written once by the visitor who completed it, then read only by admins.
+
+    match /assessments/{id} {
+      allow create: if
+        incoming().percentage is int
+        && incoming().percentage >= 0
+        && incoming().percentage <= 100
+        && incoming().createdAt == request.time;
+
+      allow get, list, update, delete: if isAdmin();
+    }
+
+    // Anything not matched above is denied.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

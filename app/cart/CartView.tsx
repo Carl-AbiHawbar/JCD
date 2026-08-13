@@ -4,55 +4,73 @@ import Link from "next/link";
 import { useState } from "react";
 
 import { formatPrice, useCart } from "@/lib/cart";
+import { lookupDiscount, placeOrder } from "@/lib/firebase/public-writes";
+import type { DiscountCode } from "@/lib/firebase/types";
 import styles from "./cart.module.css";
 
 type State = { kind: "idle" | "sending" | "done" | "error"; message: string };
 
 export default function CartView() {
   const { lines, subtotalCents, setQuantity, remove, clear, ready } = useCart();
+
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
+
+  const [code, setCode] = useState("");
+  const [discount, setDiscount] = useState<DiscountCode | null>(null);
+  const [codeNote, setCodeNote] = useState("");
+  const [checkingCode, setCheckingCode] = useState(false);
+
   const [state, setState] = useState<State>({ kind: "idle", message: "" });
   const [reference, setReference] = useState("");
 
-  async function placeOrder(event: React.FormEvent) {
+  const discountCents = discount
+    ? Math.round(subtotalCents * (discount.percent / 100))
+    : 0;
+  const totalCents = subtotalCents - discountCents;
+
+  async function applyCode(event: React.FormEvent) {
+    event.preventDefault();
+    setCheckingCode(true);
+    setCodeNote("");
+
+    const found = await lookupDiscount(code);
+    setCheckingCode(false);
+
+    if (!found) {
+      setDiscount(null);
+      setCodeNote("الرمز غير صالح أو منتهي الصلاحية.");
+      return;
+    }
+    setDiscount(found);
+    setCodeNote(`تم تطبيق خصم ${found.percent}%`);
+  }
+
+  async function submit(event: React.FormEvent) {
     event.preventDefault();
     setState({ kind: "sending", message: "" });
 
     try {
-      const response = await fetch("/api/orders", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name,
-          phone,
-          email,
-          address,
-          lines: lines.map((l) => ({
-            productId: l.productId,
-            quantity: l.quantity,
-          })),
-        }),
+      const ref = await placeOrder({
+        name,
+        phone,
+        email,
+        address,
+        lines,
+        discount,
       });
-
-      const body = (await response.json().catch(() => ({}))) as {
-        error?: string;
-        reference?: string;
-      };
-      if (!response.ok) throw new Error(body.error);
-
-      setReference(body.reference ?? "");
-      setState({ kind: "done", message: "تم استلام طلبك." });
+      setReference(ref);
+      setState({ kind: "done", message: "" });
       clear();
     } catch (cause) {
+      const empty = cause instanceof Error && cause.message === "EMPTY_CART";
       setState({
         kind: "error",
-        message:
-          cause instanceof Error && cause.message
-            ? cause.message
-            : "تعذّر إتمام الطلب.",
+        message: empty
+          ? "السلة فارغة."
+          : "تعذّر إتمام الطلب. يرجى المحاولة لاحقاً.",
       });
     }
   }
@@ -66,7 +84,9 @@ export default function CartView() {
         <p>
           رقم الطلب: <strong dir="ltr">{reference}</strong>
         </p>
-        <p className={styles.doneNote}>سنتواصل معك لتأكيد التفاصيل والتسليم.</p>
+        <p className={styles.doneNote}>
+          الدفع عند الاستلام. سنتواصل معك لتأكيد التفاصيل والتسليم.
+        </p>
         <Link className={styles.primary} href="/#shop">
           العودة إلى المتجر
         </Link>
@@ -130,65 +150,105 @@ export default function CartView() {
         ))}
       </ul>
 
-      <form className={styles.checkout} onSubmit={placeOrder}>
+      <div className={styles.checkout}>
         <h2 className={styles.checkoutHeading}>إتمام الطلب</h2>
 
-        <label className={styles.field}>
-          <span>الاسم الكامل *</span>
-          <input value={name} onChange={(e) => setName(e.target.value)} required />
-        </label>
-
-        <label className={styles.field}>
-          <span>رقم الهاتف *</span>
+        <form className={styles.codeRow} onSubmit={applyCode}>
           <input
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            required
+            className={styles.codeInput}
+            value={code}
+            onChange={(e) => setCode(e.target.value.toUpperCase())}
+            placeholder="رمز الخصم"
+            aria-label="رمز الخصم"
             dir="ltr"
           />
-        </label>
-
-        <label className={styles.field}>
-          <span>البريد الإلكتروني</span>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            dir="ltr"
-          />
-        </label>
-
-        <label className={styles.field}>
-          <span>العنوان</span>
-          <textarea
-            rows={3}
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-          />
-        </label>
-
-        <p className={styles.total}>
-          المجموع: <strong dir="ltr">{formatPrice(subtotalCents)}</strong>
-        </p>
-
-        <button
-          className={styles.primary}
-          type="submit"
-          disabled={state.kind === "sending"}
-        >
-          {state.kind === "sending" ? "جارٍ الإرسال..." : "تأكيد الطلب"}
-        </button>
-
-        <p className={styles.payNote}>
-          الدفع عند الاستلام. سنتواصل معك لتأكيد الطلب.
-        </p>
-
-        {state.kind === "error" && (
-          <p className={styles.error} aria-live="polite">
-            {state.message}
+          <button
+            className={styles.codeBtn}
+            type="submit"
+            disabled={checkingCode || code.trim().length === 0}
+          >
+            {checkingCode ? "..." : "تطبيق"}
+          </button>
+        </form>
+        {codeNote && (
+          <p className={discount ? styles.codeOk : styles.codeBad} aria-live="polite">
+            {codeNote}
           </p>
         )}
-      </form>
+
+        <form className={styles.fields} onSubmit={submit}>
+          <label className={styles.field}>
+            <span>الاسم الكامل *</span>
+            <input value={name} onChange={(e) => setName(e.target.value)} required />
+          </label>
+
+          <label className={styles.field}>
+            <span>رقم الهاتف *</span>
+            <input
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              required
+              dir="ltr"
+              inputMode="tel"
+            />
+          </label>
+
+          <label className={styles.field}>
+            <span>البريد الإلكتروني</span>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              dir="ltr"
+              inputMode="email"
+            />
+          </label>
+
+          <label className={styles.field}>
+            <span>العنوان</span>
+            <textarea
+              rows={3}
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+          </label>
+
+          <dl className={styles.totals}>
+            <div>
+              <dt>المجموع الفرعي</dt>
+              <dd dir="ltr">{formatPrice(subtotalCents)}</dd>
+            </div>
+            {discount && (
+              <div>
+                <dt>الخصم ({discount.percent}%)</dt>
+                <dd dir="ltr">−{formatPrice(discountCents)}</dd>
+              </div>
+            )}
+            <div className={styles.grandTotal}>
+              <dt>الإجمالي</dt>
+              <dd dir="ltr">{formatPrice(totalCents)}</dd>
+            </div>
+          </dl>
+
+          <button
+            className={styles.primary}
+            type="submit"
+            disabled={state.kind === "sending"}
+          >
+            {state.kind === "sending" ? "جارٍ الإرسال..." : "تأكيد الطلب"}
+          </button>
+
+          <p className={styles.payNote}>
+            الدفع عند الاستلام (COD). لا يتم تحصيل أي مبلغ عبر الموقع.
+          </p>
+
+          {state.kind === "error" && (
+            <p className={styles.error} aria-live="polite">
+              {state.message}
+            </p>
+          )}
+        </form>
+      </div>
     </div>
   );
 }

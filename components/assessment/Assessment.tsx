@@ -8,6 +8,7 @@ import {
   type Answers,
   type AssessmentResult,
 } from "@/lib/assessment/questions";
+import { submitAssessment } from "@/lib/firebase/public-writes";
 import styles from "./Assessment.module.css";
 
 const STORAGE_KEY = "volunteerAssessmentProgress";
@@ -178,19 +179,19 @@ export default function Assessment() {
     setSubmitState({ kind: "sending", message: "جارٍ إرسال النتيجة..." });
 
     try {
-      // Only the answers are sent; the server recomputes the score itself so
-      // a submitted result cannot be forged.
-      const response = await fetch("/api/volunteer-assessment", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ assessmentId, answers }),
+      const scored = computeResult(answers);
+      await submitAssessment({
+        reference: assessmentId,
+        score: scored.score,
+        maxScore: scored.maxScore,
+        percentage: scored.percentage,
+        level: scored.level,
+        statusAr: scored.status,
+        preferredTrack: scored.preferredTrack,
+        answers: scored.answers,
+        strengths: scored.strengths,
+        development: scored.development,
       });
-
-      const body = (await response.json().catch(() => ({}))) as {
-        error?: string;
-      };
-
-      if (!response.ok) throw new Error(body.error || `HTTP ${response.status}`);
 
       setSubmitState({ kind: "sent", message: "تم إرسال النتيجة بنجاح." });
     } catch {

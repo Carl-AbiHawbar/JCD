@@ -104,6 +104,94 @@
   box-shadow: 0 12px 30px rgba(21, 63, 58, 0.08);
 }
 
+.fields {
+  display: grid;
+  gap: 14px;
+}
+
+/* --- discount code --------------------------------------------------- */
+
+.codeRow {
+  display: flex;
+  gap: 8px;
+}
+
+.codeInput {
+  flex: 1;
+  min-width: 0;
+  padding: 11px 13px;
+  border: 1px solid #dce4e1;
+  border-radius: 8px;
+  font: inherit;
+  letter-spacing: 1px;
+}
+
+.codeBtn {
+  padding: 11px 20px;
+  border: 1px solid var(--teal);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--teal);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.codeBtn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.codeOk {
+  margin: 0;
+  color: var(--teal);
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.codeBad {
+  margin: 0;
+  color: #a23434;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+/* --- totals ---------------------------------------------------------- */
+
+.totals {
+  display: grid;
+  gap: 8px;
+  margin: 6px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid #eef2f0;
+}
+
+.totals > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.totals dt,
+.totals dd {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.totals dd {
+  font-weight: 700;
+}
+
+.grandTotal dt,
+.grandTotal dd {
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.grandTotal dd {
+  color: var(--teal);
+}
+
 .checkoutHeading {
   margin: 0 0 4px;
   font-size: 1.1rem;

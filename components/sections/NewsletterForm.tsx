@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 
+import { subscribe } from "@/lib/firebase/public-writes";
 import styles from "./sections.module.css";
 
 type State = { kind: "idle" | "sending" | "sent" | "error"; message: string };
@@ -21,23 +22,16 @@ export default function NewsletterForm({
     setState({ kind: "sending", message: "" });
 
     try {
-      const response = await fetch("/api/subscribe", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-      const body = (await response.json().catch(() => ({}))) as { error?: string };
-      if (!response.ok) throw new Error(body.error);
-
+      await subscribe(email);
       setState({ kind: "sent", message: "تم اشتراكك بنجاح. شكراً لك!" });
       setEmail("");
     } catch (cause) {
+      const invalid = cause instanceof Error && cause.message === "INVALID_EMAIL";
       setState({
         kind: "error",
-        message:
-          cause instanceof Error && cause.message
-            ? cause.message
-            : "تعذّر إتمام الاشتراك.",
+        message: invalid
+          ? "يرجى إدخال بريد إلكتروني صحيح."
+          : "تعذّر إتمام الاشتراك. يرجى المحاولة لاحقاً.",
       });
     }
   }
