@@ -11,6 +11,8 @@ export default function LoginForm({
   signedInButNotAdmin: boolean;
 }) {
   const { signInWithPassword, signInWithGoogle, signOut, user } = useAuth();
+  // Accepts either the admin username or an email address; see
+  // resolveLoginIdentifier in lib/firebase/accounts.ts.
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -70,12 +72,12 @@ export default function LoginForm({
 
           <div className={styles.field}>
             <label className={styles.fieldLabel} htmlFor="email">
-              البريد الإلكتروني
+              اسم المستخدم
             </label>
             <input
               className={styles.input}
               id="email"
-              type="email"
+              type="text"
               autoComplete="username"
               dir="ltr"
               required

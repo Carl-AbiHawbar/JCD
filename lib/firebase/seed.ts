@@ -74,7 +74,7 @@ export async function seedContent(): Promise<SeedReport> {
         slug, titleAr, descriptionAr,
         priceCents, currency: "USD", stock: 25,
         status: "published", sortOrder: i,
-        image: `/sections/product-${i + 1}.jpg`,
+        image: `/sections/product-${i + 1}.svg`,
       });
     });
     report.products = PRODUCTS.length;
@@ -93,7 +93,7 @@ export async function seedContent(): Promise<SeedReport> {
     PROGRAMS.forEach(([slug, titleAr, summaryAr], i) => {
       batch.set(doc(collection(db(), "programs")), {
         slug, titleAr, summaryAr, status: "published", sortOrder: i,
-        image: `/sections/programme-${i + 1}.jpg`,
+        image: `/sections/programme-${i + 1}.svg`,
       });
     });
     report.programs = PROGRAMS.length;
@@ -103,7 +103,7 @@ export async function seedContent(): Promise<SeedReport> {
     EVENTS.forEach(([slug, titleAr, summaryAr], i) => {
       batch.set(doc(collection(db(), "events")), {
         slug, titleAr, summaryAr, status: "published", sortOrder: i,
-        image: `/sections/event-${i + 1}.jpg`,
+        image: `/sections/event-${i + 1}.svg`,
       });
     });
     report.events = EVENTS.length;

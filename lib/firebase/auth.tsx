@@ -17,6 +17,7 @@ import {
   useState,
 } from "react";
 
+import { resolveLoginIdentifier } from "./accounts";
 import { db, firebaseAuth } from "./client";
 
 /**
@@ -70,7 +71,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       isAdmin,
       loading,
       async signInWithPassword(email, password) {
-        await signInWithEmailAndPassword(firebaseAuth(), email, password);
+        // The admin types a username; everyone else types their email.
+        await signInWithEmailAndPassword(
+          firebaseAuth(),
+          resolveLoginIdentifier(email),
+          password,
+        );
       },
       async signInWithGoogle() {
         await signInWithPopup(firebaseAuth(), new GoogleAuthProvider());

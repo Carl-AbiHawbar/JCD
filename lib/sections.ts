@@ -121,8 +121,22 @@ export type Section =
   | IconCardsSection
   | AccordionSection;
 
+/**
+ * Section artwork: a brand-coloured panel with a pictogram of the subject,
+ * in public/sections.
+ *
+ * These are illustrations on purpose. The Canva design contains only the hero
+ * photograph, and auto-sourcing stock photos was tried and abandoned: the
+ * freely-licensed pools returned irrelevant images, and — more importantly —
+ * photographs of identifiable people on a drug-rehabilitation site imply those
+ * people are patients. An open licence covers copyright, not the right to
+ * portray someone that way.
+ *
+ * Drop a real photograph in with the same file name (any extension change also
+ * needs updating here) to replace any of them.
+ */
 const img = (name: string, alt: string): Img => ({
-  src: `/sections/${name}.jpg`,
+  src: `/sections/${name}.svg`,
   alt,
 });
 

@@ -45,7 +45,7 @@ export async function loadSiteData(locale: Locale): Promise<SiteData> {
     currency: p.currency ?? "USD",
     // Products without their own artwork fall back to the generated tile that
     // matches their position in the grid.
-    image: p.image ?? (i < 9 ? `/sections/product-${i + 1}.jpg` : null),
+    image: p.image ?? (i < 9 ? `/sections/product-${i + 1}.svg` : null),
     stock: p.stock ?? 0,
   }));
 
