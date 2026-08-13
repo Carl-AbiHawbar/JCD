@@ -1,5 +1,10 @@
-import { helpBar } from "@/lib/content";
 import styles from "./HelpBar.module.css";
+
+type HelpBarContent = {
+  heading: string;
+  subheading: string;
+  phone: string;
+};
 
 function PhoneIcon() {
   return (
@@ -18,7 +23,7 @@ function PhoneIcon() {
   );
 }
 
-export default function HelpBar() {
+export default function HelpBar({ helpBar }: { helpBar: HelpBarContent }) {
   return (
     <section className={styles.bar}>
       <div className={styles.inner}>

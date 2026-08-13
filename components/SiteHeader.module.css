@@ -68,7 +68,8 @@
 /* --- nav (visually right) ------------------------------------------- */
 
 .navList {
-  /* the mockup reads left-to-right: من نحن … تواصل */
+  /* The mockup reads left-to-right even in Arabic: من نحن … تواصل. In English
+     that is simply the natural order. */
   direction: ltr;
   display: flex;
   align-items: center;

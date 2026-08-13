@@ -69,18 +69,11 @@
 
 /* --- split ------------------------------------------------------------ */
 
-/* LTR on the grid itself so `grid-column: 1` means the left-hand column on
-   screen; the cells switch back to RTL for their text. */
 .split {
-  direction: ltr;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 64px;
   align-items: center;
-}
-
-.split > * {
-  direction: rtl;
 }
 
 .media {
@@ -96,7 +89,9 @@
   object-fit: cover;
 }
 
-/* The photo is placed by explicit column so RTL flow can't flip it. */
+/* Grid column 1 is the left column in LTR but the right column in RTL, so the
+   placement is stated for each direction rather than forcing one direction on
+   the cells — that used to left-align Arabic correctly and English wrongly. */
 .mediaLeft {
   composes: media;
   grid-column: 1;
@@ -117,6 +112,22 @@
 .copyRight {
   grid-column: 2;
   grid-row: 1;
+}
+
+:global([dir="rtl"]) .mediaLeft {
+  grid-column: 2;
+}
+
+:global([dir="rtl"]) .mediaRight {
+  grid-column: 1;
+}
+
+:global([dir="rtl"]) .copyLeft {
+  grid-column: 2;
+}
+
+:global([dir="rtl"]) .copyRight {
+  grid-column: 1;
 }
 
 .blockHeading {
@@ -574,7 +585,9 @@
   text-align: center;
 }
 
-.stats > * {
+/* Only the Arabic labels need flipping back; in English the whole strip is
+   already reading the right way. */
+:global([dir="rtl"]) .stats > * {
   direction: rtl;
 }
 

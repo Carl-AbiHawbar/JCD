@@ -88,9 +88,12 @@ export async function listPublished<T>(
     });
 
     if (!response.ok) {
-      console.error(
-        `Firestore ${collectionId} query failed: ${response.status}`,
-        (await response.text()).slice(0, 200),
+      // 403 before the rules are deployed is expected and self-explanatory;
+      // logging the whole payload on every request just buries real errors.
+      console.warn(
+        response.status === 403
+          ? `Firestore "${collectionId}" denied — deploy firestore.rules (npm run fb:rules).`
+          : `Firestore "${collectionId}" query failed: ${response.status}`,
       );
       return [];
     }

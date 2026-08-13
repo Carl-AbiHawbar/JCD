@@ -1,0 +1,93 @@
+[debug] [2026-08-13T14:55:32.894Z] ----------------------------------------------------------------------
+[debug] [2026-08-13T14:55:32.895Z] Command:       C:\Program Files\nodejs\node.exe F:\DEV\JCD\node_modules\firebase-tools\lib\bin\firebase.js deploy --only firestore:rules,firestore:indexes,storage
+[debug] [2026-08-13T14:55:32.896Z] CLI Version:   15.26.0
+[debug] [2026-08-13T14:55:32.896Z] Platform:      win32
+[debug] [2026-08-13T14:55:32.896Z] Node Version:  v24.14.0
+[debug] [2026-08-13T14:55:32.896Z] Detected Agent: unknown
+[debug] [2026-08-13T14:55:32.896Z] Time:          Thu Aug 13 2026 17:55:32 GMT+0300 (Eastern European Summer Time)
+[debug] [2026-08-13T14:55:32.897Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-08-13T14:55:35.515Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-08-13T14:55:35.515Z] > authorizing via signed-in user (carlabihawbar434@gmail.com)
+[debug] [2026-08-13T14:55:35.515Z] [iam] checking project jcdorg-2f6c8 for permissions ["datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create"]
+[debug] [2026-08-13T14:55:35.524Z] Checked if tokens are valid: true, expires at: 1786636523509
+[debug] [2026-08-13T14:55:35.524Z] Checked if tokens are valid: true, expires at: 1786636523509
+[debug] [2026-08-13T14:55:35.525Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/jcdorg-2f6c8:testIamPermissions [none]
+[debug] [2026-08-13T14:55:35.525Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/jcdorg-2f6c8:testIamPermissions  x-goog-user-project=jcdorg-2f6c8
+[debug] [2026-08-13T14:55:35.526Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/jcdorg-2f6c8:testIamPermissions {"permissions":["datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create"]}
+[debug] [2026-08-13T14:55:37.037Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/jcdorg-2f6c8:testIamPermissions 200
+[debug] [2026-08-13T14:55:37.037Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/jcdorg-2f6c8:testIamPermissions {"permissions":["datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create"]}
+[info] 
+[info] === Deploying to 'jcdorg-2f6c8'...
+[info] 
+[info] i  deploying storage, firestore 
+[info] i  storage: ensuring required API firebasestorage.googleapis.com is enabled... 
+[debug] [2026-08-13T14:55:37.040Z] Checked if tokens are valid: true, expires at: 1786636523509
+[debug] [2026-08-13T14:55:37.040Z] Checked if tokens are valid: true, expires at: 1786636523509
+[debug] [2026-08-13T14:55:37.040Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/jcdorg-2f6c8/services/firebasestorage.googleapis.com [none]
+[debug] [2026-08-13T14:55:37.040Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/jcdorg-2f6c8/services/firebasestorage.googleapis.com  x-goog-user-project=jcdorg-2f6c8
+[debug] [2026-08-13T14:55:38.281Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/jcdorg-2f6c8/services/firebasestorage.googleapis.com 200
+[debug] [2026-08-13T14:55:38.281Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/jcdorg-2f6c8/services/firebasestorage.googleapis.com [omitted]
+[info] +  storage: required API firebasestorage.googleapis.com is enabled 
+[debug] [2026-08-13T14:55:38.287Z] Checked if tokens are valid: true, expires at: 1786636523509
+[debug] [2026-08-13T14:55:38.287Z] Checked if tokens are valid: true, expires at: 1786636523509
+[debug] [2026-08-13T14:55:38.287Z] >>> [apiv2][query] GET https://firebasestorage.googleapis.com/v1alpha/projects/jcdorg-2f6c8/defaultBucket [none]
+[debug] [2026-08-13T14:55:39.024Z] <<< [apiv2][status] GET https://firebasestorage.googleapis.com/v1alpha/projects/jcdorg-2f6c8/defaultBucket 200
+[debug] [2026-08-13T14:55:39.025Z] <<< [apiv2][body] GET https://firebasestorage.googleapis.com/v1alpha/projects/jcdorg-2f6c8/defaultBucket {"name":"projects/jcdorg-2f6c8/defaultBucket","location":"US-EAST1","bucket":{"name":"projects/jcdorg-2f6c8/buckets/jcdorg-2f6c8.firebasestorage.app"},"storageClass":"REGIONAL"}
+[info] i  firebase.storage: checking storage.rules for compilation errors... 
+[debug] [2026-08-13T14:55:39.042Z] Checked if tokens are valid: true, expires at: 1786636523509
+[debug] [2026-08-13T14:55:39.042Z] Checked if tokens are valid: true, expires at: 1786636523509
+[debug] [2026-08-13T14:55:39.043Z] >>> [apiv2][query] POST https://firebaserules.googleapis.com/v1/projects/jcdorg-2f6c8:test [none]
+[debug] [2026-08-13T14:55:39.043Z] >>> [apiv2][body] POST https://firebaserules.googleapis.com/v1/projects/jcdorg-2f6c8:test [omitted]
+[debug] [2026-08-13T14:55:39.934Z] <<< [apiv2][status] POST https://firebaserules.googleapis.com/v1/projects/jcdorg-2f6c8:test 200
+[debug] [2026-08-13T14:55:39.935Z] <<< [apiv2][body] POST https://firebaserules.googleapis.com/v1/projects/jcdorg-2f6c8:test {}
+[info] +  firebase.storage: rules file storage.rules compiled successfully 
+[info] i  firestore: ensuring required API firestore.googleapis.com is enabled... 
+[debug] [2026-08-13T14:55:39.936Z] Checked if tokens are valid: true, expires at: 1786636523509
+[debug] [2026-08-13T14:55:39.937Z] Checked if tokens are valid: true, expires at: 1786636523509
+[debug] [2026-08-13T14:55:39.937Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/jcdorg-2f6c8/services/firestore.googleapis.com [none]
+[debug] [2026-08-13T14:55:39.937Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/jcdorg-2f6c8/services/firestore.googleapis.com  x-goog-user-project=jcdorg-2f6c8
+[debug] [2026-08-13T14:55:40.492Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/jcdorg-2f6c8/services/firestore.googleapis.com 200
+[debug] [2026-08-13T14:55:40.492Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/jcdorg-2f6c8/services/firestore.googleapis.com [omitted]
+[info] +  firestore: required API firestore.googleapis.com is enabled 
+[info] i  firestore: ensuring required API firestore.googleapis.com is enabled... 
+[debug] [2026-08-13T14:55:40.497Z] Checked if tokens are valid: true, expires at: 1786636523509
+[debug] [2026-08-13T14:55:40.497Z] Checked if tokens are valid: true, expires at: 1786636523509
+[debug] [2026-08-13T14:55:40.497Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/jcdorg-2f6c8/databases/(default) [none]
+[debug] [2026-08-13T14:55:41.539Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/jcdorg-2f6c8/databases/(default) 200
+[debug] [2026-08-13T14:55:41.539Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/jcdorg-2f6c8/databases/(default) {"name":"projects/jcdorg-2f6c8/databases/(default)","uid":"8ecdeb64-dc72-4736-be1b-3545c8c52943","createTime":"2026-08-13T09:15:10.134921Z","updateTime":"2026-08-13T09:15:10.134921Z","locationId":"nam5","type":"FIRESTORE_NATIVE","concurrencyMode":"PESSIMISTIC","versionRetentionPeriod":"3600s","earliestVersionTime":"2026-08-13T13:55:42.553055Z","appEngineIntegrationMode":"DISABLED","keyPrefix":"s","pointInTimeRecoveryEnablement":"POINT_IN_TIME_RECOVERY_DISABLED","deleteProtectionState":"DELETE_PROTECTION_DISABLED","databaseEdition":"STANDARD","freeTier":true,"realtimeUpdatesMode":"REALTIME_UPDATES_MODE_ENABLED","etag":"IP3oia/unZYDMOu95ayjnZYD"}
+[info] i  firestore: reading indexes from firestore.indexes.json... 
+[info] i  cloud.firestore: checking firestore.rules for compilation errors... 
+[debug] [2026-08-13T14:55:41.540Z] Checked if tokens are valid: true, expires at: 1786636523509
+[debug] [2026-08-13T14:55:41.541Z] Checked if tokens are valid: true, expires at: 1786636523509
+[debug] [2026-08-13T14:55:41.541Z] >>> [apiv2][query] POST https://firebaserules.googleapis.com/v1/projects/jcdorg-2f6c8:test [none]
+[debug] [2026-08-13T14:55:41.541Z] >>> [apiv2][body] POST https://firebaserules.googleapis.com/v1/projects/jcdorg-2f6c8:test [omitted]
+[debug] [2026-08-13T14:55:42.272Z] <<< [apiv2][status] POST https://firebaserules.googleapis.com/v1/projects/jcdorg-2f6c8:test 200
+[debug] [2026-08-13T14:55:42.272Z] <<< [apiv2][body] POST https://firebaserules.googleapis.com/v1/projects/jcdorg-2f6c8:test {}
+[info] +  cloud.firestore: rules file firestore.rules compiled successfully 
+[debug] [2026-08-13T14:55:42.273Z] Checked if tokens are valid: true, expires at: 1786636523509
+[debug] [2026-08-13T14:55:42.273Z] Checked if tokens are valid: true, expires at: 1786636523509
+[debug] [2026-08-13T14:55:42.273Z] >>> [apiv2][query] GET https://firebaserules.googleapis.com/v1/projects/jcdorg-2f6c8/releases pageSize=10&pageToken=
+[debug] [2026-08-13T14:55:42.602Z] <<< [apiv2][status] GET https://firebaserules.googleapis.com/v1/projects/jcdorg-2f6c8/releases 200
+[debug] [2026-08-13T14:55:42.602Z] <<< [apiv2][body] GET https://firebaserules.googleapis.com/v1/projects/jcdorg-2f6c8/releases {"releases":[{"name":"projects/jcdorg-2f6c8/releases/cloud.firestore","rulesetName":"projects/jcdorg-2f6c8/rulesets/c1e4edbf-d971-49e1-be1d-dd26ea158704","createTime":"2026-08-13T09:15:12.674778Z","updateTime":"2026-08-13T09:15:12.674778Z"},{"name":"projects/jcdorg-2f6c8/releases/firebase.storage/jcdorg-2f6c8.firebasestorage.app","rulesetName":"projects/jcdorg-2f6c8/rulesets/5c2de801-b6a4-4c74-a273-f1d38f10d09f","createTime":"2026-08-13T09:16:10.522519Z","updateTime":"2026-08-13T09:16:10.522519Z"}]}
+[debug] [2026-08-13T14:55:42.609Z] Checked if tokens are valid: true, expires at: 1786636523509
+[debug] [2026-08-13T14:55:42.609Z] Checked if tokens are valid: true, expires at: 1786636523509
+[debug] [2026-08-13T14:55:42.609Z] >>> [apiv2][query] GET https://firebaserules.googleapis.com/v1/projects/jcdorg-2f6c8/rulesets/5c2de801-b6a4-4c74-a273-f1d38f10d09f [none]
+[debug] [2026-08-13T14:55:42.839Z] <<< [apiv2][status] GET https://firebaserules.googleapis.com/v1/projects/jcdorg-2f6c8/rulesets/5c2de801-b6a4-4c74-a273-f1d38f10d09f 200
+[debug] [2026-08-13T14:55:42.839Z] <<< [apiv2][body] GET https://firebaserules.googleapis.com/v1/projects/jcdorg-2f6c8/rulesets/5c2de801-b6a4-4c74-a273-f1d38f10d09f [omitted]
+[debug] [2026-08-13T14:55:42.840Z] Checked if tokens are valid: true, expires at: 1786636523509
+[debug] [2026-08-13T14:55:42.840Z] Checked if tokens are valid: true, expires at: 1786636523509
+[debug] [2026-08-13T14:55:42.840Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/jcdorg-2f6c8/services/cloudresourcemanager.googleapis.com [none]
+[debug] [2026-08-13T14:55:42.840Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/jcdorg-2f6c8/services/cloudresourcemanager.googleapis.com  x-goog-user-project=jcdorg-2f6c8
+[debug] [2026-08-13T14:55:43.728Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/jcdorg-2f6c8/services/cloudresourcemanager.googleapis.com 200
+[debug] [2026-08-13T14:55:43.728Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/jcdorg-2f6c8/services/cloudresourcemanager.googleapis.com [omitted]
+[debug] [2026-08-13T14:55:43.736Z] Checked if tokens are valid: true, expires at: 1786636523509
+[debug] [2026-08-13T14:55:43.736Z] Checked if tokens are valid: true, expires at: 1786636523509
+[debug] [2026-08-13T14:55:43.736Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/jcdorg-2f6c8 [none]
+[debug] [2026-08-13T14:55:44.563Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/jcdorg-2f6c8 200
+[debug] [2026-08-13T14:55:44.564Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/jcdorg-2f6c8 {"projectNumber":"383934956231","projectId":"jcdorg-2f6c8","lifecycleState":"ACTIVE","name":"JCDORG","labels":{"firebase":"enabled","firebase-core":"disabled"},"createTime":"2026-08-13T09:02:25.060Z"}
+[debug] [2026-08-13T14:55:44.564Z] Checked if tokens are valid: true, expires at: 1786636523509
+[debug] [2026-08-13T14:55:44.564Z] Checked if tokens are valid: true, expires at: 1786636523509
+[debug] [2026-08-13T14:55:44.564Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/383934956231:getIamPolicy [none]
+[debug] [2026-08-13T14:55:44.825Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/383934956231:getIamPolicy 200
+[debug] [2026-08-13T14:55:44.826Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/383934956231:getIamPolicy {"version":1,"etag":"BwZY6i+hEm4=","bindings":[{"role":"roles/firebase.managementServiceAgent","members":["serviceAccount:service-383934956231@gcp-sa-firebase.iam.gserviceaccount.com"]},{"role":"roles/firebase.sdkAdminServiceAgent","members":["serviceAccount:firebase-adminsdk-fbsvc@jcdorg-2f6c8.iam.gserviceaccount.com"]},{"role":"roles/firebaseauth.admin","members":["serviceAccount:firebase-adminsdk-fbsvc@jcdorg-2f6c8.iam.gserviceaccount.com"]},{"role":"roles/firebaserules.system","members":["serviceAccount:service-383934956231@firebase-rules.iam.gserviceaccount.com"]},{"role":"roles/firebasestorage.serviceAgent","members":["serviceAccount:service-383934956231@gcp-sa-firebasestorage.iam.gserviceaccount.com"]},{"role":"roles/firestore.serviceAgent","members":["serviceAccount:service-383934956231@gcp-sa-firestore.iam.gserviceaccount.com"]},{"role":"roles/iam.serviceAccountTokenCreator","members":["serviceAccount:firebase-adminsdk-fbsvc@jcdorg-2f6c8.iam.gserviceaccount.com"]},{"role":"roles/owner","members":["user:carlabihawbar434@gmail.com"]},{"role":"roles/storage.admin","members":["serviceAccount:firebase-adminsdk-fbsvc@jcdorg-2f6c8.iam.gserviceaccount.com"]}]}

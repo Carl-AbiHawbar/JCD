@@ -2,10 +2,18 @@
 
 import { useEffect, useId, useState } from "react";
 
-import { nav } from "@/lib/content";
+import type { Locale } from "@/lib/i18n";
 import styles from "./MobileNav.module.css";
 
-export default function MobileNav() {
+type Item = { label: string; href: string };
+
+export default function MobileNav({
+  items,
+  locale,
+}: {
+  items: readonly Item[];
+  locale: Locale;
+}) {
   const [open, setOpen] = useState(false);
   const panelId = useId();
 
@@ -35,7 +43,15 @@ export default function MobileNav() {
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         aria-controls={panelId}
-        aria-label={open ? "إغلاق القائمة" : "فتح القائمة"}
+        aria-label={
+          locale === "ar"
+            ? open
+              ? "إغلاق القائمة"
+              : "فتح القائمة"
+            : open
+              ? "Close menu"
+              : "Open menu"
+        }
       >
         <span className={open ? styles.barTop : styles.bar} />
         <span className={open ? styles.barHidden : styles.bar} />
@@ -45,8 +61,8 @@ export default function MobileNav() {
       {open && (
         <div className={styles.panel} id={panelId}>
           <ul className={styles.list}>
-            {nav.map((item) => (
-              <li key={item.label}>
+            {items.map((item) => (
+              <li key={item.href}>
                 <a
                   className={styles.link}
                   href={item.href}

@@ -3,27 +3,35 @@ import Hero from "@/components/Hero";
 import HelpBar from "@/components/HelpBar";
 import Sections from "@/components/sections/Sections";
 import SiteFooter from "@/components/SiteFooter";
+import { contentFor } from "@/lib/content";
+import { currentLocale } from "@/lib/i18n";
 import { loadSiteData } from "@/lib/site-data";
 import styles from "./page.module.css";
 
-// Shop stock, programmes, events and FAQs are editable in the dashboard, so
-// the page is rendered per request rather than cached at build time.
+// Shop stock, programmes, events and FAQs are editable in the dashboard, and
+// the language comes from a cookie, so this renders per request.
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const { sections, shopProducts } = await loadSiteData();
+  const locale = await currentLocale();
+  const { heroSlides, helpBar } = contentFor(locale);
+  const { sections, shopProducts } = await loadSiteData(locale);
 
   return (
     <>
-      <SiteHeader />
+      <SiteHeader locale={locale} />
       <main className={styles.main}>
-        <Hero />
-        <HelpBar />
+        <Hero
+          slides={heroSlides}
+          carouselLabel={locale === "ar" ? "شرائح العرض" : "Highlights"}
+          slideLabel={locale === "ar" ? "الشريحة" : "Slide"}
+        />
+        <HelpBar helpBar={helpBar} />
         {/* Layout comes from lib/sections.ts; the shop, programmes, events and
-            FAQ bands take their content from the database when it has rows. */}
+            FAQ bands take their content from Firestore when it has rows. */}
         <Sections sections={sections} shopProducts={shopProducts} />
       </main>
-      <SiteFooter />
+      <SiteFooter locale={locale} />
     </>
   );
 }

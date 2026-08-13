@@ -3,7 +3,8 @@ import "server-only";
 import type { ShopProduct } from "@/components/sections/ShopGrid";
 import { listPublished } from "./firebase/rest";
 import type { Faq, Product, Program, SiteEvent } from "./firebase/types";
-import { sections as staticSections, type Section } from "./sections";
+import type { Locale } from "./i18n";
+import { getSections, type Section } from "./sections";
 
 /**
  * Loads the parts of the home page that the dashboard manages and folds them
@@ -26,7 +27,9 @@ export type SiteData = {
   shopProducts: ShopProduct[];
 };
 
-export async function loadSiteData(): Promise<SiteData> {
+export async function loadSiteData(locale: Locale): Promise<SiteData> {
+  const staticSections = getSections(locale);
+
   const [products, faqs, events, programs] = await Promise.all([
     listPublished<Product>("products"),
     listPublished<Faq>("faqs"),

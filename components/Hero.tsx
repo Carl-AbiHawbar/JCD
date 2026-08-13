@@ -4,10 +4,28 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { heroInterval, heroSlides } from "@/lib/content";
+import { heroInterval } from "@/lib/content";
 import styles from "./Hero.module.css";
 
-export default function Hero() {
+type Slide = {
+  image: string;
+  imageAlt: string;
+  heading: string;
+  subheading: string;
+  cta: string;
+  ctaHref: string;
+};
+
+export default function Hero({
+  slides: heroSlides,
+  carouselLabel,
+  slideLabel,
+}: {
+  slides: readonly Slide[];
+  carouselLabel: string;
+  /** Prefixed to the slide number; a function prop cannot cross this boundary. */
+  slideLabel: string;
+}) {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const timer = useRef<number | null>(null);
@@ -40,7 +58,7 @@ export default function Hero() {
     <section
       className={styles.hero}
       aria-roledescription="carousel"
-      aria-label="عروض الصفحة الرئيسية"
+      aria-label={carouselLabel}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onFocusCapture={() => setPaused(true)}
@@ -75,14 +93,14 @@ export default function Hero() {
       ))}
 
       {heroSlides.length > 1 && (
-        <div className={styles.dots} role="tablist" aria-label="شرائح العرض">
+        <div className={styles.dots} role="tablist" aria-label={carouselLabel}>
           {heroSlides.map((slide, i) => (
             <button
               key={slide.image}
               type="button"
               role="tab"
               aria-selected={i === index}
-              aria-label={`الشريحة ${i + 1}`}
+              aria-label={`${slideLabel} ${i + 1}`}
               className={i === index ? styles.dotActive : styles.dot}
               onClick={() => go(i)}
             />

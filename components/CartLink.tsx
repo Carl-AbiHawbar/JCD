@@ -3,13 +3,15 @@
 import Link from "next/link";
 
 import { useCart } from "@/lib/cart";
+import type { Locale } from "@/lib/i18n";
 import styles from "./SiteHeader.module.css";
 
-export default function CartLink() {
+export default function CartLink({ locale }: { locale: Locale }) {
   const { count, ready } = useCart();
+  const label = locale === "ar" ? "سلة التسوق" : "Shopping cart";
 
   return (
-    <Link className={styles.cartLink} href="/cart" aria-label="سلة التسوق">
+    <Link className={styles.cartLink} href="/cart" aria-label={label}>
       <svg
         width="20"
         height="20"

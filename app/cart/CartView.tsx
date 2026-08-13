@@ -10,7 +10,20 @@ import styles from "./cart.module.css";
 
 type State = { kind: "idle" | "sending" | "done" | "error"; message: string };
 
-export default function CartView() {
+/** Wording is passed in so the page renders in whichever locale is active. */
+type Strings = {
+  cartEmpty: string; browse: string; loading: string;
+  quantity: string; increase: string; decrease: string; remove: string;
+  checkout: string; codeLabel: string; apply: string;
+  codeBad: string; codeOk: (p: number) => string;
+  fullName: string; phone: string; email: string; address: string;
+  subtotal: string; discount: string; total: string;
+  confirm: string; sending: string; codNote: string;
+  failed: string; emptyCart: string;
+  thanks: string; orderNumber: string; thanksNote: string; backToShop: string;
+};
+
+export default function CartView({ t }: { t: Strings }) {
   const { lines, subtotalCents, setQuantity, remove, clear, ready } = useCart();
 
   const [name, setName] = useState("");
@@ -41,11 +54,11 @@ export default function CartView() {
 
     if (!found) {
       setDiscount(null);
-      setCodeNote("الرمز غير صالح أو منتهي الصلاحية.");
+      setCodeNote(t.codeBad);
       return;
     }
     setDiscount(found);
-    setCodeNote(`تم تطبيق خصم ${found.percent}%`);
+    setCodeNote(t.codeOk(found.percent));
   }
 
   async function submit(event: React.FormEvent) {
@@ -53,42 +66,28 @@ export default function CartView() {
     setState({ kind: "sending", message: "" });
 
     try {
-      const ref = await placeOrder({
-        name,
-        phone,
-        email,
-        address,
-        lines,
-        discount,
-      });
+      const ref = await placeOrder({ name, phone, email, address, lines, discount });
       setReference(ref);
       setState({ kind: "done", message: "" });
       clear();
     } catch (cause) {
       const empty = cause instanceof Error && cause.message === "EMPTY_CART";
-      setState({
-        kind: "error",
-        message: empty
-          ? "السلة فارغة."
-          : "تعذّر إتمام الطلب. يرجى المحاولة لاحقاً.",
-      });
+      setState({ kind: "error", message: empty ? t.emptyCart : t.failed });
     }
   }
 
-  if (!ready) return <p className={styles.empty}>جارٍ التحميل...</p>;
+  if (!ready) return <p className={styles.empty}>{t.loading}</p>;
 
   if (state.kind === "done") {
     return (
       <div className={styles.done}>
-        <h2 className={styles.doneHeading}>شكراً لك، تم استلام طلبك.</h2>
+        <h2 className={styles.doneHeading}>{t.thanks}</h2>
         <p>
-          رقم الطلب: <strong dir="ltr">{reference}</strong>
+          {t.orderNumber} <strong dir="ltr">{reference}</strong>
         </p>
-        <p className={styles.doneNote}>
-          الدفع عند الاستلام. سنتواصل معك لتأكيد التفاصيل والتسليم.
-        </p>
+        <p className={styles.doneNote}>{t.thanksNote}</p>
         <Link className={styles.primary} href="/#shop">
-          العودة إلى المتجر
+          {t.backToShop}
         </Link>
       </div>
     );
@@ -97,9 +96,9 @@ export default function CartView() {
   if (lines.length === 0) {
     return (
       <div className={styles.done}>
-        <p className={styles.empty}>سلتك فارغة.</p>
+        <p className={styles.empty}>{t.cartEmpty}</p>
         <Link className={styles.primary} href="/#shop">
-          تصفّح المتجر
+          {t.browse}
         </Link>
       </div>
     );
@@ -120,15 +119,15 @@ export default function CartView() {
             <div className={styles.qty}>
               <button
                 type="button"
-                aria-label="إنقاص الكمية"
+                aria-label={t.decrease}
                 onClick={() => setQuantity(line.productId, line.quantity - 1)}
               >
                 −
               </button>
-              <span aria-label="الكمية">{line.quantity}</span>
+              <span aria-label={t.quantity}>{line.quantity}</span>
               <button
                 type="button"
-                aria-label="زيادة الكمية"
+                aria-label={t.increase}
                 onClick={() => setQuantity(line.productId, line.quantity + 1)}
               >
                 +
@@ -144,22 +143,22 @@ export default function CartView() {
               type="button"
               onClick={() => remove(line.productId)}
             >
-              حذف
+              {t.remove}
             </button>
           </li>
         ))}
       </ul>
 
       <div className={styles.checkout}>
-        <h2 className={styles.checkoutHeading}>إتمام الطلب</h2>
+        <h2 className={styles.checkoutHeading}>{t.checkout}</h2>
 
         <form className={styles.codeRow} onSubmit={applyCode}>
           <input
             className={styles.codeInput}
             value={code}
             onChange={(e) => setCode(e.target.value.toUpperCase())}
-            placeholder="رمز الخصم"
-            aria-label="رمز الخصم"
+            placeholder={t.codeLabel}
+            aria-label={t.codeLabel}
             dir="ltr"
           />
           <button
@@ -167,7 +166,7 @@ export default function CartView() {
             type="submit"
             disabled={checkingCode || code.trim().length === 0}
           >
-            {checkingCode ? "..." : "تطبيق"}
+            {checkingCode ? "…" : t.apply}
           </button>
         </form>
         {codeNote && (
@@ -178,12 +177,12 @@ export default function CartView() {
 
         <form className={styles.fields} onSubmit={submit}>
           <label className={styles.field}>
-            <span>الاسم الكامل *</span>
+            <span>{t.fullName}</span>
             <input value={name} onChange={(e) => setName(e.target.value)} required />
           </label>
 
           <label className={styles.field}>
-            <span>رقم الهاتف *</span>
+            <span>{t.phone}</span>
             <input
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
@@ -194,7 +193,7 @@ export default function CartView() {
           </label>
 
           <label className={styles.field}>
-            <span>البريد الإلكتروني</span>
+            <span>{t.email}</span>
             <input
               type="email"
               value={email}
@@ -205,7 +204,7 @@ export default function CartView() {
           </label>
 
           <label className={styles.field}>
-            <span>العنوان</span>
+            <span>{t.address}</span>
             <textarea
               rows={3}
               value={address}
@@ -215,17 +214,19 @@ export default function CartView() {
 
           <dl className={styles.totals}>
             <div>
-              <dt>المجموع الفرعي</dt>
+              <dt>{t.subtotal}</dt>
               <dd dir="ltr">{formatPrice(subtotalCents)}</dd>
             </div>
             {discount && (
               <div>
-                <dt>الخصم ({discount.percent}%)</dt>
+                <dt>
+                  {t.discount} ({discount.percent}%)
+                </dt>
                 <dd dir="ltr">−{formatPrice(discountCents)}</dd>
               </div>
             )}
             <div className={styles.grandTotal}>
-              <dt>الإجمالي</dt>
+              <dt>{t.total}</dt>
               <dd dir="ltr">{formatPrice(totalCents)}</dd>
             </div>
           </dl>
@@ -235,12 +236,10 @@ export default function CartView() {
             type="submit"
             disabled={state.kind === "sending"}
           >
-            {state.kind === "sending" ? "جارٍ الإرسال..." : "تأكيد الطلب"}
+            {state.kind === "sending" ? t.sending : t.confirm}
           </button>
 
-          <p className={styles.payNote}>
-            الدفع عند الاستلام (COD). لا يتم تحصيل أي مبلغ عبر الموقع.
-          </p>
+          <p className={styles.payNote}>{t.codNote}</p>
 
           {state.kind === "error" && (
             <p className={styles.error} aria-live="polite">
