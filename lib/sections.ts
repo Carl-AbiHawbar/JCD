@@ -133,7 +133,7 @@ export const sections: Section[] = [
     id: "about",
     band: "cream",
     imageSide: "left",
-    image: null,
+    image: { src: "/sections/about.jpg", alt: "فريق الجمعية" },
     blocks: [
       {
         heading: "من نحن",
@@ -148,7 +148,7 @@ export const sections: Section[] = [
     id: "history",
     band: "mint",
     imageSide: "right",
-    image: null,
+    image: { src: "/sections/history.jpg", alt: "مقر الجمعية" },
     blocks: [
       {
         heading: "تاريخنا",
@@ -163,7 +163,7 @@ export const sections: Section[] = [
     id: "mission",
     band: "cream",
     imageSide: "left",
-    image: null,
+    image: { src: "/sections/mission.jpg", alt: "رسالتنا ورؤيتنا" },
     blocks: [
       {
         heading: "رسالتنا",
@@ -184,7 +184,7 @@ export const sections: Section[] = [
     id: "partnerships",
     band: "mint",
     imageSide: "right",
-    image: null,
+    image: { src: "/sections/partnerships.jpg", alt: "شراكاتنا" },
     blocks: [
       {
         heading: "شراكاتنا",
@@ -201,14 +201,14 @@ export const sections: Section[] = [
     heading: "فريقنا",
     subheading:
       "فريق متعدد التخصصات من الأطباء والمعالجين النفسيين والأخصائيين الاجتماعيين.",
-    image: null,
+    image: { src: "/sections/team.jpg", alt: "فريقنا متعدد التخصصات" },
   },
   {
     kind: "split",
     id: "achievements",
     band: "sand",
     imageSide: "left",
-    image: null,
+    image: { src: "/sections/achievements.jpg", alt: "إنجازاتنا" },
     blocks: [
       {
         heading: "إنجازاتنا",
@@ -223,7 +223,7 @@ export const sections: Section[] = [
     id: "mcd",
     band: "cream",
     imageSide: "right",
-    image: null,
+    image: { src: "/sections/mcd.jpg", alt: "مركز MCD للخدمات المجتمعية" },
     blocks: [
       {
         heading: "MCD",
@@ -245,17 +245,17 @@ export const sections: Section[] = [
       {
         title: "إعادة التأهيل",
         body: "برامج متكاملة لإعادة التأهيل الجسدي والنفسي في بيئة آمنة وداعمة.",
-        image: null,
+        image: { src: "/sections/service-1.jpg", alt: "services 1" },
       },
       {
         title: "الإرشاد النفسي",
         body: "جلسات فردية وجماعية مع مختصين لدعم التعافي والصحة النفسية.",
-        image: null,
+        image: { src: "/sections/service-2.jpg", alt: "services 2" },
       },
       {
         title: "دعم الأسرة",
         body: "مساعدة العائلات على فهم الإدمان والتعامل معه بطرق صحية وفعالة.",
-        image: null,
+        image: { src: "/sections/service-3.jpg", alt: "services 3" },
       },
     ],
   },
@@ -272,27 +272,27 @@ export const sections: Section[] = [
       {
         title: "العلاج الداخلي",
         body: "برنامج إقامة كاملة يشمل مراحل إزالة السموم والعلاج النفسي والتأهيل.",
-        image: null,
+        image: { src: "/sections/programme-1.jpg", alt: "programmes 1" },
       },
       {
         title: "العلاج الخارجي – السلوكي",
         body: "جلسات علاجية في مركز السلوكي دون الحاجة للإقامة.",
-        image: null,
+        image: { src: "/sections/programme-2.jpg", alt: "programmes 2" },
       },
       {
         title: "القبول",
         body: "إجراءات القبول والتقييم الأولي للانضمام لبرامجنا.",
-        image: null,
+        image: { src: "/sections/programme-3.jpg", alt: "programmes 3" },
       },
       {
         title: "العلاج الخارجي – المتابعة",
         body: "جلسات متابعة وعلاج خارجي متقدمة لدعم التعافي المستمر.",
-        image: null,
+        image: { src: "/sections/programme-4.jpg", alt: "programmes 4" },
       },
       {
         title: "التوعية والتدريب",
         body: "ورش عمل ومحاضرات في المدارس والجامعات لنشر الوعي.",
-        image: null,
+        image: { src: "/sections/programme-5.jpg", alt: "programmes 5" },
       },
     ],
   },
@@ -334,17 +334,17 @@ export const sections: Section[] = [
       {
         title: "تدريب طلاب علم النفس",
         body: "برنامج تدريب عملي لطلاب علم النفس تحت إشراف مختصين.",
-        image: null,
+        image: { src: "/sections/training-1.jpg", alt: "training 1" },
       },
       {
         title: "JCD",
         body: "انضم كمتطوع في JCD وساهم في أنشطة التوعية والدعم المجتمعي.",
-        image: null,
+        image: { src: "/sections/training-2.jpg", alt: "training 2" },
       },
       {
         title: "MCD",
         body: "تطوع مع MCD في المشاريع الميدانية والخدمات المجتمعية.",
-        image: null,
+        image: { src: "/sections/training-3.jpg", alt: "training 3" },
       },
     ],
   },
@@ -358,12 +358,12 @@ export const sections: Section[] = [
     heading: "فعالياتنا القادمة",
     subheading: "انضم إلينا في أنشطتنا المجتمعية والتوعوية",
     cards: [
-      { meta: "تموز", title: "حفل العشاء الخيري", image: null },
-      { meta: "آب", title: "ماراثون الأمل", image: null },
-      { meta: "أيلول", title: "ورشة توعية للشباب", image: null },
-      { meta: "تشرين أول", title: "معرض فن التعافي", image: null },
-      { meta: "تشرين ثاني", title: "يوم اليوغا والتأمل", image: null },
-      { meta: "كانون أول", title: "مهرجان الطعام", image: null },
+      { meta: "تموز", title: "حفل العشاء الخيري", image: { src: "/sections/event-1.jpg", alt: "events 1" } },
+      { meta: "آب", title: "ماراثون الأمل", image: { src: "/sections/event-2.jpg", alt: "events 2" } },
+      { meta: "أيلول", title: "ورشة توعية للشباب", image: { src: "/sections/event-3.jpg", alt: "events 3" } },
+      { meta: "تشرين أول", title: "معرض فن التعافي", image: { src: "/sections/event-4.jpg", alt: "events 4" } },
+      { meta: "تشرين ثاني", title: "يوم اليوغا والتأمل", image: { src: "/sections/event-5.jpg", alt: "events 5" } },
+      { meta: "كانون أول", title: "مهرجان الطعام", image: { src: "/sections/event-6.jpg", alt: "events 6" } },
     ],
   },
   {
@@ -375,7 +375,7 @@ export const sections: Section[] = [
     // ascending right-to-left, as laid out in the mockup
     amounts: ["$0", "$100", "$150", "$200", "$500"],
     cta: { label: "تبرَّع الآن", href: "#" },
-    image: null,
+    image: { src: "/sections/donate.jpg", alt: "ساهم في إنقاذ حياة" },
   },
   {
     kind: "products",
@@ -385,15 +385,15 @@ export const sections: Section[] = [
     subheading: "منتجات يدوية من صنع المتعافين — كل عملية شراء تدعم رحلة التعافي.",
     addToCart: "أضف إلى السلة",
     products: [
-      { title: "مربى التين", price: "$12", image: null },
-      { title: "بقلاوة بالفستق", price: "$18", image: null },
-      { title: "شوكولاتة يدوية", price: "$15", image: null },
-      { title: "زيت زيتون بلدي", price: "$20", image: null },
-      { title: "عسل طبيعي", price: "$22", image: null },
-      { title: "زعتر بلدي", price: "$8", image: null },
-      { title: "فواكه مجففة", price: "$14", image: null },
-      { title: "ماء ورد", price: "$10", image: null },
-      { title: "دبس رمان", price: "$12", image: null },
+      { title: "مربى التين", price: "$12", image: { src: "/sections/product-1.jpg", alt: "منتج 1" } },
+      { title: "بقلاوة بالفستق", price: "$18", image: { src: "/sections/product-2.jpg", alt: "منتج 2" } },
+      { title: "شوكولاتة يدوية", price: "$15", image: { src: "/sections/product-3.jpg", alt: "منتج 3" } },
+      { title: "زيت زيتون بلدي", price: "$20", image: { src: "/sections/product-4.jpg", alt: "منتج 4" } },
+      { title: "عسل طبيعي", price: "$22", image: { src: "/sections/product-5.jpg", alt: "منتج 5" } },
+      { title: "زعتر بلدي", price: "$8", image: { src: "/sections/product-6.jpg", alt: "منتج 6" } },
+      { title: "فواكه مجففة", price: "$14", image: { src: "/sections/product-7.jpg", alt: "منتج 7" } },
+      { title: "ماء ورد", price: "$10", image: { src: "/sections/product-8.jpg", alt: "منتج 8" } },
+      { title: "دبس رمان", price: "$12", image: { src: "/sections/product-9.jpg", alt: "منتج 9" } },
     ],
   },
   {
@@ -410,19 +410,19 @@ export const sections: Section[] = [
         meta: "دراسة",
         title: "دراسة جديدة حول الإدمان الرقمي",
         body: "نتائج بحثية حديثة تسلط الضوء على تأثير الشاشات على الصحة النفسية للشباب.",
-        image: null,
+        image: { src: "/sections/news-1.jpg", alt: "news 1" },
       },
       {
         meta: "أخبار",
         title: "افتتاح مركز جديد في الشمال",
         body: "توسيع خدماتنا لتشمل المناطق الشمالية بالتعاون مع البلديات المحلية.",
-        image: null,
+        image: { src: "/sections/news-2.jpg", alt: "news 2" },
       },
       {
         meta: "تحديث",
         title: "تحديث بروتوكولات العلاج 2026",
         body: "اعتماد أحدث المعايير العالمية في بروتوكولات العلاج والتأهيل.",
-        image: null,
+        image: { src: "/sections/news-3.jpg", alt: "news 3" },
       },
     ],
   },

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 
 import { formatPrice, useCart } from "@/lib/cart";
@@ -12,6 +13,8 @@ export type ShopProduct = {
   title: string;
   priceCents: number;
   currency: string;
+  /** Falls back to the neutral tile when a product has no artwork. */
+  image?: string | null;
 };
 
 export default function ShopGrid({
@@ -62,7 +65,16 @@ export default function ShopGrid({
             <HeartIcon />
           </button>
 
-          <div className={styles.productMedia} />
+          <div className={styles.productMedia}>
+            {product.image && (
+              <Image
+                src={product.image}
+                alt={product.title}
+                fill
+                sizes="(max-width: 900px) 100vw, 33vw"
+              />
+            )}
+          </div>
 
           <div className={styles.productBody}>
             <h3 className={styles.productTitle}>{product.title}</h3>

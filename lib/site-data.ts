@@ -56,12 +56,15 @@ export async function loadSiteData(): Promise<SiteData> {
         .order("sort_order", { ascending: true }),
     ]);
 
-    const shopProducts: ShopProduct[] = (products.data ?? []).map((p) => ({
+    // Products carry no artwork in the database yet, so each falls back to the
+    // generated tile that matches its position in the grid.
+    const shopProducts: ShopProduct[] = (products.data ?? []).map((p, i) => ({
       id: p.id,
       slug: p.slug,
       title: p.title_ar,
       priceCents: p.price_cents,
       currency: p.currency,
+      image: i < 9 ? `/sections/product-${i + 1}.jpg` : null,
     }));
 
     const sections = staticSections.map<Section>((section) => {
@@ -74,22 +77,24 @@ export async function loadSiteData(): Promise<SiteData> {
       }
 
       if (section.kind === "cardGrid" && section.id === "events") {
-        const cards = (events.data ?? []).map((e) => ({
+        const cards = (events.data ?? []).map((e, i) => ({
           // The mockup shows the month above each event title.
           meta:
             e.summary_ar ??
             (e.starts_at ? MONTHS_AR[new Date(e.starts_at).getMonth()] : undefined),
           title: e.title_ar,
-          image: null,
+          // Rows carry no artwork of their own, so keep the slot's own image
+          // rather than blanking it when the database supplies the copy.
+          image: section.cards[i]?.image ?? null,
         }));
         return cards.length > 0 ? { ...section, cards } : section;
       }
 
       if (section.kind === "cardGrid" && section.id === "programmes") {
-        const cards = (programs.data ?? []).map((p) => ({
+        const cards = (programs.data ?? []).map((p, i) => ({
           title: p.title_ar,
           body: p.summary_ar ?? undefined,
-          image: null,
+          image: section.cards[i]?.image ?? null,
         }));
         return cards.length > 0 ? { ...section, cards } : section;
       }

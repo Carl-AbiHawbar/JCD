@@ -22,15 +22,43 @@ export const brand = {
   href: "#",
 };
 
-export const hero = {
-  heading: "هل ترغب في التطوع وخدمة المجتمع؟",
-  subheading: "اكتشف إذا كنت مستعداً للانضمام لفريقنا التطوعي",
-  cta: "فحص جاهزية التطوع",
-  ctaHref: "/volunteer-readiness",
-  imageAlt: "ثلاثة متطوعين يحملون أدوات التنظيف ويبتسمون في الشارع",
-  slideCount: 3,
-  activeSlide: 0,
-};
+/**
+ * Hero carousel. The mockup shows three dots, so there are three slides.
+ *
+ * Every line of copy here already appears in the design — slide one is the
+ * banner itself, slides two and three reuse the donation and helpline
+ * messages verbatim. Nothing is invented. Replace `image` with real
+ * photography when it is available; the sizes match public/hero-volunteers.jpg.
+ */
+export const heroSlides = [
+  {
+    image: "/hero-volunteers.jpg",
+    imageAlt: "ثلاثة متطوعين يحملون أدوات التنظيف ويبتسمون في الشارع",
+    heading: "هل ترغب في التطوع وخدمة المجتمع؟",
+    subheading: "اكتشف إذا كنت مستعداً للانضمام لفريقنا التطوعي",
+    cta: "فحص جاهزية التطوع",
+    ctaHref: "/volunteer-readiness",
+  },
+  {
+    image: "/sections/hero-donate.jpg",
+    imageAlt: "خلفية بألوان الجمعية",
+    heading: "ساهم في إنقاذ حياة",
+    subheading: "تبرعك يساعدنا في تقديم العلاج المجاني لمن لا يستطيع تحمّل تكاليفه.",
+    cta: "تبرَّع الآن",
+    ctaHref: "#donate",
+  },
+  {
+    image: "/sections/hero-helpline.jpg",
+    imageAlt: "خلفية بألوان الجمعية",
+    heading: "خط المساعدة – متاح 24/7",
+    subheading: "لا تتردد في الاتصال بنا. الاستشارة مجانية وسرية.",
+    cta: "اتصل بنا",
+    ctaHref: "tel:+9611234567",
+  },
+] as const;
+
+/** Milliseconds each slide is shown before advancing. */
+export const heroInterval = 6000;
 
 /** Contact band + copyright bar at the foot of the page. */
 export const footer = {

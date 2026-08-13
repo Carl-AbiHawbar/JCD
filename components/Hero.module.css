@@ -4,6 +4,36 @@
   overflow: hidden;
 }
 
+/* Slides are stacked and cross-faded; only the active one is interactive. */
+.slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 700ms ease;
+}
+
+.slideActive {
+  composes: slide;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.dot,
+.dotActive {
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slide,
+  .slideActive {
+    transition: none;
+  }
+}
+
 /* The exported photo already carries the mockup's dark scrim, so no extra
    overlay is layered on top of it here. */
 .photo {
