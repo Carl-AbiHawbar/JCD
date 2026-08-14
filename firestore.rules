@@ -121,12 +121,22 @@ service cloud.firestore {
         );
     }
 
+    // A signed-in shopper may stamp their own uid on an order, and may then
+    // read that order back. Guests may still order without an account; those
+    // orders carry no uid and stay admin-only.
+    function ownsOrder() {
+      return signedIn()
+        && 'userId' in resource.data
+        && resource.data.userId == request.auth.uid;
+    }
+
     match /orders/{orderId} {
       allow create: if
         onlyFields(
           ['reference', 'customerName', 'customerPhone', 'status',
            'paymentMethod', 'currency', 'createdAt'],
-          ['customerEmail', 'addressAr', 'note', 'discountCode', 'discountPercent']
+          ['customerEmail', 'addressAr', 'note', 'discountCode',
+           'discountPercent', 'userId']
         )
         && isShortText(incoming().reference, 24)
         && isShortText(incoming().customerName, 120)
@@ -135,9 +145,12 @@ service cloud.firestore {
         && incoming().paymentMethod == 'cod'
         && incoming().currency == 'USD'
         && incoming().createdAt == request.time
-        && validDiscount();
+        && validDiscount()
+        // A uid may only ever be your own, so nobody can file an order
+        // against someone else's account.
+        && (!('userId' in incoming()) || incoming().userId == request.auth.uid);
 
-      allow get, list: if isAdmin();
+      allow get, list: if isAdmin() || ownsOrder();
       allow update, delete: if isAdmin();
 
       // Each line is checked against the product it names: the product must be
@@ -158,7 +171,14 @@ service cloud.firestore {
           && incoming().quantity >= 1
           && incoming().quantity <= 99;
 
-        allow get, list: if isAdmin();
+        // Reading a line item follows the order it belongs to.
+        allow get, list: if isAdmin()
+          || (
+            signedIn()
+            && 'userId' in get(/databases/$(database)/documents/orders/$(orderId)).data
+            && get(/databases/$(database)/documents/orders/$(orderId)).data.userId
+               == request.auth.uid
+          );
         allow update, delete: if isAdmin();
       }
     }

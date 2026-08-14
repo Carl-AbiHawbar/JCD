@@ -29,13 +29,26 @@
   text-align: center;
 }
 
-.cartLink {
+.cartLink,
+.accountLink {
   position: relative;
   display: grid;
   place-items: center;
   width: 30px;
   height: 30px;
   color: var(--on-dark);
+}
+
+/* Marks a signed-in shopper without spending header width on a name. */
+.accountDot {
+  position: absolute;
+  inset-inline-end: 1px;
+  bottom: 2px;
+  width: 8px;
+  height: 8px;
+  border: 1.5px solid var(--slate);
+  border-radius: 50%;
+  background: #6fd3a8;
 }
 
 .cartCount {

@@ -1,0 +1,162 @@
+.page {
+  flex: 1;
+  padding-block: 56px 80px;
+  background: var(--cream);
+}
+
+.inner {
+  width: min(760px, calc(100% - 48px));
+  margin: 0 auto;
+}
+
+.heading {
+  margin: 0 0 28px;
+  font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+  font-weight: 700;
+}
+
+.stack {
+  display: grid;
+  gap: 20px;
+}
+
+.card {
+  display: grid;
+  gap: 14px;
+  justify-items: start;
+  padding: 28px 26px;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 12px 30px rgba(21, 63, 58, 0.08);
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.form {
+  display: grid;
+  gap: 14px;
+  width: 100%;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+  font-size: 0.9rem;
+}
+
+.field input {
+  padding: 11px 13px;
+  border: 1px solid #dce4e1;
+  border-radius: 8px;
+  font: inherit;
+}
+
+.field input:focus {
+  outline: 2px solid rgba(53, 122, 109, 0.3);
+  outline-offset: 1px;
+}
+
+.primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 26px;
+  border-radius: 10px;
+  background: var(--teal);
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 12px 26px;
+  border: 1px solid #dce4e1;
+  border-radius: 10px;
+  background: #fff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.secondary:hover:not(:disabled) {
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
+.linkBtn {
+  padding: 0;
+  background: none;
+  color: var(--teal);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.divider {
+  width: 100%;
+  margin: 4px 0;
+  color: #9aa5a2;
+  font-size: 0.82rem;
+  text-align: center;
+}
+
+.muted {
+  margin: 0;
+  color: #6d7a77;
+  font-size: 0.92rem;
+}
+
+.error {
+  margin: 0;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: #fdeaea;
+  color: #a23434;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.tableWrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+.table th,
+.table td {
+  padding: 11px 14px;
+  border-bottom: 1px solid #eef2f0;
+  text-align: start;
+  white-space: nowrap;
+}
+
+.table th {
+  color: #6d7a77;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}

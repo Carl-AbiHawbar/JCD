@@ -3,6 +3,7 @@ import Image from "next/image";
 import { contentFor } from "@/lib/content";
 import type { Locale } from "@/lib/i18n";
 import logo from "@/public/jcd-logo.png";
+import AccountLink from "./AccountLink";
 import CartLink from "./CartLink";
 import LanguageToggle from "./LanguageToggle";
 import MobileNav from "./MobileNav";
@@ -30,6 +31,7 @@ export default function SiteHeader({ locale }: { locale: Locale }) {
 
       <div className={styles.brandGroup}>
         <CartLink locale={locale} />
+        <AccountLink locale={locale} />
         <LanguageToggle
           label={languageToggle}
           next={locale === "ar" ? "en" : "ar"}

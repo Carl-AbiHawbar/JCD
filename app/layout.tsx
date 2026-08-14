@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Tajawal } from "next/font/google";
 
 import { CartProvider } from "@/lib/cart";
+import { AuthProvider } from "@/lib/firebase/auth";
 import { currentLocale, dir } from "@/lib/i18n";
 import "./globals.css";
 
@@ -40,7 +41,11 @@ export default async function RootLayout({
   return (
     <html lang={locale} dir={dir(locale)} className={tajawal.variable}>
       <body>
-        <CartProvider>{children}</CartProvider>
+        {/* Auth wraps the whole site, not just the dashboard: shoppers sign in
+            on the public pages too, and the header reflects their session. */}
+        <AuthProvider>
+          <CartProvider>{children}</CartProvider>
+        </AuthProvider>
       </body>
     </html>
   );

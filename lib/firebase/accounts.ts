@@ -50,3 +50,33 @@ export function displayNameOf(user: User | null) {
   if (!user) return "";
   return user.displayName || user.email?.split("@")[0] || "";
 }
+
+/** Turns a Firebase auth error code into wording a shopper can act on. */
+export function authErrorMessage(cause: unknown, locale: "ar" | "en") {
+  const code =
+    typeof cause === "object" && cause !== null && "code" in cause
+      ? String((cause as { code: unknown }).code)
+      : "";
+
+  const ar: Record<string, string> = {
+    "auth/email-already-in-use": "هذا البريد الإلكتروني مسجّل بالفعل.",
+    "auth/invalid-email": "البريد الإلكتروني غير صحيح.",
+    "auth/weak-password": "كلمة المرور قصيرة جداً (6 أحرف على الأقل).",
+    "auth/popup-closed-by-user": "تم إغلاق نافذة الدخول.",
+  };
+  const en: Record<string, string> = {
+    "auth/email-already-in-use": "That email address is already registered.",
+    "auth/invalid-email": "That email address is not valid.",
+    "auth/weak-password": "That password is too short (6 characters minimum).",
+    "auth/popup-closed-by-user": "The sign-in window was closed.",
+  };
+
+  const table = locale === "ar" ? ar : en;
+  if (table[code]) return table[code];
+
+  // Wrong password and unknown account are deliberately not distinguished,
+  // so this cannot be used to discover which addresses exist.
+  return locale === "ar"
+    ? "بيانات الدخول غير صحيحة."
+    : "Those sign-in details are not correct.";
+}

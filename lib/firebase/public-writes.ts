@@ -55,6 +55,8 @@ export type PlaceOrderInput = {
   note?: string;
   lines: CartLine[];
   discount?: DiscountCode | null;
+  /** Set when a shopper is signed in, so the order shows in their history. */
+  userId?: string | null;
 };
 
 /**
@@ -78,6 +80,7 @@ export async function placeOrder(input: PlaceOrderInput): Promise<string> {
     ...(input.discount
       ? { discountCode: input.discount.id, discountPercent: input.discount.percent }
       : {}),
+    ...(input.userId ? { userId: input.userId } : {}),
     status: "pending",
     paymentMethod: "cod",
     currency: "USD",

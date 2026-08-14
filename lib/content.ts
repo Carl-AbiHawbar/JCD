@@ -223,6 +223,68 @@ export const shopUi = {
   },
 } as const;
 
+/** Customer account area. */
+export const accountUi = {
+  ar: {
+    title: "حسابي",
+    signIn: "تسجيل الدخول",
+    signUp: "إنشاء حساب",
+    signOut: "تسجيل الخروج",
+    email: "البريد الإلكتروني",
+    password: "كلمة المرور",
+    name: "الاسم",
+    haveAccount: "لديك حساب؟ سجّل الدخول",
+    noAccount: "ليس لديك حساب؟ أنشئ واحداً",
+    or: "أو",
+    google: "المتابعة عبر Google",
+    welcome: "أهلاً",
+    myOrders: "طلباتي",
+    noOrders: "لا توجد طلبات بعد.",
+    browse: "تصفّح المتجر",
+    loading: "جارٍ التحميل...",
+    working: "جارٍ...",
+    orderNumber: "رقم الطلب",
+    date: "التاريخ",
+    total: "الإجمالي",
+    status: "الحالة",
+    statuses: {
+      pending: "قيد الانتظار",
+      confirmed: "مؤكد",
+      fulfilled: "تم التسليم",
+      cancelled: "ملغى",
+    } as Record<string, string>,
+  },
+  en: {
+    title: "My account",
+    signIn: "Sign in",
+    signUp: "Create account",
+    signOut: "Sign out",
+    email: "Email address",
+    password: "Password",
+    name: "Name",
+    haveAccount: "Already have an account? Sign in",
+    noAccount: "No account yet? Create one",
+    or: "or",
+    google: "Continue with Google",
+    welcome: "Welcome",
+    myOrders: "My orders",
+    noOrders: "No orders yet.",
+    browse: "Browse the shop",
+    loading: "Loading...",
+    working: "Working...",
+    orderNumber: "Order number",
+    date: "Date",
+    total: "Total",
+    status: "Status",
+    statuses: {
+      pending: "Pending",
+      confirmed: "Confirmed",
+      fulfilled: "Delivered",
+      cancelled: "Cancelled",
+    } as Record<string, string>,
+  },
+} as const;
+
 export function contentFor(locale: Locale) {
   return {
     nav: nav[locale],
@@ -232,5 +294,6 @@ export function contentFor(locale: Locale) {
     helpBar: helpBar[locale],
     footer: footer[locale],
     shopUi: shopUi[locale],
+    accountUi: accountUi[locale],
   };
 }

@@ -85,6 +85,8 @@ export type Order = {
   currency: string;
   discountCode?: string;
   discountPercent?: number;
+  /** Present when the shopper was signed in; guests order without one. */
+  userId?: string;
   createdAt?: string;
 };
 

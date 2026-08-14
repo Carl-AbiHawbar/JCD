@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 
-import { AuthProvider } from "@/lib/firebase/auth";
 import AdminShell from "./AdminShell";
 
 export const metadata: Metadata = {
@@ -14,9 +13,6 @@ export default function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <AuthProvider>
-      <AdminShell>{children}</AdminShell>
-    </AuthProvider>
-  );
+  // The provider lives in the root layout; this only adds the admin gate.
+  return <AdminShell>{children}</AdminShell>;
 }

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 
 import { formatPrice, useCart } from "@/lib/cart";
+import { useAuth } from "@/lib/firebase/auth";
 import { lookupDiscount, placeOrder } from "@/lib/firebase/public-writes";
 import type { DiscountCode } from "@/lib/firebase/types";
 import styles from "./cart.module.css";
@@ -25,11 +26,20 @@ type Strings = {
 
 export default function CartView({ t }: { t: Strings }) {
   const { lines, subtotalCents, setQuantity, remove, clear, ready } = useCart();
+  const { user } = useAuth();
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
+
+  // Prefill from the account once, without blocking later edits.
+  const [prefilled, setPrefilled] = useState(false);
+  if (user && !prefilled) {
+    setPrefilled(true);
+    if (user.displayName) setName(user.displayName);
+    if (user.email) setEmail(user.email);
+  }
 
   const [code, setCode] = useState("");
   const [discount, setDiscount] = useState<DiscountCode | null>(null);
@@ -66,7 +76,15 @@ export default function CartView({ t }: { t: Strings }) {
     setState({ kind: "sending", message: "" });
 
     try {
-      const ref = await placeOrder({ name, phone, email, address, lines, discount });
+      const ref = await placeOrder({
+        name,
+        phone,
+        email,
+        address,
+        lines,
+        discount,
+        userId: user?.uid ?? null,
+      });
       setReference(ref);
       setState({ kind: "done", message: "" });
       clear();
