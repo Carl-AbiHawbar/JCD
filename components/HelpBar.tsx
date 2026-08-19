@@ -1,3 +1,5 @@
+import { displayPhone, telHref } from "@/lib/format";
+import type { Locale } from "@/lib/i18n";
 import styles from "./HelpBar.module.css";
 
 type HelpBarContent = {
@@ -23,7 +25,13 @@ function PhoneIcon() {
   );
 }
 
-export default function HelpBar({ helpBar }: { helpBar: HelpBarContent }) {
+export default function HelpBar({
+  helpBar,
+  locale,
+}: {
+  helpBar: HelpBarContent;
+  locale: Locale;
+}) {
   return (
     <section className={styles.bar}>
       <div className={styles.inner}>
@@ -32,9 +40,12 @@ export default function HelpBar({ helpBar }: { helpBar: HelpBarContent }) {
           <p className={styles.subheading}>{helpBar.subheading}</p>
         </div>
 
-        <a className={styles.phone} href={`tel:${helpBar.phone.replace(/\s/g, "")}`}>
+        <a className={styles.phone} href={telHref(helpBar.phone)}>
           <PhoneIcon />
-          <span className={styles.phoneLabel}>{helpBar.phone}</span>
+          {/* A phone number reads left-to-right even on an RTL page. */}
+          <span className={styles.phoneLabel} dir="ltr">
+            {displayPhone(helpBar.phone, locale)}
+          </span>
         </a>
       </div>
     </section>

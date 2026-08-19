@@ -1,4 +1,5 @@
 import { contentFor } from "@/lib/content";
+import { displayPhone } from "@/lib/format";
 import type { Locale } from "@/lib/i18n";
 import {
   MailIcon,
@@ -34,7 +35,14 @@ export default function SiteFooter({ locale }: { locale: Locale }) {
                     <span className={styles.icon}>
                       <Icon />
                     </span>
-                    <span className={styles.label}>{item.label}</span>
+                    <span
+                      className={styles.label}
+                      dir={item.icon === "phone" ? "ltr" : undefined}
+                    >
+                      {item.icon === "phone"
+                        ? displayPhone(item.label, locale)
+                        : item.label}
+                    </span>
                   </a>
                 </li>
               );
