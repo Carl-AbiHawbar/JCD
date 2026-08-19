@@ -3,6 +3,9 @@
 import { useState } from "react";
 
 import { pledgeDonation } from "@/lib/firebase/public-writes";
+import type { Locale } from "@/lib/i18n";
+import { paymentUi } from "@/lib/payments";
+import WhishPayment from "../WhishPayment";
 import styles from "./sections.module.css";
 
 type State = { kind: "idle" | "sending" | "sent" | "error"; message: string };
@@ -10,10 +13,14 @@ type State = { kind: "idle" | "sending" | "sent" | "error"; message: string };
 export default function DonateForm({
   amounts,
   cta,
+  locale,
 }: {
   amounts: string[];
   cta: string;
+  locale: Locale;
 }) {
+  const t = paymentUi[locale];
+
   const [selected, setSelected] = useState(amounts[0] ?? "$0");
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
@@ -24,7 +31,7 @@ export default function DonateForm({
 
   async function submit(event: React.FormEvent) {
     event.preventDefault();
-    setState({ kind: "sending", message: "جارٍ التسجيل..." });
+    setState({ kind: "sending", message: t.method });
 
     const isEmail = contact.includes("@");
     try {
@@ -34,17 +41,30 @@ export default function DonateForm({
         email: isEmail ? contact : "",
         phone: isEmail ? "" : contact,
       });
-      setState({
-        kind: "sent",
-        message: "شكراً لك. تم تسجيل تبرعك وسنتواصل معك قريباً.",
-      });
+      // The pledge is recorded first, so the donation is tracked even if the
+      // donor never completes the transfer in Whish.
+      setState({ kind: "sent", message: "" });
       setOpen(false);
     } catch {
       setState({
         kind: "error",
-        message: "تعذّر تسجيل التبرع. يرجى المحاولة لاحقاً.",
+        message:
+          locale === "ar"
+            ? "تعذّر تسجيل التبرع. يرجى المحاولة لاحقاً."
+            : "We could not record the donation. Please try again later.",
       });
     }
+  }
+
+  // Once the pledge is stored, hand the donor over to Whish.
+  if (state.kind === "sent") {
+    return (
+      <>
+        <p className={styles.donateNote}>{t.thanksTitle}</p>
+        <WhishPayment locale={locale} amountLabel={selected} />
+        <p className={styles.donateNote}>{t.thanksNote}</p>
+      </>
+    );
   }
 
   return (
@@ -64,7 +84,7 @@ export default function DonateForm({
         ))}
       </div>
 
-      {!open && state.kind !== "sent" && (
+      {!open && (
         <button
           className={styles.donateCta}
           type="button"
@@ -80,34 +100,33 @@ export default function DonateForm({
             className={styles.donateInput}
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="الاسم"
-            aria-label="الاسم"
+            placeholder={locale === "ar" ? "الاسم" : "Name"}
+            aria-label={locale === "ar" ? "الاسم" : "Name"}
           />
           <input
             className={styles.donateInput}
             value={contact}
             onChange={(e) => setContact(e.target.value)}
             required
-            placeholder="بريد إلكتروني أو رقم هاتف"
-            aria-label="بريد إلكتروني أو رقم هاتف"
+            placeholder={
+              locale === "ar" ? "بريد إلكتروني أو رقم هاتف" : "Email or phone number"
+            }
+            aria-label={
+              locale === "ar" ? "بريد إلكتروني أو رقم هاتف" : "Email or phone number"
+            }
           />
           <button
             className={styles.donateCta}
             type="submit"
             disabled={state.kind === "sending"}
           >
-            {state.kind === "sending" ? "جارٍ التسجيل..." : cta}
+            {state.kind === "sending" ? "…" : t.payWithWhish}
           </button>
         </form>
       )}
 
-      {state.message && (
-        <p
-          className={
-            state.kind === "error" ? styles.donateError : styles.donateNote
-          }
-          aria-live="polite"
-        >
+      {state.kind === "error" && (
+        <p className={styles.donateError} aria-live="polite">
           {state.message}
         </p>
       )}

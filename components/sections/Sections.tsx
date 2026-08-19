@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import type { Locale } from "@/lib/i18n";
 import type {
   AccordionSection,
   Band,
@@ -189,7 +190,13 @@ function Steps({ section }: { section: StepsSection }) {
   );
 }
 
-function Donate({ section }: { section: DonateSection }) {
+function Donate({
+  section,
+  locale,
+}: {
+  section: DonateSection;
+  locale: Locale;
+}) {
   return (
     <section
       id={section.id}
@@ -203,7 +210,11 @@ function Donate({ section }: { section: DonateSection }) {
         <Heading text={section.heading} />
         <p className={styles.subheading}>{section.subheading}</p>
 
-        <DonateForm amounts={section.amounts} cta={section.cta.label} />
+        <DonateForm
+          amounts={section.amounts}
+          cta={section.cta.label}
+          locale={locale}
+        />
       </div>
     </section>
   );
@@ -314,9 +325,11 @@ function AccordionBand({ section }: { section: AccordionSection }) {
 export default function Sections({
   sections,
   shopProducts,
+  locale,
 }: {
   sections: Section[];
   shopProducts: ShopProduct[];
+  locale: Locale;
 }) {
   return (
     <>
@@ -331,7 +344,9 @@ export default function Sections({
           case "steps":
             return <Steps key={section.id} section={section} />;
           case "donate":
-            return <Donate key={section.id} section={section} />;
+            return (
+              <Donate key={section.id} section={section} locale={locale} />
+            );
           case "products":
             return (
               <Products

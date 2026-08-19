@@ -122,21 +122,29 @@ export type Section =
   | AccordionSection;
 
 /**
- * Section artwork: a brand-coloured panel with a pictogram of the subject,
- * in public/sections.
+ * Section imagery, in public/sections.
  *
- * These are illustrations on purpose. The Canva design contains only the hero
- * photograph, and auto-sourcing stock photos was tried and abandoned: the
- * freely-licensed pools returned irrelevant images, and — more importantly —
- * photographs of identifiable people on a drug-rehabilitation site imply those
- * people are patients. An open licence covers copyright, not the right to
- * portray someone that way.
+ * Most slots are photographs sourced under licences that permit reuse; see
+ * public/sections/ATTRIBUTION.md. Every one was reviewed before inclusion.
  *
- * Drop a real photograph in with the same file name (any extension change also
- * needs updating here) to replace any of them.
+ * The slots listed below `PHOTOS` deliberately keep an illustrated panel
+ * instead: no suitable photograph was found, and for the care sections a
+ * photograph of an identifiable person would imply that person is a patient —
+ * something an open licence does not grant permission for. Add a file named
+ * `<slot>.jpg` and list the slot here to switch it to a photograph.
  */
+const PHOTOS = new Set([
+  "about", "history", "mission", "partnerships", "team", "achievements",
+  "programme-2", "programme-3", "programme-4", "programme-5",
+  "training-1", "training-2", "training-3",
+  "event-1", "event-2", "event-3", "event-4", "event-6",
+  "news-1", "news-2", "news-3",
+  "product-1", "product-2", "product-3", "product-4",
+  "product-6", "product-7", "product-8", "product-9",
+]);
+
 const img = (name: string, alt: string): Img => ({
-  src: `/sections/${name}.svg`,
+  src: `/sections/${name}.${PHOTOS.has(name) ? "jpg" : "svg"}`,
   alt,
 });
 

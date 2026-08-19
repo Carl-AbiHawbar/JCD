@@ -22,7 +22,7 @@ export default async function CartPage() {
       <main className={styles.page}>
         <div className={styles.inner}>
           <h1 className={styles.heading}>{shopUi.cartTitle}</h1>
-          <CartView t={shopUi} />
+          <CartView t={shopUi} locale={locale} />
         </div>
       </main>
       <SiteFooter locale={locale} />

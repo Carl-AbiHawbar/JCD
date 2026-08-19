@@ -7,6 +7,9 @@ import { formatPrice, useCart } from "@/lib/cart";
 import { useAuth } from "@/lib/firebase/auth";
 import { lookupDiscount, placeOrder } from "@/lib/firebase/public-writes";
 import type { DiscountCode } from "@/lib/firebase/types";
+import type { Locale } from "@/lib/i18n";
+import { paymentUi } from "@/lib/payments";
+import WhishPayment from "@/components/WhishPayment";
 import styles from "./cart.module.css";
 
 type State = { kind: "idle" | "sending" | "done" | "error"; message: string };
@@ -24,7 +27,15 @@ type Strings = {
   thanks: string; orderNumber: string; thanksNote: string; backToShop: string;
 };
 
-export default function CartView({ t }: { t: Strings }) {
+export default function CartView({
+  t,
+  locale,
+}: {
+  t: Strings;
+  locale: Locale;
+}) {
+  const pay = paymentUi[locale];
+  const [method, setMethod] = useState<"cod" | "whish">("cod");
   const { lines, subtotalCents, setQuantity, remove, clear, ready } = useCart();
   const { user } = useAuth();
 
@@ -48,6 +59,8 @@ export default function CartView({ t }: { t: Strings }) {
 
   const [state, setState] = useState<State>({ kind: "idle", message: "" });
   const [reference, setReference] = useState("");
+  // Captured before the cart is emptied, so the confirmation can show it.
+  const [paidCents, setPaidCents] = useState(0);
 
   const discountCents = discount
     ? Math.round(subtotalCents * (discount.percent / 100))
@@ -86,6 +99,7 @@ export default function CartView({ t }: { t: Strings }) {
         userId: user?.uid ?? null,
       });
       setReference(ref);
+      setPaidCents(totalCents);
       setState({ kind: "done", message: "" });
       clear();
     } catch (cause) {
@@ -103,7 +117,15 @@ export default function CartView({ t }: { t: Strings }) {
         <p>
           {t.orderNumber} <strong dir="ltr">{reference}</strong>
         </p>
-        <p className={styles.doneNote}>{t.thanksNote}</p>
+        {method === "whish" ? (
+          <WhishPayment
+            locale={locale}
+            amountLabel={formatPrice(paidCents)}
+            reference={reference}
+          />
+        ) : (
+          <p className={styles.doneNote}>{t.thanksNote}</p>
+        )}
         <Link className={styles.primary} href="/#shop">
           {t.backToShop}
         </Link>
@@ -230,6 +252,28 @@ export default function CartView({ t }: { t: Strings }) {
             />
           </label>
 
+          <fieldset className={styles.methods}>
+            <legend className={styles.methodsLegend}>{pay.method}</legend>
+            <label className={styles.method}>
+              <input
+                type="radio"
+                name="paymentMethod"
+                checked={method === "cod"}
+                onChange={() => setMethod("cod")}
+              />
+              <span>{pay.cod}</span>
+            </label>
+            <label className={styles.method}>
+              <input
+                type="radio"
+                name="paymentMethod"
+                checked={method === "whish"}
+                onChange={() => setMethod("whish")}
+              />
+              <span>{pay.whish}</span>
+            </label>
+          </fieldset>
+
           <dl className={styles.totals}>
             <div>
               <dt>{t.subtotal}</dt>
@@ -257,7 +301,9 @@ export default function CartView({ t }: { t: Strings }) {
             {state.kind === "sending" ? t.sending : t.confirm}
           </button>
 
-          <p className={styles.payNote}>{t.codNote}</p>
+          <p className={styles.payNote}>
+            {method === "cod" ? t.codNote : pay.steps}
+          </p>
 
           {state.kind === "error" && (
             <p className={styles.error} aria-live="polite">

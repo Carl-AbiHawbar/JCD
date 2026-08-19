@@ -290,3 +290,35 @@
     row-gap: 12px;
   }
 }
+
+/* --- payment method --------------------------------------------------- */
+
+.methods {
+  display: grid;
+  gap: 8px;
+  margin: 4px 0 0;
+  padding: 14px 16px;
+  border: 1px solid #dce4e1;
+  border-radius: 10px;
+}
+
+.methodsLegend {
+  padding-inline: 6px;
+  color: #4b5654;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.method {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.method input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--teal);
+}

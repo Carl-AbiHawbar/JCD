@@ -29,7 +29,11 @@ export default async function Home() {
         <HelpBar helpBar={helpBar} />
         {/* Layout comes from lib/sections.ts; the shop, programmes, events and
             FAQ bands take their content from Firestore when it has rows. */}
-        <Sections sections={sections} shopProducts={shopProducts} />
+        <Sections
+          sections={sections}
+          shopProducts={shopProducts}
+          locale={locale}
+        />
       </main>
       <SiteFooter locale={locale} />
     </>
