@@ -82,6 +82,11 @@ export default function Hero({
             priority={i === 0}
           />
 
+          {/* Slide one's photograph came out of the mockup with a scrim baked
+              in; the others are plain photographs. This darkens every slide so
+              the white headline stays legible whatever image is dropped in. */}
+          <div className={styles.scrim} />
+
           <div className={styles.content}>
             <h1 className={styles.heading}>{slide.heading}</h1>
             <p className={styles.subheading}>{slide.subheading}</p>
