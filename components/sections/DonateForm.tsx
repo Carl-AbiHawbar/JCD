@@ -10,6 +10,9 @@ import styles from "./sections.module.css";
 
 type State = { kind: "idle" | "sending" | "sent" | "error"; message: string };
 
+/** Smallest pledge worth recording, matching the Firestore rule. */
+const MIN_CENTS = 100;
+
 export default function DonateForm({
   amounts,
   cta,
@@ -21,17 +24,32 @@ export default function DonateForm({
 }) {
   const t = paymentUi[locale];
 
-  const [selected, setSelected] = useState(amounts[0] ?? "$0");
+  const [selected, setSelected] = useState(amounts[0] ?? "$50");
+  const [custom, setCustom] = useState(false);
+  const [customValue, setCustomValue] = useState("");
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [contact, setContact] = useState("");
   const [state, setState] = useState<State>({ kind: "idle", message: "" });
 
-  const amountCents = Math.round(Number(selected.replace(/[^0-9.]/g, "")) * 100);
+  // The amount actually pledged: a preset, or whatever was typed.
+  const amountCents = custom
+    ? Math.round((Number(customValue.replace(/[^0-9.]/g, "")) || 0) * 100)
+    : Math.round(Number(selected.replace(/[^0-9.]/g, "")) * 100);
+
+  const amountLabel = custom
+    ? `$${(amountCents / 100).toLocaleString("en-US")}`
+    : selected;
+
+  const valid = amountCents >= MIN_CENTS;
 
   async function submit(event: React.FormEvent) {
     event.preventDefault();
-    setState({ kind: "sending", message: t.method });
+    if (!valid) {
+      setState({ kind: "error", message: t.tooSmall });
+      return;
+    }
+    setState({ kind: "sending", message: "" });
 
     const isEmail = contact.includes("@");
     try {
@@ -41,8 +59,8 @@ export default function DonateForm({
         email: isEmail ? contact : "",
         phone: isEmail ? "" : contact,
       });
-      // The pledge is recorded first, so the donation is tracked even if the
-      // donor never completes the transfer in Whish.
+      // Recorded first, so the donation is tracked even if the donor never
+      // completes the transfer in Whish.
       setState({ kind: "sent", message: "" });
       setOpen(false);
     } catch {
@@ -56,12 +74,17 @@ export default function DonateForm({
     }
   }
 
-  // Once the pledge is stored, hand the donor over to Whish.
+  // Once the pledge is stored, hand the donor over to Whish with the amount
+  // and their details already resolved.
   if (state.kind === "sent") {
     return (
       <>
         <p className={styles.donateNote}>{t.thanksTitle}</p>
-        <WhishPayment locale={locale} amountLabel={selected} />
+        <WhishPayment
+          locale={locale}
+          amountLabel={amountLabel}
+          donorName={name}
+        />
         <p className={styles.donateNote}>{t.thanksNote}</p>
       </>
     );
@@ -72,22 +95,55 @@ export default function DonateForm({
       <div className={styles.amounts}>
         {amounts.map((amount) => (
           <button
-            className={amount === selected ? styles.amountOn : styles.amount}
+            className={
+              !custom && amount === selected ? styles.amountOn : styles.amount
+            }
             type="button"
             key={amount}
             dir="ltr"
-            aria-pressed={amount === selected}
-            onClick={() => setSelected(amount)}
+            aria-pressed={!custom && amount === selected}
+            onClick={() => {
+              setCustom(false);
+              setSelected(amount);
+            }}
           >
             {amount}
           </button>
         ))}
+
+        <button
+          className={custom ? styles.amountOn : styles.amount}
+          type="button"
+          aria-pressed={custom}
+          onClick={() => setCustom(true)}
+        >
+          {t.custom}
+        </button>
       </div>
+
+      {custom && (
+        <div className={styles.customRow}>
+          <input
+            className={styles.customInput}
+            type="number"
+            min={1}
+            step={1}
+            inputMode="decimal"
+            dir="ltr"
+            autoFocus
+            value={customValue}
+            onChange={(e) => setCustomValue(e.target.value)}
+            placeholder={t.customPlaceholder}
+            aria-label={t.customPlaceholder}
+          />
+        </div>
+      )}
 
       {!open && (
         <button
           className={styles.donateCta}
           type="button"
+          disabled={!valid}
           onClick={() => setOpen(true)}
         >
           {cta}
@@ -118,9 +174,9 @@ export default function DonateForm({
           <button
             className={styles.donateCta}
             type="submit"
-            disabled={state.kind === "sending"}
+            disabled={state.kind === "sending" || !valid}
           >
-            {state.kind === "sending" ? "…" : t.payWithWhish}
+            {state.kind === "sending" ? "…" : `${t.payWithWhish} · ${amountLabel}`}
           </button>
         </form>
       )}

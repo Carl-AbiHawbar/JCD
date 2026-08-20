@@ -191,8 +191,10 @@ service cloud.firestore {
         onlyFields(['amountCents', 'currency', 'status', 'createdAt'],
                    ['donorName', 'donorEmail', 'donorPhone', 'note'])
         && incoming().amountCents is int
-        && incoming().amountCents >= 0
-        && incoming().amountCents <= 1000000
+        // A donation of nothing is not a donation; the ceiling keeps a typo
+        // or a tampered field from creating an absurd pledge.
+        && incoming().amountCents >= 100
+        && incoming().amountCents <= 10000000
         && incoming().currency == 'USD'
         && incoming().status == 'pledged'
         && incoming().createdAt == request.time;

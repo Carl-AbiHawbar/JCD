@@ -760,3 +760,29 @@
     transition: none;
   }
 }
+
+/* --- custom donation amount ------------------------------------------- */
+
+.customRow {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 22px;
+}
+
+.customInput {
+  width: 220px;
+  padding: 13px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font: inherit;
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.customInput::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 400;
+}

@@ -122,6 +122,7 @@ export default function CartView({
             locale={locale}
             amountLabel={formatPrice(paidCents)}
             reference={reference}
+            donorName={name}
           />
         ) : (
           <p className={styles.doneNote}>{t.thanksNote}</p>

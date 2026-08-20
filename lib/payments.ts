@@ -29,6 +29,11 @@ export const PLAY_STORE =
 export const paymentUi = {
   ar: {
     method: "طريقة الدفع",
+    custom: "مبلغ آخر",
+    customPlaceholder: "المبلغ بالدولار",
+    tooSmall: "أقل مبلغ للتبرع هو $1.",
+    copyAmount: "نسخ المبلغ",
+    donor: "المتبرع",
     cod: "الدفع عند الاستلام",
     whish: "الدفع عبر Whish",
     payWithWhish: "ادفع عبر Whish",
@@ -48,6 +53,11 @@ export const paymentUi = {
   },
   en: {
     method: "Payment method",
+    custom: "Other amount",
+    customPlaceholder: "Amount in USD",
+    tooSmall: "The smallest donation is $1.",
+    copyAmount: "Copy amount",
+    donor: "Donor",
     cod: "Cash on delivery",
     whish: "Pay with Whish",
     payWithWhish: "Pay with Whish",

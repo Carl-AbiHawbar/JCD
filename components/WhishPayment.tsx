@@ -25,23 +25,31 @@ export default function WhishPayment({
   locale,
   amountLabel,
   reference,
+  donorName,
 }: {
   locale: Locale;
   amountLabel: string;
   reference?: string;
+  donorName?: string;
 }) {
   const t = paymentUi[locale];
-  const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useState<"number" | "amount" | null>(null);
 
-  async function copy() {
+  async function copy(what: "number" | "amount", value: string) {
     try {
-      await navigator.clipboard.writeText(whish.number);
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 1800);
+      await navigator.clipboard.writeText(value);
+      setCopied(what);
+      window.setTimeout(() => setCopied(null), 1800);
     } catch {
-      /* clipboard blocked — the number is on screen to read */
+      /* clipboard blocked — both values are on screen to read */
     }
   }
+
+  // Whish has no URL scheme to pre-fill a transfer, so the next best thing is
+  // to carry every value the payer has to type and make each one copyable.
+  const digitsOnly = whish.number.replace(/[^\d+]/g, "");
+  const bareAmount = amountLabel.replace(/[^0-9.]/g, "");
+  const note = [reference, donorName].filter(Boolean).join(" · ");
 
   if (!whishConfigured) {
     return (
@@ -64,6 +72,12 @@ export default function WhishPayment({
             <dd dir="ltr">{reference}</dd>
           </div>
         )}
+        {donorName && (
+          <div>
+            <dt>{t.donor}</dt>
+            <dd>{donorName}</dd>
+          </div>
+        )}
       </dl>
 
       {whish.paymentLink ? (
@@ -81,10 +95,28 @@ export default function WhishPayment({
           <p className={styles.number} dir="ltr">
             {whish.number}
           </p>
-          <button className={styles.primary} type="button" onClick={copy}>
-            {copied ? t.copied : t.copy}
-          </button>
+          <div className={styles.actions}>
+            <button
+              className={styles.primary}
+              type="button"
+              onClick={() => copy("number", digitsOnly)}
+            >
+              {copied === "number" ? t.copied : t.copy}
+            </button>
+            <button
+              className={styles.secondary}
+              type="button"
+              onClick={() => copy("amount", bareAmount)}
+            >
+              {copied === "amount" ? t.copied : t.copyAmount}
+            </button>
+          </div>
           <p className={styles.steps}>{t.steps}</p>
+          {note && (
+            <p className={styles.steps} dir="ltr">
+              {note}
+            </p>
+          )}
         </>
       )}
 
