@@ -22,6 +22,25 @@ export const whish = {
 
 export const whishConfigured = Boolean(whish.number || whish.paymentLink);
 
+/**
+ * Universal link that opens the Whish app straight on a transfer to `number`.
+ *
+ * whish.money publishes an apple-app-site-association claiming the path
+ * pattern `*pay/*`, and an assetlinks.json delegating whish.money to
+ * money.whish.android — so on a phone with Whish installed this URL is
+ * intercepted by the app rather than the browser. Anywhere else it lands on
+ * whish.money, which is why the copyable fields stay on screen as a fallback.
+ *
+ * The amount rides along as a query parameter. That part is unverified: the
+ * web page ignores it, and confirming it needs a device with the app.
+ */
+export function whishPayUrl(number: string, amount?: string) {
+  const digits = number.replace(/[^\d]/g, "");
+  if (!digits) return "";
+  const query = amount ? `?amount=${encodeURIComponent(amount)}` : "";
+  return `https://whish.money/pay/${digits}${query}`;
+}
+
 export const APP_STORE = "https://apps.apple.com/app/id1284243483";
 export const PLAY_STORE =
   "https://play.google.com/store/apps/details?id=money.whish.android";
@@ -37,7 +56,8 @@ export const paymentUi = {
     cod: "الدفع عند الاستلام",
     whish: "الدفع عبر Whish",
     payWithWhish: "ادفع عبر Whish",
-    openWhish: "فتح تطبيق Whish",
+    openWhish: "افتح تطبيق Whish",
+    openHint: "سيفتح التطبيق على شاشة التحويل مع رقم الجمعية. إن لم يفتح، انسخ الحقول أدناه.",
     amount: "المبلغ",
     reference: "الرقم المرجعي",
     numberLabel: "رقم Whish الخاص بالجمعية",
@@ -66,6 +86,7 @@ export const paymentUi = {
     whish: "Pay with Whish",
     payWithWhish: "Pay with Whish",
     openWhish: "Open the Whish app",
+    openHint: "This opens Whish on the transfer screen with our number. If it does not open, copy the fields below.",
     amount: "Amount",
     reference: "Reference",
     numberLabel: "JCD's Whish number",

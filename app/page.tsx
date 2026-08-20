@@ -3,7 +3,8 @@ import Hero from "@/components/Hero";
 import HelpBar from "@/components/HelpBar";
 import Sections from "@/components/sections/Sections";
 import SiteFooter from "@/components/SiteFooter";
-import { contentFor } from "@/lib/content";
+import TalkToNour from "@/components/TalkToNour";
+import { contentFor, shopEnabled } from "@/lib/content";
 import { currentLocale } from "@/lib/i18n";
 import { loadSiteData } from "@/lib/site-data";
 import styles from "./page.module.css";
@@ -16,6 +17,10 @@ export default async function Home() {
   const locale = await currentLocale();
   const { heroSlides, helpBar } = contentFor(locale);
   const { sections, shopProducts } = await loadSiteData(locale);
+  // The shop band is withheld entirely while the shop is switched off.
+  const visible = shopEnabled
+    ? sections
+    : sections.filter((section) => section.kind !== "products");
 
   return (
     <>
@@ -30,12 +35,13 @@ export default async function Home() {
         {/* Layout comes from lib/sections.ts; the shop, programmes, events and
             FAQ bands take their content from Firestore when it has rows. */}
         <Sections
-          sections={sections}
+          sections={visible}
           shopProducts={shopProducts}
           locale={locale}
         />
       </main>
       <SiteFooter locale={locale} />
+      <TalkToNour locale={locale} />
     </>
   );
 }

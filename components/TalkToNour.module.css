@@ -1,0 +1,45 @@
+.button {
+  position: fixed;
+  inset-inline-end: 20px;
+  bottom: 20px;
+  z-index: 40;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 18px;
+  border-radius: 999px;
+  background: var(--teal);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  box-shadow: 0 10px 26px rgba(21, 63, 58, 0.28);
+  transition: transform 160ms ease, background 160ms ease;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  background: #2b6d63;
+}
+
+.label {
+  white-space: nowrap;
+}
+
+/* On a narrow screen it shrinks to the icon so it never covers content. */
+@media (max-width: 560px) {
+  .button {
+    inset-inline-end: 14px;
+    bottom: 14px;
+    padding: 13px;
+  }
+
+  .label {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: none;
+  }
+}

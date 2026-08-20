@@ -1,6 +1,13 @@
 import type { Locale } from "./i18n";
 
 /**
+ * The shop is switched off for now: the متجرنا band, the cart icon, the
+ * "المتجر" nav entry and the /cart page all disappear together. Nothing is
+ * deleted — flip this to true to bring the whole thing back.
+ */
+export const shopEnabled = false;
+
+/**
  * Every string outside the page bands, in both languages.
  *
  * The Arabic is transcribed from the Canva mockup; the English is a
@@ -16,7 +23,6 @@ export const nav = {
     { label: "التدريب والتطوع", href: "#training" },
     { label: "فعاليات", href: "#events" },
     { label: "تبرَّع", href: "#donate" },
-    { label: "المتجر", href: "#shop" },
     { label: "تواصل", href: "#contact" },
   ],
   en: [
@@ -25,7 +31,6 @@ export const nav = {
     { label: "Training & volunteering", href: "#training" },
     { label: "Events", href: "#events" },
     { label: "Donate", href: "#donate" },
-    { label: "Shop", href: "#shop" },
     { label: "Contact", href: "#contact" },
   ],
 } as const;

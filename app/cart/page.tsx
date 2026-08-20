@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
-import { contentFor } from "@/lib/content";
+import { redirect } from "next/navigation";
+
+import { contentFor, shopEnabled } from "@/lib/content";
 import { currentLocale } from "@/lib/i18n";
 import CartView from "./CartView";
 import styles from "./cart.module.css";
@@ -13,6 +15,10 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function CartPage() {
+  // Nothing links here while the shop is off, but the route still exists —
+  // send anyone who kept the URL back to the home page.
+  if (!shopEnabled) redirect("/");
+
   const locale = await currentLocale();
   const { shopUi } = contentFor(locale);
 

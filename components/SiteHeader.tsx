@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import { contentFor } from "@/lib/content";
+import { contentFor, shopEnabled } from "@/lib/content";
 import type { Locale } from "@/lib/i18n";
 import logo from "@/public/jcd-logo.png";
 import AccountLink from "./AccountLink";
@@ -30,7 +30,7 @@ export default function SiteHeader({ locale }: { locale: Locale }) {
       </nav>
 
       <div className={styles.brandGroup}>
-        <CartLink locale={locale} />
+        {shopEnabled && <CartLink locale={locale} />}
         <AccountLink locale={locale} />
         <LanguageToggle
           label={languageToggle}

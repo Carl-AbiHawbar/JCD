@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
+import TalkToNour from "@/components/TalkToNour";
 import { contentFor } from "@/lib/content";
 import { currentLocale } from "@/lib/i18n";
 import AccountView from "./AccountView";
@@ -30,6 +31,7 @@ export default async function AccountPage() {
         </div>
       </main>
       <SiteFooter locale={locale} />
+      <TalkToNour locale={locale} />
     </>
   );
 }

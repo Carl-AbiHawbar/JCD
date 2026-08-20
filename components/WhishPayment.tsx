@@ -9,6 +9,7 @@ import {
   paymentUi,
   whish,
   whishConfigured,
+  whishPayUrl,
 } from "@/lib/payments";
 import styles from "./WhishPayment.module.css";
 
@@ -88,8 +89,26 @@ export default function WhishPayment({
     ...(note ? [{ key: "note", label: t.noteField, value: note }] : []),
   ];
 
+  const deepLink = whishPayUrl(whish.number, amount);
+
   return (
     <div className={styles.panel}>
+      {/* Opens the app straight on its transfer screen where it is installed;
+          the copyable fields below cover everywhere else. */}
+      {deepLink && (
+        <>
+          <a
+            className={styles.primary}
+            href={deepLink}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {t.openWhish}
+          </a>
+          <p className={styles.steps}>{t.openHint}</p>
+        </>
+      )}
+
       <p className={styles.steps}>{t.steps}</p>
 
       <ul className={styles.fields}>
