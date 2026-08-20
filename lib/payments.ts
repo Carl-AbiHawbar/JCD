@@ -20,7 +20,34 @@ export const whish = {
   paymentLink: "",
 } as const;
 
-export const whishConfigured = Boolean(whish.number || whish.paymentLink);
+/**
+ * Is this a number a Whish wallet can actually sit on?
+ *
+ * Whish is a mobile wallet, so the receiver must be a Lebanese mobile: +961
+ * then 3 + six digits, or 70/71/76/78/79/81 + six digits. Landline area codes
+ * (1, 4, 5, 6, 8, 9) are rejected.
+ *
+ * This is deliberately fail-closed. A wrong receiver here does not produce an
+ * error message — it sends a donor's money to a stranger, or nowhere. If the
+ * configured number cannot be a wallet, the payment step shows the helpline
+ * instead of quietly offering a bad destination.
+ */
+export function isWhishReceiver(number: string) {
+  const digits = number.replace(/[^\d]/g, "");
+  const national = digits.startsWith("961") ? digits.slice(3) : digits;
+
+  if (/^3\d{6}$/.test(national)) return true;
+  if (/^(70|71|76|78|79|81)\d{6}$/.test(national)) return true;
+  return false;
+}
+
+export const whishNumberUsable = isWhishReceiver(whish.number);
+
+/**
+ * A payment link needs no validation — JCD generated it inside their own app,
+ * so it already points at their wallet.
+ */
+export const whishConfigured = Boolean(whishNumberUsable || whish.paymentLink);
 
 /**
  * Universal link that opens the Whish app straight on a transfer to `number`.
@@ -35,8 +62,9 @@ export const whishConfigured = Boolean(whish.number || whish.paymentLink);
  * web page ignores it, and confirming it needs a device with the app.
  */
 export function whishPayUrl(number: string, amount?: string) {
+  // Never build a transfer link to something that cannot be a wallet.
+  if (!isWhishReceiver(number)) return "";
   const digits = number.replace(/[^\d]/g, "");
-  if (!digits) return "";
   const query = amount ? `?amount=${encodeURIComponent(amount)}` : "";
   return `https://whish.money/pay/${digits}${query}`;
 }

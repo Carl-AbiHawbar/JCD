@@ -66,12 +66,7 @@ export default function WhishPayment({
         <p className={styles.number} dir="ltr">
           {amountLabel}
         </p>
-        <a
-          className={styles.primary}
-          href={whish.paymentLink}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a className={styles.primary} href={whish.paymentLink}>
           {t.payWithWhish}
         </a>
       </div>
@@ -97,12 +92,11 @@ export default function WhishPayment({
           the copyable fields below cover everywhere else. */}
       {deepLink && (
         <>
-          <a
-            className={styles.primary}
-            href={deepLink}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          {/* Deliberately a same-tab navigation with no target="_blank": iOS
+              and Android hand a universal link to the app on a top-level
+              navigation, but a script-opened tab is often left in the browser
+              instead, which is exactly the case we need to work. */}
+          <a className={styles.primary} href={deepLink}>
             {t.openWhish}
           </a>
           <p className={styles.steps}>{t.openHint}</p>
