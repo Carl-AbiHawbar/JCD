@@ -14,8 +14,8 @@ import type { Locale } from "./i18n";
  * instead of guessing.
  */
 export const whish = {
-  /** JCD's Whish Money mobile number, e.g. "+961 71 123 456". */
-  number: "",
+  /** JCD's Whish Money number. */
+  number: "+961 1 234 567",
   /** A payment link created in the Whish app (Whish Me / payment request). */
   paymentLink: "",
 } as const;
