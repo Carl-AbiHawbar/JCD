@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 
+import type { Locale } from "@/lib/i18n";
 import {
   APP_STORE,
   PLAY_STORE,
@@ -9,17 +10,20 @@ import {
   whish,
   whishConfigured,
 } from "@/lib/payments";
-import type { Locale } from "@/lib/i18n";
 import styles from "./WhishPayment.module.css";
 
 /**
  * The Whish hand-off.
  *
- * When JCD has generated a payment link in the Whish app, this opens it.
- * Otherwise it shows the number to send to, with the reference to quote, and
- * links to install the app — because Whish has no public deep-link scheme to
- * build a payment from. With neither configured it refuses to invent a number
- * and points at the helpline instead.
+ * Whish transfers are made on its "Whish to Whish" screen, which asks for
+ * exactly three things: the receiver's phone number, the amount in USD, and an
+ * optional note. There is no URL scheme to pre-fill them — Whish's FAQ says a
+ * payment link is generated inside the app by the recipient — so the next best
+ * thing is to lay the three values out in the same order as that screen and
+ * make each one copyable on its own.
+ *
+ * With nothing configured it refuses to invent a number and points at the
+ * helpline instead.
  */
 export default function WhishPayment({
   locale,
@@ -33,23 +37,17 @@ export default function WhishPayment({
   donorName?: string;
 }) {
   const t = paymentUi[locale];
-  const [copied, setCopied] = useState<"number" | "amount" | null>(null);
+  const [copied, setCopied] = useState<string | null>(null);
 
-  async function copy(what: "number" | "amount", value: string) {
+  async function copy(key: string, value: string) {
     try {
       await navigator.clipboard.writeText(value);
-      setCopied(what);
+      setCopied(key);
       window.setTimeout(() => setCopied(null), 1800);
     } catch {
-      /* clipboard blocked — both values are on screen to read */
+      /* clipboard blocked — every value is on screen to read */
     }
   }
-
-  // Whish has no URL scheme to pre-fill a transfer, so the next best thing is
-  // to carry every value the payer has to type and make each one copyable.
-  const digitsOnly = whish.number.replace(/[^\d+]/g, "");
-  const bareAmount = amountLabel.replace(/[^0-9.]/g, "");
-  const note = [reference, donorName].filter(Boolean).join(" · ");
 
   if (!whishConfigured) {
     return (
@@ -59,28 +57,14 @@ export default function WhishPayment({
     );
   }
 
-  return (
-    <div className={styles.panel}>
-      <dl className={styles.summary}>
-        <div>
-          <dt>{t.amount}</dt>
-          <dd dir="ltr">{amountLabel}</dd>
-        </div>
-        {reference && (
-          <div>
-            <dt>{t.reference}</dt>
-            <dd dir="ltr">{reference}</dd>
-          </div>
-        )}
-        {donorName && (
-          <div>
-            <dt>{t.donor}</dt>
-            <dd>{donorName}</dd>
-          </div>
-        )}
-      </dl>
-
-      {whish.paymentLink ? (
+  // A payment link, when JCD has generated one, skips all of this.
+  if (whish.paymentLink) {
+    return (
+      <div className={styles.panel}>
+        <p className={styles.numberLabel}>{t.amount}</p>
+        <p className={styles.number} dir="ltr">
+          {amountLabel}
+        </p>
         <a
           className={styles.primary}
           href={whish.paymentLink}
@@ -89,36 +73,44 @@ export default function WhishPayment({
         >
           {t.payWithWhish}
         </a>
-      ) : (
-        <>
-          <p className={styles.numberLabel}>{t.numberLabel}</p>
-          <p className={styles.number} dir="ltr">
-            {whish.number}
-          </p>
-          <div className={styles.actions}>
+      </div>
+    );
+  }
+
+  // Digits only: this is pasted into a phone-number field.
+  const phone = whish.number.replace(/[^\d+]/g, "");
+  const amount = amountLabel.replace(/[^0-9.]/g, "");
+  const note = [reference, donorName].filter(Boolean).join(" — ");
+
+  const fields: { key: string; label: string; value: string }[] = [
+    { key: "phone", label: t.receiverPhone, value: phone },
+    { key: "amount", label: t.amountUsd, value: amount },
+    ...(note ? [{ key: "note", label: t.noteField, value: note }] : []),
+  ];
+
+  return (
+    <div className={styles.panel}>
+      <p className={styles.steps}>{t.steps}</p>
+
+      <ul className={styles.fields}>
+        {fields.map((field) => (
+          <li className={styles.field} key={field.key}>
+            <div className={styles.fieldText}>
+              <span className={styles.fieldLabel}>{field.label}</span>
+              <span className={styles.fieldValue} dir="ltr">
+                {field.value}
+              </span>
+            </div>
             <button
-              className={styles.primary}
+              className={styles.copyBtn}
               type="button"
-              onClick={() => copy("number", digitsOnly)}
+              onClick={() => copy(field.key, field.value)}
             >
-              {copied === "number" ? t.copied : t.copy}
+              {copied === field.key ? t.copied : t.copyField}
             </button>
-            <button
-              className={styles.secondary}
-              type="button"
-              onClick={() => copy("amount", bareAmount)}
-            >
-              {copied === "amount" ? t.copied : t.copyAmount}
-            </button>
-          </div>
-          <p className={styles.steps}>{t.steps}</p>
-          {note && (
-            <p className={styles.steps} dir="ltr">
-              {note}
-            </p>
-          )}
-        </>
-      )}
+          </li>
+        ))}
+      </ul>
 
       <p className={styles.apps}>
         {t.getApp}:{" "}

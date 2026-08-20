@@ -107,3 +107,59 @@
 .secondary:hover {
   background: rgba(255, 255, 255, 0.12);
 }
+
+/* --- three fields, mirroring the Whish transfer screen ----------------- */
+
+.fields {
+  display: grid;
+  gap: 10px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.14);
+  text-align: start;
+}
+
+.fieldText {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.fieldLabel {
+  opacity: 0.8;
+  font-size: 0.78rem;
+}
+
+.fieldValue {
+  font-size: 1.05rem;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.copyBtn {
+  flex: 0 0 auto;
+  padding: 9px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.copyBtn:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
