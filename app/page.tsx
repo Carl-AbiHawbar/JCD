@@ -4,7 +4,7 @@ import HelpBar from "@/components/HelpBar";
 import Sections from "@/components/sections/Sections";
 import SiteFooter from "@/components/SiteFooter";
 import TalkToNour from "@/components/TalkToNour";
-import { contentFor, shopEnabled } from "@/lib/content";
+import { contentFor, nourEnabled, shopEnabled } from "@/lib/content";
 import { currentLocale } from "@/lib/i18n";
 import { loadSiteData } from "@/lib/site-data";
 import styles from "./page.module.css";
@@ -41,7 +41,7 @@ export default async function Home() {
         />
       </main>
       <SiteFooter locale={locale} />
-      <TalkToNour locale={locale} />
+      {nourEnabled && <TalkToNour locale={locale} />}
     </>
   );
 }

@@ -8,6 +8,12 @@ import type { Locale } from "./i18n";
 export const shopEnabled = false;
 
 /**
+ * The "تحدّث مع نور" floating button is switched off for now. Nothing is
+ * deleted — flip this to true to bring it back.
+ */
+export const nourEnabled = false;
+
+/**
  * Every string outside the page bands, in both languages.
  *
  * The Arabic is transcribed from the Canva mockup; the English is a
