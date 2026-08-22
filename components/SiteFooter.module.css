@@ -55,11 +55,20 @@
   display: block;
 }
 
+/* Arabic-Indic digits are bidi class AN, so the spaces between the groups
+   resolve right-to-left and the groups get painted in reverse — "+٥٦٧ ٢٣٤ ١ ٩٦١".
+   dir="ltr" alone does not stop that; the override pins the paint order to the
+   logical order, and the isolate keeps it from disturbing the Arabic around it. */
 .label {
+  /* Only the phone card carries dir="ltr"; the override is scoped to it. */
   font-size: 0.95rem;
   font-weight: 700;
   line-height: 1.5;
   overflow-wrap: anywhere;
+}
+
+.label[dir="ltr"] {
+  unicode-bidi: isolate-override;
 }
 
 .copyright {

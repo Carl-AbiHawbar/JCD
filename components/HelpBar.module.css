@@ -50,7 +50,12 @@
   flex-shrink: 0;
 }
 
+/* Arabic-Indic digits are bidi class AN, so the spaces between the groups
+   resolve right-to-left and the groups get painted in reverse — "+٥٦٧ ٢٣٤ ١ ٩٦١".
+   dir="ltr" alone does not stop that; the override pins the paint order to the
+   logical order, and the isolate keeps it from disturbing the Arabic around it. */
 .phoneLabel {
+  unicode-bidi: isolate-override;
   font-size: 17px;
   font-weight: 700;
   letter-spacing: 0.2px;

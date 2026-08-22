@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Tajawal } from "next/font/google";
 
+import WhatsAppButton from "@/components/WhatsAppButton";
 import { CartProvider } from "@/lib/cart";
 import { AuthProvider } from "@/lib/firebase/auth";
 import { currentLocale, dir } from "@/lib/i18n";
@@ -44,7 +45,11 @@ export default async function RootLayout({
         {/* Auth wraps the whole site, not just the dashboard: shoppers sign in
             on the public pages too, and the header reflects their session. */}
         <AuthProvider>
-          <CartProvider>{children}</CartProvider>
+          <CartProvider>
+            {children}
+            {/* Mounted here rather than per page so it is on every route. */}
+            <WhatsAppButton locale={locale} />
+          </CartProvider>
         </AuthProvider>
       </body>
     </html>
