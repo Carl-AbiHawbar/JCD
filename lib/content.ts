@@ -1,4 +1,12 @@
 import type { Locale } from "./i18n";
+import { telHref, whatsappHref } from "./format";
+
+/**
+ * JCD's public number, in one place: the helpline bar, the hero's "call us"
+ * slide and the footer's phone and WhatsApp cards are all derived from it, so
+ * changing the organisation's number is a one-line edit here.
+ */
+export const jcdPhone = "+961 1 234 567";
 
 /**
  * The shop is switched off for now: the متجرنا band, the cart icon, the
@@ -79,7 +87,7 @@ export const heroSlides = {
       heading: "خط المساعدة – متاح 24/7",
       subheading: "لا تتردد في الاتصال بنا. الاستشارة مجانية وسرية.",
       cta: "اتصل بنا",
-      ctaHref: "tel:+9611234567",
+      ctaHref: telHref(jcdPhone),
     },
   ],
   en: [
@@ -107,7 +115,7 @@ export const heroSlides = {
       subheading:
         "Do not hesitate to call us. Consultations are free and confidential.",
       cta: "Call us",
-      ctaHref: "tel:+9611234567",
+      ctaHref: telHref(jcdPhone),
     },
   ],
 } as const;
@@ -119,12 +127,12 @@ export const helpBar = {
   ar: {
     heading: "خط المساعدة – متاح 24/7",
     subheading: "لا تتردد في الاتصال بنا. الاستشارة مجانية وسرية.",
-    phone: "+961 1 234 567",
+    phone: jcdPhone,
   },
   en: {
     heading: "Helpline – available 24/7",
     subheading: "Do not hesitate to call us. Consultations are free and confidential.",
-    phone: "+961 1 234 567",
+    phone: jcdPhone,
   },
 } as const;
 
@@ -133,8 +141,8 @@ export const footer = {
     heading: "تواصل معنا",
     subheading: "نحن هنا لمساعدتك. لا تتردد في التواصل معنا في أي وقت.",
     contacts: [
-      { icon: "phone", label: "+961 1 234 567", href: "tel:+9611234567" },
-      { icon: "whatsapp", label: "واتساب", href: "#" },
+      { icon: "phone", label: jcdPhone, href: telHref(jcdPhone) },
+      { icon: "whatsapp", label: "واتساب", href: whatsappHref(jcdPhone) },
       {
         icon: "mail",
         label: "info@jcd-lebanon.org",
@@ -148,8 +156,8 @@ export const footer = {
     heading: "Contact us",
     subheading: "We are here to help. Reach out to us at any time.",
     contacts: [
-      { icon: "phone", label: "+961 1 234 567", href: "tel:+9611234567" },
-      { icon: "whatsapp", label: "WhatsApp", href: "#" },
+      { icon: "phone", label: jcdPhone, href: telHref(jcdPhone) },
+      { icon: "whatsapp", label: "WhatsApp", href: whatsappHref(jcdPhone) },
       {
         icon: "mail",
         label: "info@jcd-lebanon.org",

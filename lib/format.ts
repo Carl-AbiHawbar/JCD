@@ -25,3 +25,12 @@ export function displayPhone(phone: string, locale: Locale) {
 export function telHref(phone: string) {
   return `tel:${phone.replace(/[^\d+]/g, "")}`;
 }
+
+/**
+ * A wa.me link, which opens the WhatsApp app when it is installed and the web
+ * client otherwise. It takes the number in full international form with no
+ * plus sign and no separators.
+ */
+export function whatsappHref(phone: string) {
+  return `https://wa.me/${phone.replace(/[^\d]/g, "")}`;
+}
