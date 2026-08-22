@@ -35,5 +35,5 @@ photograph use the illustrated panels instead.
 | `product-7.jpg` | Array of dried fruits - Xi'an (4535190349) | Will Clayton from Blackburn, | BY 2.0 | https://commons.wikimedia.org/w/index.php?curid=97909585 |
 | `product-8.jpg` | <div class='fn'> Bottle, apothecary</div> |  | BY 4.0 | https://commons.wikimedia.org/w/index.php?curid=65366589 |
 | `product-9.jpg` | Closeup pile pomegranate fruit |  | CC0 1.0 | https://www.rawpixel.com/image/6020088/photo-image-public-domain-plant-fruit |
-| `hero-donate.jpg` | Dirty hands | Håkan Dahlström | BY 2.0 | https://www.flickr.com/photos/93755244@N00/3979622838 |
-| `hero-helpline.jpg` | Person using a laptop while holding a telephone receive | Shixart1985 | BY 2.0 | https://commons.wikimedia.org/w/index.php?curid=186069720 |
+| `hero-support.jpg` | Dirty hands | Håkan Dahlström | BY 2.0 | https://www.flickr.com/photos/93755244@N00/3979622838 |
+| `hero-concern.jpg` | Person using a laptop while holding a telephone receive | Shixart1985 | BY 2.0 | https://commons.wikimedia.org/w/index.php?curid=186069720 |

@@ -252,6 +252,7 @@ function Newsletter({ section }: { section: NewsletterSection }) {
             <MailIcon size={40} />
           </span>
           <h2 className={styles.newsletterHeading}>{section.heading}</h2>
+          <p className={styles.newsletterSubheading}>{section.subheading}</p>
 
           <NewsletterForm
             placeholder={section.placeholder}

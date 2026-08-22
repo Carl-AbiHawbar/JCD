@@ -79,6 +79,7 @@ export type NewsletterSection = {
   id: string;
   band: Band;
   heading: string;
+  subheading: string;
   placeholder: string;
   cta: string;
 };
@@ -288,8 +289,9 @@ const AR: Section[] = [
   {
     kind: "newsletter", id: "newsletter", band: "cream",
     heading: "اشترك في النشرة الإخبارية",
-    placeholder: "بريدك الإلكتروني",
-    cta: "اشترك",
+    subheading: "ابقَ على اطلاع بآخر أخبارنا وفعالياتنا",
+    placeholder: "البريد الإلكتروني",
+    cta: "اشتراك",
   },
   {
     kind: "stats", id: "impact", band: "teal",
@@ -461,7 +463,8 @@ const EN: Section[] = [
   {
     kind: "newsletter", id: "newsletter", band: "cream",
     heading: "Subscribe to our newsletter",
-    placeholder: "Your email address",
+    subheading: "Stay up to date with our latest news and events",
+    placeholder: "Email address",
     cta: "Subscribe",
   },
   {

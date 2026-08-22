@@ -544,9 +544,16 @@
 }
 
 .newsletterHeading {
-  margin: 14px 0 22px;
+  margin: 14px 0 6px;
   font-size: 1.25rem;
   font-weight: 700;
+}
+
+/* Matches the muted band subheadings; --muted is not a global token. */
+.newsletterSubheading {
+  margin: 0 0 22px;
+  opacity: 0.72;
+  font-size: 0.95rem;
 }
 
 .newsletterForm {
