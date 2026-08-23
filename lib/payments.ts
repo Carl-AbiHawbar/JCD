@@ -63,11 +63,12 @@ export const whishConfigured = Boolean(whishNumberUsable || whish.paymentLink);
  * app. What it lacks is a working web fallback: without the app the same URL
  * redirects to whish.money/app/, which returns 404.
  *
- * So Android gets an intent URL, which launches the app by package name and
- * names its own fallback, and iOS gets the plain universal link because that
- * is the only form iOS will hand to an app. Anywhere else goes straight to the
- * download page. Nothing is pre-filled either way — Whish generates payment
- * links inside the app — which is what the copyable fields are for.
+ * So Android gets an intent URL naming the package and nothing else: it opens
+ * the app outright, and where the app is missing the browser takes the
+ * fallback named in the URL rather than Whish's broken one. iOS gets the
+ * universal link, the only form iOS will hand to an app. Anywhere else goes
+ * straight to the download page. Nothing is pre-filled either way — Whish
+ * generates payment links inside the app — which is what the fields are for.
  */
 export type Platform = "ios" | "android" | "other";
 
@@ -76,15 +77,19 @@ export const WHISH_DOWNLOAD = "https://whish.money/download";
 export function whishOpenUrl(number: string, platform: Platform) {
   // Never build a transfer link to something that cannot be a wallet.
   if (!isWhishReceiver(number)) return "";
-  const path = `whish.money/pay/${number.replace(/[^\d]/g, "")}`;
-
   if (platform === "android") {
+    // No data URI: this launches the app itself rather than asking it to
+    // resolve a path, so there is nothing for the browser to fall through to
+    // except the fallback named here.
     return (
-      `intent://${path}#Intent;scheme=https;package=money.whish.android;` +
+      `intent://#Intent;package=money.whish.android;` +
       `S.browser_fallback_url=${encodeURIComponent(WHISH_DOWNLOAD)};end`
     );
   }
-  if (platform === "ios") return `https://${path}`;
+  if (platform === "ios") {
+    // A universal link is the only thing iOS hands to an app.
+    return `https://whish.money/pay/${number.replace(/[^\d]/g, "")}`;
+  }
   return WHISH_DOWNLOAD;
 }
 
