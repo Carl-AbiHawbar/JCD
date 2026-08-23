@@ -65,12 +65,17 @@ export const whishConfigured = Boolean(whishNumberUsable || whish.paymentLink);
  *
  * So Android gets an intent URL naming the package and nothing else: it opens
  * the app outright, and where the app is missing the browser takes the
- * fallback named in the URL rather than Whish's broken one. iOS gets the
- * universal link, the only form iOS will hand to an app. Anywhere else goes
- * straight to the download page. Nothing is pre-filled either way — Whish
- * generates payment links inside the app — which is what the fields are for.
+ * fallback named in the URL rather than Whish's broken one. iOS has no such
+ * mechanism, so it goes to the App Store, which opens the app when it is
+ * installed and never dead-ends when it is not. Anywhere else goes to the
+ * download page. Nothing is pre-filled on any of them — Whish generates
+ * payment links inside the app — which is what the copyable fields are for.
  */
 export type Platform = "ios" | "android" | "other";
+
+export const APP_STORE = "https://apps.apple.com/app/id1284243483";
+export const PLAY_STORE =
+  "https://play.google.com/store/apps/details?id=money.whish.android";
 
 export const WHISH_DOWNLOAD = "https://whish.money/download";
 
@@ -87,15 +92,15 @@ export function whishOpenUrl(number: string, platform: Platform) {
     );
   }
   if (platform === "ios") {
-    // A universal link is the only thing iOS hands to an app.
-    return `https://whish.money/pay/${number.replace(/[^\d]/g, "")}`;
+    // iOS has no equivalent: opening an app from Safari needs either a
+    // documented custom scheme, which Whish does not publish, or a universal
+    // link whose owner serves a working page when the app is absent, which
+    // Whish does not. The App Store listing is the one address that always
+    // loads, and it shows "Open" when the app is already installed.
+    return APP_STORE;
   }
   return WHISH_DOWNLOAD;
 }
-
-export const APP_STORE = "https://apps.apple.com/app/id1284243483";
-export const PLAY_STORE =
-  "https://play.google.com/store/apps/details?id=money.whish.android";
 
 export const paymentUi = {
   ar: {
@@ -109,7 +114,7 @@ export const paymentUi = {
     whish: "الدفع عبر Whish",
     payWithWhish: "ادفع عبر Whish",
     openWhish: "افتح تطبيق Whish",
-    openHint: "يفتح تطبيق Whish إن كان مثبتاً، وإلا تفتح صفحة تحميل التطبيق.",
+    openHint: "يفتح تطبيق Whish إن كان مثبتاً، وإلا يفتح متجر التطبيقات.",
     amount: "المبلغ",
     reference: "الرقم المرجعي",
     numberLabel: "رقم Whish الخاص بالجمعية",
@@ -138,7 +143,7 @@ export const paymentUi = {
     whish: "Pay with Whish",
     payWithWhish: "Pay with Whish",
     openWhish: "Open the Whish app",
-    openHint: "Opens the Whish app if it is installed, otherwise its download page.",
+    openHint: "Opens the Whish app if it is installed, otherwise the app store.",
     amount: "Amount",
     reference: "Reference",
     numberLabel: "JCD's Whish number",
