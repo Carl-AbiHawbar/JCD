@@ -55,23 +55,37 @@ export const whishNumberUsable = isWhishReceiver(whish.number);
 export const whishConfigured = Boolean(whishNumberUsable || whish.paymentLink);
 
 /**
- * Universal link that opens the Whish app straight on a transfer to `number`.
+ * A link that opens the Whish app.
  *
  * whish.money publishes an apple-app-site-association claiming the path
  * pattern `*pay/*`, and an assetlinks.json delegating whish.money to
- * money.whish.android — so on a phone with Whish installed this URL is
- * intercepted by the app rather than the browser. Anywhere else it lands on
- * whish.money, which is why the copyable fields stay on screen as a fallback.
+ * money.whish.android, so a phone with Whish installed hands that URL to the
+ * app. What it lacks is a working web fallback: without the app the same URL
+ * redirects to whish.money/app/, which returns 404.
  *
- * The amount rides along as a query parameter. That part is unverified: the
- * web page ignores it, and confirming it needs a device with the app.
+ * So Android gets an intent URL, which launches the app by package name and
+ * names its own fallback, and iOS gets the plain universal link because that
+ * is the only form iOS will hand to an app. Anywhere else goes straight to the
+ * download page. Nothing is pre-filled either way — Whish generates payment
+ * links inside the app — which is what the copyable fields are for.
  */
-export function whishPayUrl(number: string, amount?: string) {
+export type Platform = "ios" | "android" | "other";
+
+export const WHISH_DOWNLOAD = "https://whish.money/download";
+
+export function whishOpenUrl(number: string, platform: Platform) {
   // Never build a transfer link to something that cannot be a wallet.
   if (!isWhishReceiver(number)) return "";
-  const digits = number.replace(/[^\d]/g, "");
-  const query = amount ? `?amount=${encodeURIComponent(amount)}` : "";
-  return `https://whish.money/pay/${digits}${query}`;
+  const path = `whish.money/pay/${number.replace(/[^\d]/g, "")}`;
+
+  if (platform === "android") {
+    return (
+      `intent://${path}#Intent;scheme=https;package=money.whish.android;` +
+      `S.browser_fallback_url=${encodeURIComponent(WHISH_DOWNLOAD)};end`
+    );
+  }
+  if (platform === "ios") return `https://${path}`;
+  return WHISH_DOWNLOAD;
 }
 
 export const APP_STORE = "https://apps.apple.com/app/id1284243483";
@@ -90,7 +104,7 @@ export const paymentUi = {
     whish: "الدفع عبر Whish",
     payWithWhish: "ادفع عبر Whish",
     openWhish: "افتح تطبيق Whish",
-    openHint: "سيفتح التطبيق على شاشة التحويل مع رقم الجمعية. إن لم يفتح، انسخ الحقول أدناه.",
+    openHint: "يفتح تطبيق Whish إن كان مثبتاً، وإلا تفتح صفحة تحميل التطبيق.",
     amount: "المبلغ",
     reference: "الرقم المرجعي",
     numberLabel: "رقم Whish الخاص بالجمعية",
@@ -119,7 +133,7 @@ export const paymentUi = {
     whish: "Pay with Whish",
     payWithWhish: "Pay with Whish",
     openWhish: "Open the Whish app",
-    openHint: "This opens Whish on the transfer screen with our number. If it does not open, copy the fields below.",
+    openHint: "Opens the Whish app if it is installed, otherwise its download page.",
     amount: "Amount",
     reference: "Reference",
     numberLabel: "JCD's Whish number",

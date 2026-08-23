@@ -1,15 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import type { Locale } from "@/lib/i18n";
 import {
   APP_STORE,
   PLAY_STORE,
+  type Platform,
   paymentUi,
   whish,
   whishConfigured,
-  whishPayUrl,
+  whishOpenUrl,
 } from "@/lib/payments";
 import styles from "./WhishPayment.module.css";
 
@@ -39,6 +40,16 @@ export default function WhishPayment({
 }) {
   const t = paymentUi[locale];
   const [copied, setCopied] = useState<string | null>(null);
+
+  // Which link opens the app depends on the phone, and the server cannot know
+  // that, so it is resolved after mount. Until then the link is the download
+  // page, which is right for a desktop anyway.
+  const [platform, setPlatform] = useState<Platform>("other");
+  useEffect(() => {
+    const ua = navigator.userAgent;
+    if (/android/i.test(ua)) setPlatform("android");
+    else if (/iphone|ipad|ipod/i.test(ua)) setPlatform("ios");
+  }, []);
 
   async function copy(key: string, value: string) {
     try {
@@ -84,19 +95,19 @@ export default function WhishPayment({
     ...(note ? [{ key: "note", label: t.noteField, value: note }] : []),
   ];
 
-  const deepLink = whishPayUrl(whish.number, amount);
+  const openUrl = whishOpenUrl(whish.number, platform);
 
   return (
     <div className={styles.panel}>
-      {/* Opens the app straight on its transfer screen where it is installed;
-          the copyable fields below cover everywhere else. */}
-      {deepLink && (
+      {/* Opens the app where it is installed; the copyable fields below are
+          how the transfer is actually filled in, on every platform. */}
+      {openUrl && (
         <>
           {/* Deliberately a same-tab navigation with no target="_blank": iOS
               and Android hand a universal link to the app on a top-level
               navigation, but a script-opened tab is often left in the browser
               instead, which is exactly the case we need to work. */}
-          <a className={styles.primary} href={deepLink}>
+          <a className={styles.primary} href={openUrl}>
             {t.openWhish}
           </a>
           <p className={styles.steps}>{t.openHint}</p>
