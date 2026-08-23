@@ -1,3 +1,4 @@
+import { jcdPhone } from "./content";
 import type { Locale } from "./i18n";
 
 /**
@@ -14,8 +15,12 @@ import type { Locale } from "./i18n";
  * instead of guessing.
  */
 export const whish = {
-  /** JCD's Whish Money number. */
-  number: "+961 1 234 567",
+  /**
+   * JCD's Whish Money number — the same mobile the site publishes. Should the
+   * wallet ever sit on a different number from the helpline, replace this with
+   * that number rather than changing `jcdPhone`.
+   */
+  number: jcdPhone,
   /** A payment link created in the Whish app (Whish Me / payment request). */
   paymentLink: "",
 } as const;

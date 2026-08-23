@@ -111,7 +111,7 @@ export async function seedContent(): Promise<SeedReport> {
 
   if (await isEmpty("siteSettings")) {
     batch.set(doc(db(), "siteSettings", "main"), {
-      phone: "+961 1 234 567",
+      phone: "+961 70 277 877",
       helplineAr: "خط المساعدة – متاح 24/7",
       helplineNoteAr: "لا تتردد في الاتصال بنا. الاستشارة مجانية وسرية.",
     });

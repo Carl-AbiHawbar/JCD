@@ -6,7 +6,7 @@ import { telHref, whatsappHref } from "./format";
  * slide and the footer's phone and WhatsApp cards are all derived from it, so
  * changing the organisation's number is a one-line edit here.
  */
-export const jcdPhone = "+961 1 234 567";
+export const jcdPhone = "+961 70 277 877";
 
 /**
  * The shop is switched off for now: the متجرنا band, the cart icon, the

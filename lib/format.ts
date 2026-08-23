@@ -13,7 +13,7 @@ export function toArabicDigits(value: string) {
  * Arabic pages get Arabic-Indic digits; English pages keep Western ones. The
  * result is always meant to be rendered inside `dir="ltr"` — a phone number is
  * a left-to-right sequence, and without that the bidi algorithm reorders the
- * groups in an RTL page, turning "+961 1 234 567" into "567 234 1 961+".
+ * groups in an RTL page, turning "+961 70 277 877" into "877 277 70 961+".
  *
  * Never use this for a `tel:` link: dialling needs the Western digits.
  */
