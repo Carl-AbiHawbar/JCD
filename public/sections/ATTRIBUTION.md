@@ -37,3 +37,8 @@ photograph use the illustrated panels instead.
 | `product-9.jpg` | Closeup pile pomegranate fruit |  | CC0 1.0 | https://www.rawpixel.com/image/6020088/photo-image-public-domain-plant-fruit |
 | `hero-support.jpg` | Dirty hands | Håkan Dahlström | BY 2.0 | https://www.flickr.com/photos/93755244@N00/3979622838 |
 | `hero-concern.jpg` | Person using a laptop while holding a telephone receive | Shixart1985 | BY 2.0 | https://commons.wikimedia.org/w/index.php?curid=186069720 |
+| `service-1.jpg` | IMG_2529 | Neeta Lind | BY 2.0 | https://www.flickr.com/photos/71132408@N00/2517026291 |
+| `service-2.jpg` | Symmetry in Red | SFB579 Namaste | BY 2.0 | https://www.flickr.com/photos/50826080@N00/8261998144 |
+| `programme-1.jpg` | A Quiet Time | What's on My Mind | BY 2.0 | https://www.flickr.com/photos/22015507@N08/2119460937 |
+| `event-5.jpg` | Bayfront Park Miami- Free Yoga Classes | Rafael Montilla SEO Latino | BY-SA 2.0 | https://www.flickr.com/photos/22510300@N02/15441862455 |
+| `mcd.jpg` | Volunteers planting trees in around the new Putah Cree | UC Davis Arboretum & Public  | BY 2.0 | https://www.flickr.com/photos/47484186@N06/16795533022 |
