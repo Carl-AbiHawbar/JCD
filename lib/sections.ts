@@ -136,7 +136,7 @@ export type Section =
  */
 const PHOTOS = new Set([
   "about", "history", "mission", "partnerships", "team", "achievements",
-  "mcd", "service-1", "service-2",
+  "mcd", "service-1", "service-2", "service-3",
   "programme-1", "programme-2", "programme-3", "programme-4", "programme-5",
   "training-1", "training-2", "training-3",
   "event-1", "event-2", "event-3", "event-4", "event-5", "event-6",

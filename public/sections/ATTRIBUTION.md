@@ -42,3 +42,4 @@ photograph use the illustrated panels instead.
 | `programme-1.jpg` | A Quiet Time | What's on My Mind | BY 2.0 | https://www.flickr.com/photos/22015507@N08/2119460937 |
 | `event-5.jpg` | Bayfront Park Miami- Free Yoga Classes | Rafael Montilla SEO Latino | BY-SA 2.0 | https://www.flickr.com/photos/22510300@N02/15441862455 |
 | `mcd.jpg` | Volunteers planting trees in around the new Putah Cree | UC Davis Arboretum & Public  | BY 2.0 | https://www.flickr.com/photos/47484186@N06/16795533022 |
+| `service-3.jpg` | Holding Hands | garryknight | BY 2.0 | https://www.flickr.com/photos/8176740@N05/5485227867 |
