@@ -64,20 +64,44 @@ export const brand = {
 export const languageToggle = { ar: "EN", en: "ع" } as const;
 
 /**
- * The hero is the anniversary banner on its own. It is a finished piece of
- * artwork carrying its own wording, so it takes no overlaid copy — and with
- * one slide there is nothing to rotate, so no dots are drawn.
- *
- * The three photographic slides this replaced are in the history at c6dc3cf
- * if they are ever wanted back.
+ * The anniversary banner leads, then the three photographic slides. The banner
+ * is finished artwork on a pale ground, so it is shown whole rather than
+ * cropped and takes neither the scrim nor the overlaid copy.
  */
 export const heroSlides = {
   ar: [
     {
+      // A finished banner carrying its own wording, so it takes no overlay.
       image: "/hero-anniversary.jpg",
       imageAlt:
         "معاً من أجل شبيبةٍ رائدة، واعية وواعدة بمستقبل أفضل — ٣٣ سنة خبرة وعطاء",
       video: "/hero-anniversary.mp4",
+      // The animation settles around six seconds; the rest lets it be read.
+      holdMs: 9000,
+    },
+    {
+      image: "/hero-volunteers.jpg",
+      imageAlt: "ثلاثة متطوعين يحملون أدوات التنظيف ويبتسمون في الشارع",
+      heading: "هل ترغب في التطوع وخدمة المجتمع؟",
+      subheading: "اكتشف إذا كنت مستعداً للانضمام لفريقنا التطوعي",
+      cta: "فحص جاهزية التطوع",
+      ctaHref: "/volunteer-readiness",
+    },
+    {
+      image: "/sections/hero-support.jpg",
+      imageAlt: "أخصائية تجلس إلى جانب رجل وتستمع إليه",
+      heading: "هل أنت أو شخص قريب بحاجة إلى مساعدة مهنية؟",
+      subheading: "دعم لطيف وسري من أخصائيين محترفين — خطوة واحدة تبدأ التغيير",
+      cta: "تواصل مع أخصائي",
+      ctaHref: "#contact",
+    },
+    {
+      image: "/sections/hero-concern.jpg",
+      imageAlt: "مراهقة تنظر إلى هاتفها بينما تتحدث إليها والدتها",
+      heading: "هل تعتقد أن شخصًا تعرفه قد يكون يستخدم المخدرات؟",
+      subheading: "تقييم قصير يساعدك على تحديد مستوى القلق واتخاذ الخطوة المناسبة",
+      cta: "هل يستخدم؟",
+      ctaHref: "#assessments",
     },
   ],
   en: [
@@ -86,6 +110,33 @@ export const heroSlides = {
       imageAlt:
         "Together for a pioneering, aware and promising youth — 33 years of experience and giving",
       video: "/hero-anniversary.mp4",
+      holdMs: 9000,
+    },
+    {
+      image: "/hero-volunteers.jpg",
+      imageAlt: "Three volunteers holding cleaning tools and smiling in the street",
+      heading: "Would you like to volunteer and serve your community?",
+      subheading: "Find out whether you are ready to join our volunteer team",
+      cta: "Volunteer readiness check",
+      ctaHref: "/volunteer-readiness",
+    },
+    {
+      image: "/sections/hero-support.jpg",
+      imageAlt: "A specialist sitting beside a man and listening to him",
+      heading: "Do you, or someone close to you, need professional help?",
+      subheading:
+        "Gentle, confidential support from trained specialists — one step begins the change",
+      cta: "Talk to a specialist",
+      ctaHref: "#contact",
+    },
+    {
+      image: "/sections/hero-concern.jpg",
+      imageAlt: "A teenager looking at her phone while her mother talks to her",
+      heading: "Do you think someone you know may be using drugs?",
+      subheading:
+        "A short assessment helps you gauge your concern and decide on the right step",
+      cta: "Are they using?",
+      ctaHref: "#assessments",
     },
   ],
 } as const;
