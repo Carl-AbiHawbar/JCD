@@ -13,6 +13,9 @@ type Slide = {
   imageAlt: string;
   /** When set the slide is this video, which carries its own copy. */
   video?: string;
+  /** A cut of the same artwork shaped for the narrow hero, if there is one. */
+  videoNarrow?: string;
+  imageNarrow?: string;
   heading?: string;
   subheading?: string;
   cta?: string;
@@ -41,6 +44,17 @@ export default function Hero({
   useEffect(() => {
     const query = window.matchMedia("(prefers-reduced-motion: reduce)");
     const sync = () => setReduceMotion(query.matches);
+    sync();
+    query.addEventListener("change", sync);
+    return () => query.removeEventListener("change", sync);
+  }, []);
+
+  // The hero is a different shape below this width, and the artwork has a cut
+  // to match; it is the same breakpoint the stylesheet switches height at.
+  const [narrow, setNarrow] = useState(false);
+  useEffect(() => {
+    const query = window.matchMedia("(max-width: 860px)");
+    const sync = () => setNarrow(query.matches);
     sync();
     query.addEventListener("change", sync);
     return () => query.removeEventListener("change", sync);
@@ -77,7 +91,9 @@ export default function Hero({
         el.pause();
       }
     }
-  }, [index, reduceMotion]);
+    // narrow is in here because swapping to the other cut replaces the
+    // element, and the new one starts paused.
+  }, [index, reduceMotion, narrow]);
 
   function onKeyDown(event: React.KeyboardEvent) {
     // In RTL, ArrowLeft moves forward through the slides.
@@ -101,6 +117,8 @@ export default function Hero({
       {heroSlides.map((slide, i) => {
         const isArtwork = Boolean(slide.video);
         const active = i === index;
+        const video = (narrow && slide.videoNarrow) || slide.video;
+        const still = (narrow && slide.imageNarrow) || slide.image;
 
         return (
           <div
@@ -113,15 +131,16 @@ export default function Hero({
             // Slides out of view must not be reachable by keyboard.
             inert={!active}
           >
-            {slide.video && !reduceMotion ? (
+            {video && !reduceMotion ? (
               <video
                 className={styles.artwork}
                 ref={(el) => {
                   if (el) videos.current.set(i, el);
                   else videos.current.delete(i);
                 }}
-                src={slide.video}
-                poster={slide.image}
+                key={video}
+                src={video}
+                poster={still}
                 aria-label={slide.imageAlt}
                 muted
                 loop
@@ -131,7 +150,7 @@ export default function Hero({
             ) : (
               <Image
                 className={isArtwork ? styles.artwork : styles.photo}
-                src={slide.image}
+                src={still}
                 alt={slide.imageAlt}
                 fill
                 sizes="100vw"

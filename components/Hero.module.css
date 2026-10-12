@@ -190,3 +190,12 @@
   aspect-ratio: 16 / 9;
   max-height: var(--hero-h);
 }
+
+/* The narrow cut is already the hero's shape, so it fills the band exactly as
+   the photographs do. Any millimetre of difference between phone sizes is
+   taken out of its paper margin, never out of the wording. */
+@media (max-width: 860px) {
+  .artwork {
+    object-fit: cover;
+  }
+}

@@ -76,6 +76,10 @@ export const heroSlides = {
       imageAlt:
         "معاً من أجل شبيبةٍ رائدة، واعية وواعدة بمستقبل أفضل — ٣٣ سنة خبرة وعطاء",
       video: "/hero-anniversary.mp4",
+      // Cut to the hero's shape on a phone, so it fills the band like the
+      // photographs do instead of sitting letterboxed inside it.
+      videoNarrow: "/hero-anniversary-mobile.mp4",
+      imageNarrow: "/hero-anniversary-mobile.jpg",
       // The animation settles around six seconds; the rest lets it be read.
       holdMs: 9000,
     },
@@ -110,6 +114,8 @@ export const heroSlides = {
       imageAlt:
         "Together for a pioneering, aware and promising youth — 33 years of experience and giving",
       video: "/hero-anniversary.mp4",
+      videoNarrow: "/hero-anniversary-mobile.mp4",
+      imageNarrow: "/hero-anniversary-mobile.jpg",
       holdMs: 9000,
     },
     {
