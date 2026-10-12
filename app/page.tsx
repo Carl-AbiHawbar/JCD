@@ -15,7 +15,7 @@ export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const locale = await currentLocale();
-  const { heroSlides, helpBar } = contentFor(locale);
+  const { brand, heroSlides, helpBar } = contentFor(locale);
   const { sections, shopProducts } = await loadSiteData(locale);
   // The shop band is withheld entirely while the shop is switched off.
   const visible = shopEnabled
@@ -26,6 +26,8 @@ export default async function Home() {
     <>
       <SiteHeader locale={locale} />
       <main className={styles.main}>
+        {/* The hero is artwork now, so the page's heading is carried here. */}
+        <h1 className="srOnly">{brand.alt}</h1>
         <Hero
           slides={heroSlides}
           carouselLabel={locale === "ar" ? "شرائح العرض" : "Highlights"}

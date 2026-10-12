@@ -155,3 +155,38 @@
     rgba(0, 0, 0, 0.34) 100%
   );
 }
+
+/* An artwork slide is a finished banner on a pale ground. It fits by height so
+   nothing is cropped off the composition, and the slide carries the artwork's
+   own background colour so the sides it does not reach are seamless. */
+.artworkSlide {
+  background: #ededed;
+}
+
+.artwork {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* The dots are white, which disappears over a pale artwork slide. */
+.dotsOnLight .dot::before {
+  background: rgba(28, 28, 30, 0.3);
+}
+
+.dotsOnLight .dotActive::before {
+  background: #1c1c1e;
+}
+
+/* With nothing but artwork in the hero, size it to the artwork's own shape so
+   narrow screens get no empty band above and below it. It still never grows
+   past the mockup's hero height; beyond that the pale ground carries the
+   sides, which is seamless because the artwork sits on the same colour.
+   Two classes deep so it beats the fixed heights above, whatever the order. */
+.hero.heroArtwork {
+  height: auto;
+  aspect-ratio: 16 / 9;
+  max-height: var(--hero-h);
+}
