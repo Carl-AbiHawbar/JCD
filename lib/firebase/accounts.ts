@@ -19,8 +19,9 @@ import { firebaseAuth } from "./client";
  * all, since anyone can read the bundle.
  */
 
-export const ADMIN_USERNAME = "JCDORG";
-const ADMIN_EMAIL = "jcdorg@jcd-lebanon.org";
+// Matched case-insensitively, so "jcd" and "JCD" both sign in.
+export const ADMIN_USERNAME = "JCD";
+const ADMIN_EMAIL = "jcd@jcdlb.org";
 
 /** Lets the one admin identity be typed as a username instead of an email. */
 export function resolveLoginIdentifier(identifier: string) {
