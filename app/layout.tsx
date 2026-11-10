@@ -19,14 +19,14 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return locale === "en"
     ? {
-        title: "JCD — drug prevention and rehabilitation network",
+        title: { default: "JCD — Youth Against Drugs", template: "%s — JCD" },
         description:
-          "Would you like to volunteer and serve your community? Find out whether you are ready to join our volunteer team.",
+          "A Lebanese non-profit fighting addiction since 1994: rehabilitation, awareness, training and family support.",
       }
     : {
-        title: "الشبكة لمكافحة المخدرات — للوقاية وإعادة التأهيل",
+        title: { default: "الشبيبة لمكافحة المخدّرات — JCD", template: "%s — JCD" },
         description:
-          "هل ترغب في التطوع وخدمة المجتمع؟ اكتشف إذا كنت مستعداً للانضمام لفريقنا التطوعي.",
+          "جمعية لبنانية لا تبغي الربح تكافح الإدمان منذ 1994: إعادة التأهيل والتوعية والتدريب ودعم العائلات.",
       };
 }
 

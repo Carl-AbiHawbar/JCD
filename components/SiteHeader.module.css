@@ -74,8 +74,8 @@
 
 .logo {
   display: block;
-  width: 81px;
-  height: 38px;
+  width: 136px;
+  height: 64px;
 }
 
 /* --- nav (visually right) ------------------------------------------- */
@@ -117,6 +117,11 @@
 }
 
 @media (max-width: 860px) {
+  .logo {
+    width: 111px;
+    height: 52px;
+  }
+
   /* The inline list gives way to the disclosure menu in MobileNav. */
   .navList {
     display: none;

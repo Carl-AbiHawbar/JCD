@@ -68,18 +68,33 @@
 }
 
 /* An anchor, not a button — it navigates to the readiness assessment. */
+.ctas {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 27px;
+  padding-inline: 20px;
+}
+
 .cta {
   display: grid;
   place-items: center;
   width: 218px;
   height: 53px;
-  margin-top: 27px;
   border-radius: 12px;
   background: #ffffff;
   color: var(--teal-cta);
   font-size: 15px;
   font-weight: 500;
   text-decoration: none;
+}
+
+.ctaSecondary {
+  composes: cta;
+  border: 1.5px solid #ffffff;
+  background: transparent;
+  color: #ffffff;
 }
 
 /* --- carousel dots --------------------------------------------------- */

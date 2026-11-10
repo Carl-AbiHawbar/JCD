@@ -29,7 +29,8 @@ const NAV = [
     items: [
       { href: "/admin/donations", label: "التبرعات" },
       { href: "/admin/subscribers", label: "المشتركون" },
-      { href: "/admin/assessments", label: "تقييمات الجهوزية" },
+      { href: "/admin/volunteers", label: "طلبات التطوع" },
+      { href: "/admin/assessments", label: "تقييمات الجهوزية (سابقًا)" },
     ],
   },
 ] as const;

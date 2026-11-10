@@ -1,0 +1,373 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background: var(--cream);
+}
+
+/* --- hero -------------------------------------------------------------- */
+
+.hero {
+  padding-block: 48px 56px;
+  background: #e4efe9;
+}
+
+.heroInner {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 56px;
+  align-items: center;
+  width: min(1216px, calc(100% - 64px));
+  margin: 0 auto;
+}
+
+.heroCopy {
+  min-width: 0;
+}
+
+.heroMedia {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.07);
+  box-shadow: 0 14px 34px rgba(21, 63, 58, 0.12);
+}
+
+.heroMedia img {
+  object-fit: cover;
+}
+
+.crumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 22px;
+  list-style: none;
+  font-size: 0.86rem;
+}
+
+.crumbs li {
+  opacity: 0.7;
+}
+
+.crumbs li + li::before {
+  content: "/";
+  margin-inline-end: 6px;
+  opacity: 0.6;
+}
+
+.crumbs a {
+  color: var(--teal);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.eyebrow {
+  margin-bottom: 8px;
+  color: var(--teal);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.title {
+  margin-bottom: 14px;
+  color: var(--teal);
+  font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+/* The brand red, sampled from the 33-years emblem. */
+.tagline {
+  margin-bottom: 16px;
+  color: #d9261c;
+  font-size: clamp(1.2rem, 2.2vw, 1.6rem);
+  font-weight: 700;
+  line-height: 1.55;
+}
+
+.summary {
+  opacity: 0.8;
+  font-size: 1.02rem;
+  line-height: 1.95;
+}
+
+/* --- content ------------------------------------------------------------ */
+
+.body {
+  display: grid;
+  gap: 44px;
+  width: min(860px, calc(100% - 48px));
+  margin: 0 auto;
+  padding-block: 56px 72px;
+}
+
+.blockHeading {
+  margin-bottom: 16px;
+  color: var(--teal);
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  font-weight: 700;
+}
+
+.paragraph {
+  margin-bottom: 12px;
+  opacity: 0.85;
+  line-height: 2;
+}
+
+.paragraph:last-child {
+  margin-bottom: 0;
+}
+
+.bullets,
+.numbered {
+  display: grid;
+  gap: 12px;
+  list-style: none;
+  line-height: 1.95;
+}
+
+.bullets li,
+.numbered li {
+  position: relative;
+  padding-inline-start: 30px;
+}
+
+.bullets li::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 6px;
+  top: 0.8em;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--teal-cta);
+}
+
+.numbered {
+  counter-reset: item;
+}
+
+.numbered li {
+  counter-increment: item;
+  padding-inline-start: 42px;
+}
+
+.numbered li::before {
+  content: counter(item);
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0.15em;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--teal);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.place {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 22px 24px;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 12px 30px rgba(21, 63, 58, 0.08);
+  line-height: 1.85;
+}
+
+.placeIcon {
+  flex: none;
+  color: var(--teal);
+}
+
+.placeHeading {
+  margin-bottom: 4px;
+  color: var(--teal);
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.team {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+}
+
+.teamPhoto {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #e4efe9;
+}
+
+.teamPhoto img {
+  object-fit: cover;
+}
+
+.photoSoon {
+  opacity: 0.6;
+  font-size: 0.92rem;
+}
+
+.teamCaption {
+  margin-top: 12px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.linkCards {
+  display: grid;
+  gap: 16px;
+}
+
+.linkCardStatic {
+  display: block;
+  padding: 22px 24px;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 12px 30px rgba(21, 63, 58, 0.08);
+  color: inherit;
+}
+
+.linkCard {
+  composes: linkCardStatic;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.linkCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 34px rgba(21, 63, 58, 0.14);
+}
+
+.linkTitle {
+  margin-bottom: 6px;
+  color: var(--teal);
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.linkBody {
+  opacity: 0.8;
+  line-height: 1.9;
+}
+
+/* --- other programmes --------------------------------------------------- */
+
+.siblings {
+  padding-top: 8px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.siblingList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  list-style: none;
+}
+
+.sibling {
+  display: block;
+  padding: 9px 18px;
+  border: 1.5px solid var(--teal);
+  border-radius: 999px;
+  color: var(--teal);
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.sibling:hover {
+  background: var(--teal);
+  color: #fff;
+}
+
+/* --- closing call to action --------------------------------------------- */
+
+.cta {
+  padding-block: 56px;
+  /* Dark, like the donate band, so it does not run into the teal contact
+     band that follows it. */
+  background: #2f3436;
+  color: #fff;
+  text-align: center;
+}
+
+.ctaInner {
+  width: min(760px, calc(100% - 48px));
+  margin: 0 auto;
+}
+
+.ctaHeading {
+  font-size: clamp(1.25rem, 2.4vw, 1.75rem);
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.ctaBody {
+  margin-top: 10px;
+  opacity: 0.92;
+  line-height: 1.8;
+}
+
+.ctaActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 26px;
+}
+
+.ctaPrimary {
+  display: inline-grid;
+  place-items: center;
+  min-width: 190px;
+  padding: 14px 26px;
+  border: 1.5px solid var(--teal-cta);
+  border-radius: 10px;
+  background: var(--teal-cta);
+  color: #fff;
+  font-weight: 700;
+}
+
+.ctaSecondary {
+  composes: ctaPrimary;
+  border-color: #fff;
+  background: transparent;
+}
+
+@media (max-width: 900px) {
+  .hero {
+    padding-block: 32px 40px;
+  }
+
+  .heroInner {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    width: calc(100% - 40px);
+  }
+
+  .body {
+    width: calc(100% - 40px);
+    padding-block: 40px 56px;
+  }
+
+  .team {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .linkCard {
+    transition: none;
+  }
+}

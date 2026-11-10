@@ -29,6 +29,7 @@ import type {
   SiteEvent,
   Subscriber,
   AssessmentRecord,
+  VolunteerApplication,
 } from "./types";
 import { orderTotals } from "./types";
 
@@ -160,6 +161,17 @@ export async function listAssessments(): Promise<AssessmentRecord[]> {
     query(collection(db(), "assessments"), orderBy("createdAt", "desc"), fsLimit(200)),
   );
   return rows<AssessmentRecord>(snap);
+}
+
+export async function listVolunteerApplications(): Promise<VolunteerApplication[]> {
+  const snap = await getDocs(
+    query(
+      collection(db(), "volunteerApplications"),
+      orderBy("createdAt", "desc"),
+      fsLimit(300),
+    ),
+  );
+  return rows<VolunteerApplication>(snap);
 }
 
 export async function countPublished(name: string) {

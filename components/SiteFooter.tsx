@@ -1,5 +1,4 @@
 import { contentFor } from "@/lib/content";
-import { displayPhone } from "@/lib/format";
 import type { Locale } from "@/lib/i18n";
 import {
   MailIcon,
@@ -27,23 +26,37 @@ export default function SiteFooter({ locale }: { locale: Locale }) {
           <p className={styles.subheading}>{footer.subheading}</p>
 
           <ul className={styles.cards}>
-            {footer.contacts.map((item) => {
-              const Icon = ICONS[item.icon as keyof typeof ICONS];
+            {footer.contacts.map((card) => {
+              const Icon = ICONS[card.icon];
               return (
-                <li key={item.label}>
-                  <a className={styles.card} href={item.href}>
-                    <span className={styles.icon}>
-                      <Icon />
-                    </span>
-                    <span
-                      className={styles.label}
-                      dir={item.icon === "phone" ? "ltr" : undefined}
-                    >
-                      {item.icon === "phone"
-                        ? displayPhone(item.label, locale)
-                        : item.label}
-                    </span>
-                  </a>
+                <li className={styles.card} key={card.title}>
+                  <span className={styles.icon}>
+                    <Icon />
+                  </span>
+                  <h3 className={styles.title}>{card.title}</h3>
+                  <ul className={styles.lines}>
+                    {card.lines.map((line) => (
+                      <li key={line.text}>
+                        {line.href ? (
+                          <a
+                            className={styles.link}
+                            href={line.href}
+                            dir={line.ltr ? "ltr" : undefined}
+                            // Map searches belong in their own tab.
+                            {...(line.href.startsWith("http")
+                              ? { target: "_blank", rel: "noopener noreferrer" }
+                              : {})}
+                          >
+                            {line.text}
+                          </a>
+                        ) : (
+                          <span dir={line.ltr ? "ltr" : undefined}>
+                            {line.text}
+                          </span>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
                 </li>
               );
             })}

@@ -130,10 +130,24 @@ export async function pledgeDonation(input: {
   });
 }
 
-export async function submitAssessment(payload: Record<string, unknown>) {
-  await addDoc(collection(db(), "assessments"), {
-    ...payload,
-    reviewed: false,
+/**
+ * A volunteer form (lib/forms.ts). Name and phone sit at the top of the
+ * document so the dashboard can list them; every other answer is kept as
+ * given under `answers`.
+ */
+export async function submitVolunteerApplication(input: {
+  form: "jcd" | "mcd";
+  fullName: string;
+  phone: string;
+  answers: Record<string, string | string[]>;
+  locale: "ar" | "en";
+}) {
+  await addDoc(collection(db(), "volunteerApplications"), {
+    form: input.form,
+    fullName: input.fullName.trim(),
+    phone: input.phone.trim(),
+    answers: input.answers,
+    locale: input.locale,
     createdAt: serverTimestamp(),
   });
 }

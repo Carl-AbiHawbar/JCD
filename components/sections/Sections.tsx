@@ -4,6 +4,7 @@ import Link from "next/link";
 import type { Locale } from "@/lib/i18n";
 import type {
   AccordionSection,
+  AchievementsSection,
   Band,
   CardGridSection,
   DonateSection,
@@ -16,8 +17,10 @@ import type {
   SplitSection,
   StatsSection,
   StepsSection,
+  TeaserSection,
 } from "@/lib/sections";
 import Accordion from "./Accordion";
+import AchievementsStats from "./AchievementsStats";
 import DonateForm from "./DonateForm";
 import NewsletterForm from "./NewsletterForm";
 import ShopGrid, { type ShopProduct } from "./ShopGrid";
@@ -49,6 +52,98 @@ function Heading({
 }) {
   const cls = teal ? styles.headingTeal : styles.heading;
   return <h2 className={gap ? `${cls} ${styles.headingGap}` : cls}>{text}</h2>;
+}
+
+/** Renders a line in which words wrapped in *asterisks* are set in red. */
+export function Rich({ text }: { text: string }) {
+  return text.split(/\*(.+?)\*/).map((part, i) =>
+    i % 2 === 1 ? (
+      <span className={styles.accent} key={i}>
+        {part}
+      </span>
+    ) : (
+      part
+    ),
+  );
+}
+
+function Teaser({ section }: { section: TeaserSection }) {
+  const left = section.imageSide === "left";
+  return (
+    <section id={section.id} className={BAND[section.band]}>
+      <div className={styles.inner}>
+        <div className={styles.split}>
+          <div className={left ? styles.mediaLeft : styles.mediaRight}>
+            <Photo
+              image={section.image}
+              sizes="(max-width: 900px) 100vw, 50vw"
+            />
+          </div>
+
+          <div className={left ? styles.copyRight : styles.copyLeft}>
+            {section.eyebrow && (
+              <p className={styles.eyebrow}>{section.eyebrow}</p>
+            )}
+            <h2 className={styles.teaserHeading}>{section.heading}</h2>
+            {section.tagline && (
+              <p className={styles.tagline}>{section.tagline}</p>
+            )}
+            {section.body?.map((p, i) => (
+              <p className={styles.teaserText} key={i}>
+                {p}
+              </p>
+            ))}
+            {section.highlight && (
+              <p className={styles.highlight}>
+                <Rich text={section.highlight} />
+              </p>
+            )}
+            <Link className={styles.teaserCta} href={section.cta.href}>
+              {section.cta.label}
+            </Link>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Achievements({ section }: { section: AchievementsSection }) {
+  return (
+    <section id={section.id} className={BAND[section.band]}>
+      <div className={styles.inner}>
+        <div className={styles.split}>
+          {/* The emblem is artwork on a transparent ground, so it is shown
+              whole rather than cropped into a photo frame. */}
+          <div className={styles.emblem}>
+            {section.image && (
+              <Image
+                src={section.image.src}
+                alt={section.image.alt}
+                fill
+                sizes="(max-width: 900px) 80vw, 40vw"
+              />
+            )}
+          </div>
+
+          <div className={styles.copyRight}>
+            <p className={styles.eyebrow}>{section.since}</p>
+            <h2 className={styles.teaserHeading}>{section.heading}</h2>
+            {section.body.map((p, i) => (
+              <p className={styles.teaserText} key={i}>
+                {p}
+              </p>
+            ))}
+            <AchievementsStats
+              reveal={section.reveal}
+              conceal={section.conceal}
+              stats={section.stats}
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }
 
 function Split({ section }: { section: SplitSection }) {
@@ -96,6 +191,25 @@ function Feature({ section }: { section: FeatureSection }) {
   );
 }
 
+/** A card is a link when it leads somewhere, and a plain article otherwise. */
+function CardFrame({
+  className,
+  href,
+  children,
+}: {
+  className: string;
+  href?: string;
+  children: React.ReactNode;
+}) {
+  return href ? (
+    <Link className={`${className} ${styles.cardLink}`} href={href}>
+      {children}
+    </Link>
+  ) : (
+    <article className={className}>{children}</article>
+  );
+}
+
 function CardGrid({ section }: { section: CardGridSection }) {
   const overlay = section.variant === "overlay";
   return (
@@ -113,7 +227,11 @@ function CardGrid({ section }: { section: CardGridSection }) {
         >
           {section.cards.map((card, i) =>
             overlay ? (
-              <article className={styles.overlayCard} key={`${i}-${card.title}`}>
+              <CardFrame
+                className={styles.overlayCard}
+                href={card.href}
+                key={`${i}-${card.title}`}
+              >
                 <Photo
                   image={card.image}
                   sizes="(max-width: 900px) 100vw, 33vw"
@@ -125,9 +243,13 @@ function CardGrid({ section }: { section: CardGridSection }) {
                     <p className={styles.overlayText}>{card.body}</p>
                   )}
                 </div>
-              </article>
+              </CardFrame>
             ) : (
-              <article className={styles.card} key={`${i}-${card.title}`}>
+              <CardFrame
+                className={styles.card}
+                href={card.href}
+                key={`${i}-${card.title}`}
+              >
                 <div className={styles.cardMedia}>
                   <Photo
                     image={card.image}
@@ -154,7 +276,7 @@ function CardGrid({ section }: { section: CardGridSection }) {
                   </h3>
                   {card.body && <p className={styles.cardText}>{card.body}</p>}
                 </div>
-              </article>
+              </CardFrame>
             ),
           )}
         </div>
@@ -336,6 +458,10 @@ export default function Sections({
     <>
       {sections.map((section) => {
         switch (section.kind) {
+          case "teaser":
+            return <Teaser key={section.id} section={section} />;
+          case "achievements":
+            return <Achievements key={section.id} section={section} />;
           case "split":
             return <Split key={section.id} section={section} />;
           case "feature":

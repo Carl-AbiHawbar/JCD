@@ -417,3 +417,22 @@
     padding-inline: 16px;
   }
 }
+
+/* A volunteer submission's answers, opened from its row. */
+.answers {
+  display: grid;
+  gap: 10px;
+  min-width: 280px;
+  max-width: 520px;
+  margin-top: 10px;
+  line-height: 1.7;
+}
+
+.answers dt {
+  font-weight: 700;
+}
+
+.answers dd {
+  margin: 0;
+  opacity: 0.85;
+}

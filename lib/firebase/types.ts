@@ -133,6 +133,17 @@ export type AssessmentRecord = {
   createdAt?: string;
 };
 
+/** A JCD Club or MCD volunteer form; see lib/forms.ts for the answer keys. */
+export type VolunteerApplication = {
+  id: string;
+  form: "jcd" | "mcd";
+  fullName: string;
+  phone: string;
+  answers: Record<string, string | string[]>;
+  locale: "ar" | "en";
+  createdAt?: string;
+};
+
 /** An order with its validated line items, as the dashboard shows it. */
 export type OrderWithItems = Order & {
   items: OrderItem[];

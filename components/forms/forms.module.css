@@ -1,0 +1,225 @@
+.page {
+  flex: 1;
+  padding-block: 48px 80px;
+  background: var(--cream);
+}
+
+.inner {
+  width: min(820px, calc(100% - 40px));
+  margin: 0 auto;
+}
+
+.intro {
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+.eyebrow {
+  margin-bottom: 8px;
+  color: var(--teal);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+/* The brand red, sampled from the 33-years emblem. */
+.title {
+  margin-bottom: 10px;
+  color: #d9261c;
+  font-size: clamp(1.35rem, 2.6vw, 1.9rem);
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.lead {
+  opacity: 0.8;
+  line-height: 1.9;
+}
+
+.card {
+  display: grid;
+  gap: 30px;
+  padding: 32px 30px;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 14px 34px rgba(21, 63, 58, 0.08);
+}
+
+.section {
+  min-width: 0;
+  border: 0;
+}
+
+.sectionHeading {
+  margin-bottom: 18px;
+  color: var(--teal);
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px 18px;
+}
+
+.full {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.half {
+  composes: full;
+  grid-column: auto;
+}
+
+.label,
+.question {
+  font-weight: 700;
+  line-height: 1.7;
+}
+
+.required {
+  color: #d9261c;
+}
+
+.note {
+  margin-top: -4px;
+  opacity: 0.65;
+  font-size: 0.88rem;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #d8dedb;
+  border-radius: 10px;
+  background: #fff;
+  color: inherit;
+  font: inherit;
+}
+
+.input:focus {
+  border-color: var(--teal);
+  outline: 2px solid rgba(53, 122, 109, 0.2);
+}
+
+.inputMissing {
+  composes: input;
+  border-color: #d9261c;
+}
+
+.options {
+  display: grid;
+  gap: 10px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid #d8dedb;
+  border-radius: 10px;
+  line-height: 1.7;
+  cursor: pointer;
+  transition: border-color 140ms ease, background 140ms ease;
+}
+
+.option:hover {
+  border-color: var(--teal-cta);
+}
+
+.optionOn {
+  composes: option;
+  border-color: var(--teal);
+  background: #eef6f3;
+}
+
+.option input {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--teal);
+}
+
+.fieldError {
+  color: #d9261c;
+  font-size: 0.88rem;
+}
+
+.consent {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 16px;
+  border-radius: 10px;
+  background: #f2efe9;
+  line-height: 1.8;
+  cursor: pointer;
+}
+
+.consent input {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin-top: 5px;
+  accent-color: var(--teal);
+}
+
+.error {
+  color: #d9261c;
+  font-weight: 700;
+}
+
+.submit {
+  justify-self: start;
+  min-width: 200px;
+  padding: 14px 28px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--teal);
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.sent {
+  padding: 20px 0;
+  text-align: center;
+  line-height: 1.9;
+}
+
+.sentTitle {
+  margin-bottom: 8px;
+  color: var(--teal);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+@media (max-width: 640px) {
+  .card {
+    padding: 24px 18px;
+  }
+
+  .half {
+    grid-column: 1 / -1;
+  }
+
+  .submit {
+    justify-self: stretch;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .option {
+    transition: none;
+  }
+}

@@ -215,16 +215,31 @@ service cloud.firestore {
       allow get, list, update, delete: if isAdmin();
     }
 
-    // ----------------------------------------------------------- assessments
-    // Written once by the visitor who completed it, then read only by admins.
+    // ------------------------------------------------ volunteer applications
+    // The JCD Club and MCD forms (lib/forms.ts). Written once by the visitor,
+    // then read only by admins. Rules cannot loop over a map, so `answers` is
+    // bounded in size rather than checked key by key.
 
-    match /assessments/{id} {
+    match /volunteerApplications/{id} {
       allow create: if
-        incoming().percentage is int
-        && incoming().percentage >= 0
-        && incoming().percentage <= 100
+        onlyFields(['form', 'fullName', 'phone', 'answers', 'locale', 'createdAt'], [])
+        && incoming().form in ['jcd', 'mcd']
+        && isShortText(incoming().fullName, 120)
+        && isShortText(incoming().phone, 32)
+        && incoming().answers is map
+        && incoming().answers.size() <= 40
+        && incoming().locale in ['ar', 'en']
         && incoming().createdAt == request.time;
 
+      allow get, list, update, delete: if isAdmin();
+    }
+
+    // ----------------------------------------------------------- assessments
+    // The scored readiness quiz the volunteer form replaced. Nothing writes
+    // here any more; earlier results stay readable in the dashboard.
+
+    match /assessments/{id} {
+      allow create: if false;
       allow get, list, update, delete: if isAdmin();
     }
 

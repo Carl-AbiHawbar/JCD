@@ -2,7 +2,7 @@ import "server-only";
 
 import type { ShopProduct } from "@/components/sections/ShopGrid";
 import { listPublished } from "./firebase/rest";
-import type { Faq, Product, Program, SiteEvent } from "./firebase/types";
+import type { Faq, Product, SiteEvent } from "./firebase/types";
 import type { Locale } from "./i18n";
 import { getSections, type Section } from "./sections";
 
@@ -11,10 +11,13 @@ import { getSections, type Section } from "./sections";
  * into the static composition in lib/sections.ts.
  *
  * The static file stays the source of truth for layout, ordering and band
- * colours; only the *content* of the shop, programmes, events and FAQ bands is
+ * colours; only the *content* of the shop, activities and FAQ bands is
  * replaced, and only when Firestore actually returns rows. An empty or
  * unreachable database therefore leaves the page exactly as designed rather
  * than blank.
+ *
+ * The programme cards are not replaced: each now opens its own page
+ * (lib/pages.ts), and a row from the dashboard would have nowhere to link.
  */
 
 const MONTHS_AR = [
@@ -30,11 +33,10 @@ export type SiteData = {
 export async function loadSiteData(locale: Locale): Promise<SiteData> {
   const staticSections = getSections(locale);
 
-  const [products, faqs, events, programs] = await Promise.all([
+  const [products, faqs, events] = await Promise.all([
     listPublished<Product>("products"),
     listPublished<Faq>("faqs"),
     listPublished<SiteEvent>("events"),
-    listPublished<Program>("programs"),
   ]);
 
   const shopProducts: ShopProduct[] = products.map((p, i) => ({
@@ -58,8 +60,9 @@ export async function loadSiteData(locale: Locale): Promise<SiteData> {
       return items.length > 0 ? { ...section, items } : section;
     }
 
-    if (section.kind === "cardGrid" && section.id === "events") {
-      const cards = events.map((e, i) => ({
+    if (section.kind === "cardGrid" && section.id === "activities") {
+      // JCD asked for three activities on the homepage, no more.
+      const cards = events.slice(0, 3).map((e, i) => ({
         // The mockup shows the month above each event title.
         meta:
           e.summaryAr ??
@@ -68,15 +71,6 @@ export async function loadSiteData(locale: Locale): Promise<SiteData> {
         // Rows carry no artwork of their own, so keep the slot's own image
         // rather than blanking it when the database supplies the copy.
         image: e.image ? { src: e.image, alt: e.titleAr } : section.cards[i]?.image ?? null,
-      }));
-      return cards.length > 0 ? { ...section, cards } : section;
-    }
-
-    if (section.kind === "cardGrid" && section.id === "programmes") {
-      const cards = programs.map((p, i) => ({
-        title: p.titleAr,
-        body: p.summaryAr ?? undefined,
-        image: p.image ? { src: p.image, alt: p.titleAr } : section.cards[i]?.image ?? null,
       }));
       return cards.length > 0 ? { ...section, cards } : section;
     }

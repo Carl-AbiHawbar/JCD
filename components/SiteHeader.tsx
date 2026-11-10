@@ -41,8 +41,8 @@ export default function SiteHeader({ locale }: { locale: Locale }) {
             className={styles.logo}
             src={logo}
             alt={brand.alt}
-            width={81}
-            height={38}
+            width={136}
+            height={64}
             priority
           />
         </a>

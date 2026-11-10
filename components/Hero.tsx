@@ -18,8 +18,8 @@ type Slide = {
   imageNarrow?: string;
   heading?: string;
   subheading?: string;
-  cta?: string;
-  ctaHref?: string;
+  /** The first is the primary button; any others sit beside it, outlined. */
+  ctas?: readonly { label: string; href: string }[];
   /** How long this slide is held; the shared interval when unset. */
   holdMs?: number;
 };
@@ -171,9 +171,19 @@ export default function Hero({
                 <div className={styles.content}>
                   <h1 className={styles.heading}>{slide.heading}</h1>
                   <p className={styles.subheading}>{slide.subheading}</p>
-                  <Link className={styles.cta} href={slide.ctaHref ?? "#"}>
-                    {slide.cta}
-                  </Link>
+                  {slide.ctas && (
+                    <div className={styles.ctas}>
+                      {slide.ctas.map((cta, n) => (
+                        <Link
+                          key={cta.href}
+                          className={n === 0 ? styles.cta : styles.ctaSecondary}
+                          href={cta.href}
+                        >
+                          {cta.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </>
             )}

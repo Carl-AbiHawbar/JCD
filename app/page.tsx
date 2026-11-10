@@ -33,7 +33,7 @@ export default async function Home() {
           carouselLabel={locale === "ar" ? "شرائح العرض" : "Highlights"}
           slideLabel={locale === "ar" ? "الشريحة" : "Slide"}
         />
-        <HelpBar helpBar={helpBar} locale={locale} />
+        <HelpBar helpBar={helpBar} />
         {/* Layout comes from lib/sections.ts; the shop, programmes, events and
             FAQ bands take their content from Firestore when it has rows. */}
         <Sections

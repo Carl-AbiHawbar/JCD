@@ -27,35 +27,38 @@ export const nourEnabled = false;
  * The Arabic is transcribed from the Canva mockup; the English is a
  * translation of that same copy, since the design's `EN` control implies a
  * bilingual site. Nav items point at the section ids rendered by
- * components/sections/Sections.tsx.
+ * components/sections/Sections.tsx, through "/" so that they also work from
+ * the inner pages.
  */
 
 export const nav = {
   ar: [
-    { label: "من نحن", href: "#about" },
-    { label: "برامجنا", href: "#programmes" },
-    { label: "التدريب والتطوع", href: "#training" },
-    { label: "فعاليات", href: "#events" },
-    { label: "تبرَّع", href: "#donate" },
-    { label: "تواصل", href: "#contact" },
+    { label: "من نحن", href: "/#about" },
+    { label: "برامجنا", href: "/#programmes" },
+    { label: "نشاطاتنا", href: "/#activities" },
+    { label: "MCD", href: "/#mcd" },
+    { label: "JCD Club", href: "/#club" },
+    { label: "تبرَّع", href: "/#donate" },
+    { label: "تواصل", href: "/#contact" },
   ],
   en: [
-    { label: "About", href: "#about" },
-    { label: "Programmes", href: "#programmes" },
-    { label: "Training & volunteering", href: "#training" },
-    { label: "Events", href: "#events" },
-    { label: "Donate", href: "#donate" },
-    { label: "Contact", href: "#contact" },
+    { label: "About", href: "/#about" },
+    { label: "Programmes", href: "/#programmes" },
+    { label: "Activities", href: "/#activities" },
+    { label: "MCD", href: "/#mcd" },
+    { label: "JCD Club", href: "/#club" },
+    { label: "Donate", href: "/#donate" },
+    { label: "Contact", href: "/#contact" },
   ],
 } as const;
 
 export const brand = {
   ar: {
-    alt: "الشبكة لمكافحة المخدرات — للوقاية وإعادة التأهيل",
+    alt: "الشبيبة لمكافحة المخدّرات — JCD",
     href: "/",
   },
   en: {
-    alt: "JCD — drug prevention and rehabilitation network",
+    alt: "JCD — Youth Against Drugs",
     href: "/",
   },
 } as const;
@@ -88,24 +91,24 @@ export const heroSlides = {
       imageAlt: "ثلاثة متطوعين يحملون أدوات التنظيف ويبتسمون في الشارع",
       heading: "هل ترغب في التطوع وخدمة المجتمع؟",
       subheading: "اكتشف إذا كنت مستعداً للانضمام لفريقنا التطوعي",
-      cta: "فحص جاهزية التطوع",
-      ctaHref: "/volunteer-readiness",
+      ctas: [
+        { label: "استمارة جهوزية التطوع", href: "/volunteer-readiness" },
+        { label: "استمارة MCD", href: "/mcd/volunteer" },
+      ],
     },
     {
       image: "/sections/hero-support.jpg",
       imageAlt: "أخصائية تجلس إلى جانب رجل وتستمع إليه",
       heading: "هل أنت أو شخص قريب بحاجة إلى مساعدة مهنية؟",
       subheading: "دعم لطيف وسري من أخصائيين محترفين — خطوة واحدة تبدأ التغيير",
-      cta: "تواصل مع أخصائي",
-      ctaHref: "#contact",
+      ctas: [{ label: "تواصل مع أخصائي", href: "/#contact" }],
     },
     {
       image: "/sections/hero-concern.jpg",
       imageAlt: "مراهقة تنظر إلى هاتفها بينما تتحدث إليها والدتها",
-      heading: "هل تعتقد أن شخصًا تعرفه قد يكون يستخدم المخدرات؟",
-      subheading: "تقييم قصير يساعدك على تحديد مستوى القلق واتخاذ الخطوة المناسبة",
-      cta: "هل يستخدم؟",
-      ctaHref: "#assessments",
+      heading: "هل تعتقد أنّ شخصًا تعرفه يتعاطى المخدرات؟",
+      subheading: "هذه القائمة تساعدك على الكشف المبكر",
+      ctas: [{ label: "المؤشرات", href: "/family-checklist" }],
     },
   ],
   en: [
@@ -123,8 +126,10 @@ export const heroSlides = {
       imageAlt: "Three volunteers holding cleaning tools and smiling in the street",
       heading: "Would you like to volunteer and serve your community?",
       subheading: "Find out whether you are ready to join our volunteer team",
-      cta: "Volunteer readiness check",
-      ctaHref: "/volunteer-readiness",
+      ctas: [
+        { label: "Volunteer readiness form", href: "/volunteer-readiness" },
+        { label: "MCD form", href: "/mcd/volunteer" },
+      ],
     },
     {
       image: "/sections/hero-support.jpg",
@@ -132,17 +137,14 @@ export const heroSlides = {
       heading: "Do you, or someone close to you, need professional help?",
       subheading:
         "Gentle, confidential support from trained specialists — one step begins the change",
-      cta: "Talk to a specialist",
-      ctaHref: "#contact",
+      ctas: [{ label: "Talk to a specialist", href: "/#contact" }],
     },
     {
       image: "/sections/hero-concern.jpg",
       imageAlt: "A teenager looking at her phone while her mother talks to her",
-      heading: "Do you think someone you know may be using drugs?",
-      subheading:
-        "A short assessment helps you gauge your concern and decide on the right step",
-      cta: "Are they using?",
-      ctaHref: "#assessments",
+      heading: "Do you think someone you know is using drugs?",
+      subheading: "This checklist helps you spot the signs early",
+      ctas: [{ label: "The warning signs", href: "/family-checklist" }],
     },
   ],
 } as const;
@@ -163,38 +165,105 @@ export const helpBar = {
   },
 } as const;
 
-export const footer = {
-  ar: {
-    heading: "تواصل معنا",
-    subheading: "نحن هنا لمساعدتك. لا تتردد في التواصل معنا في أي وقت.",
-    contacts: [
-      { icon: "phone", label: jcdPhone, href: telHref(jcdPhone) },
-      { icon: "whatsapp", label: "واتساب", href: whatsappHref(jcdPhone) },
-      {
-        icon: "mail",
-        label: "info@jcd-lebanon.org",
-        href: "mailto:info@jcd-lebanon.org",
-      },
-      { icon: "pin", label: "بيروت، لبنان", href: "#" },
-    ],
-    copyright: "© 2026 JCD لبنان – جميع الحقوق محفوظة",
-  },
-  en: {
-    heading: "Contact us",
-    subheading: "We are here to help. Reach out to us at any time.",
-    contacts: [
-      { icon: "phone", label: jcdPhone, href: telHref(jcdPhone) },
-      { icon: "whatsapp", label: "WhatsApp", href: whatsappHref(jcdPhone) },
-      {
-        icon: "mail",
-        label: "info@jcd-lebanon.org",
-        href: "mailto:info@jcd-lebanon.org",
-      },
-      { icon: "pin", label: "Beirut, Lebanon", href: "#" },
-    ],
-    copyright: "© 2026 JCD Lebanon – all rights reserved",
-  },
-} as const;
+/**
+ * The contact band's four cards, as JCD laid them out: the 24/7 line (which
+ * opens WhatsApp), the admission office, the general administration, and the
+ * two places people come to.
+ */
+const admissionPhone = "+961 81 336 883";
+const adminPhones = ["+961 9 638 241", "+961 9 638 141"] as const;
+const email = "jcd@jcdlb.org";
+
+/**
+ * Map searches rather than pinned coordinates, so a guessed pin can never send
+ * someone to the wrong door. Swap in Google Maps share links once JCD sends
+ * them.
+ */
+const mapsSearch = (query: string) =>
+  `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+const jouniehMap = mapsSearch("Jeunesse Contre la Drogue JCD Jounieh");
+const salloumeMap = mapsSearch("Jeunesse Contre la Drogue JCD Salloumi Bourj Hammoud");
+
+export type ContactLine = { text: string; href?: string; ltr?: boolean };
+export type ContactCard = {
+  icon: "whatsapp" | "phone" | "mail" | "pin";
+  title: string;
+  lines: ContactLine[];
+};
+
+const footerAr: { heading: string; subheading: string; contacts: ContactCard[]; copyright: string } = {
+  heading: "تواصل معنا",
+  subheading: "نحن هنا لمساعدتك. لا تتردد في التواصل معنا في أي وقت.",
+  contacts: [
+    {
+      icon: "whatsapp",
+      title: "خط مساعدة مفتوح 24/7",
+      lines: [{ text: jcdPhone, href: whatsappHref(jcdPhone), ltr: true }],
+    },
+    {
+      icon: "phone",
+      title: "مكتب الدخول",
+      lines: [{ text: "81/336883", href: telHref(admissionPhone), ltr: true }],
+    },
+    {
+      icon: "mail",
+      title: "الإدارة العامة",
+      lines: [
+        { text: "09/638241", href: telHref(adminPhones[0]), ltr: true },
+        { text: "09/638141", href: telHref(adminPhones[1]), ltr: true },
+        { text: "ص.ب. 2666 جونية، لبنان" },
+        { text: email, href: `mailto:${email}`, ltr: true },
+      ],
+    },
+    {
+      icon: "pin",
+      title: "مواقعنا",
+      lines: [
+        { text: "مكتب جونية", href: jouniehMap },
+        { text: "مركز الصالومي", href: salloumeMap },
+      ],
+    },
+  ],
+  copyright: "© 2026 الشبيبة لمكافحة المخدّرات JCD – جميع الحقوق محفوظة",
+};
+
+const footerEn: typeof footerAr = {
+  heading: "Contact us",
+  subheading: "We are here to help. Reach out to us at any time.",
+  contacts: [
+    {
+      icon: "whatsapp",
+      title: "Helpline open 24/7",
+      lines: [{ text: jcdPhone, href: whatsappHref(jcdPhone), ltr: true }],
+    },
+    {
+      icon: "phone",
+      title: "Admission office",
+      lines: [{ text: "81/336883", href: telHref(admissionPhone), ltr: true }],
+    },
+    {
+      icon: "mail",
+      title: "General administration",
+      lines: [
+        { text: "09/638241", href: telHref(adminPhones[0]), ltr: true },
+        { text: "09/638141", href: telHref(adminPhones[1]), ltr: true },
+        { text: "P.O. Box 2666, Jounieh, Lebanon" },
+        { text: email, href: `mailto:${email}`, ltr: true },
+      ],
+    },
+    {
+      icon: "pin",
+      title: "Our locations",
+      lines: [
+        { text: "Jounieh office", href: jouniehMap },
+        { text: "Salloume centre", href: salloumeMap },
+      ],
+    },
+  ],
+  copyright: "© 2026 JCD Lebanon – all rights reserved",
+};
+
+export const footer = { ar: footerAr, en: footerEn };
 
 /** Shop, cart and checkout wording. */
 export const shopUi = {
