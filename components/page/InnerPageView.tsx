@@ -1,12 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import CommitteeLogo from "@/components/CommitteeLogo";
 import SiteFooter from "@/components/SiteFooter";
 import SiteHeader from "@/components/SiteHeader";
 import TalkToNour from "@/components/TalkToNour";
 import { PinIcon } from "@/components/sections/icons";
 import { nourEnabled } from "@/lib/content";
 import type { Locale } from "@/lib/i18n";
+import type { Committee } from "@/lib/images";
 import type { Action, Block, InnerPage } from "@/lib/pages";
 import styles from "./page.module.css";
 
@@ -16,21 +18,23 @@ import styles from "./page.module.css";
  */
 export function PageShell({
   locale,
+  committee,
   children,
 }: {
   locale: Locale;
+  /** A committee's pages list only its own office in the footer. */
+  committee?: Committee;
   children: React.ReactNode;
 }) {
   return (
     <>
       <SiteHeader locale={locale} />
       <main className={styles.main}>{children}</main>
-      <SiteFooter locale={locale} />
+      <SiteFooter locale={locale} committee={committee} />
       {nourEnabled && <TalkToNour locale={locale} />}
     </>
   );
 }
-
 export function Crumbs({ trail }: { trail: Action[] }) {
   return (
     <nav className={styles.crumbs} aria-label="breadcrumb">
@@ -167,13 +171,19 @@ export default function InnerPageView({
   aside?: React.ReactNode;
 }) {
   return (
-    <PageShell locale={locale}>
+    <PageShell locale={locale} committee={page.committee}>
       <header className={styles.hero}>
         <div className={styles.heroInner}>
           <div className={styles.heroCopy}>
             <Crumbs trail={trail} />
             {page.eyebrow && <p className={styles.eyebrow}>{page.eyebrow}</p>}
-            <h1 className={styles.title}>{page.title}</h1>
+            {page.committee ? (
+              <h1 className={styles.logoTitle}>
+                <CommitteeLogo committee={page.committee} />
+              </h1>
+            ) : (
+              <h1 className={styles.title}>{page.title}</h1>
+            )}
             {page.tagline && <p className={styles.tagline}>{page.tagline}</p>}
             <p className={styles.summary}>{page.summary}</p>
           </div>

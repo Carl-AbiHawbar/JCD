@@ -32,6 +32,13 @@
   padding: 0;
 }
 
+/* A committee page lists one office, centred rather than left in the first
+   of four columns. */
+.cardsSingle {
+  composes: cards;
+  justify-content: center;
+}
+
 .card {
   display: flex;
   flex-direction: column;
@@ -114,4 +121,9 @@
   .link {
     transition: none;
   }
+}
+
+/* Last, so it outlasts the column counts the breakpoints above give .cards. */
+.cardsSingle {
+  grid-template-columns: minmax(0, 320px);
 }

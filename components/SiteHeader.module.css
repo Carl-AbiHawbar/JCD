@@ -67,15 +67,31 @@
   text-align: center;
 }
 
+/* Mark, divider, name — left to right in both languages, as in the logo. */
 .brand {
+  direction: ltr;
   display: flex;
   align-items: center;
+  gap: 11px;
+  color: var(--on-dark);
 }
 
-.logo {
+.mark {
   display: block;
-  width: 136px;
-  height: 64px;
+  width: auto;
+  height: 46px;
+}
+
+.wordmark {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-left: 11px;
+  border-left: 2px solid currentColor;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.08;
+  white-space: nowrap;
 }
 
 /* --- nav (visually right) ------------------------------------------- */
@@ -117,9 +133,17 @@
 }
 
 @media (max-width: 860px) {
-  .logo {
-    width: 111px;
-    height: 52px;
+  .brand {
+    gap: 9px;
+  }
+
+  .mark {
+    height: 40px;
+  }
+
+  .wordmark {
+    padding-left: 9px;
+    font-size: 13px;
   }
 
   /* The inline list gives way to the disclosure menu in MobileNav. */

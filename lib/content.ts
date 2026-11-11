@@ -1,5 +1,6 @@
 import type { Locale } from "./i18n";
 import { telHref, whatsappHref } from "./format";
+import type { Committee } from "./images";
 
 /**
  * JCD's public number, in one place: the helpline bar, the hero's "call us"
@@ -264,6 +265,49 @@ const footerEn: typeof footerAr = {
 };
 
 export const footer = { ar: footerAr, en: footerEn };
+
+/**
+ * On the MCD and JCD Club pages the contact band shows only that committee's
+ * office, as JCD asked: the organisation's own lines are already on the
+ * homepage, so repeating them there only buries the number people came for.
+ */
+const mcdPhone = "+961 81 336 885";
+const clubPhone = "+961 81 336 884";
+
+export const committeeContacts: Record<Committee, Record<Locale, ContactCard[]>> = {
+  mcd: {
+    ar: [
+      {
+        icon: "phone",
+        title: "مكتب لجنة الأمّهات – MCD",
+        lines: [{ text: "81/336885", href: telHref(mcdPhone), ltr: true }],
+      },
+    ],
+    en: [
+      {
+        icon: "phone",
+        title: "MCD office",
+        lines: [{ text: "81/336885", href: telHref(mcdPhone), ltr: true }],
+      },
+    ],
+  },
+  club: {
+    ar: [
+      {
+        icon: "phone",
+        title: "JCD Club",
+        lines: [{ text: "81/336884", href: telHref(clubPhone), ltr: true }],
+      },
+    ],
+    en: [
+      {
+        icon: "phone",
+        title: "JCD Club",
+        lines: [{ text: "81/336884", href: telHref(clubPhone), ltr: true }],
+      },
+    ],
+  },
+};
 
 /** Shop, cart and checkout wording. */
 export const shopUi = {

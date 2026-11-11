@@ -1,5 +1,6 @@
-import { contentFor } from "@/lib/content";
+import { committeeContacts, contentFor } from "@/lib/content";
 import type { Locale } from "@/lib/i18n";
+import type { Committee } from "@/lib/images";
 import {
   MailIcon,
   PhoneIcon,
@@ -15,8 +16,16 @@ const ICONS = {
   pin: PinIcon,
 };
 
-export default function SiteFooter({ locale }: { locale: Locale }) {
+export default function SiteFooter({
+  locale,
+  committee,
+}: {
+  locale: Locale;
+  /** On a committee's own pages, only that committee's office is listed. */
+  committee?: Committee;
+}) {
   const { footer } = contentFor(locale);
+  const contacts = committee ? committeeContacts[committee][locale] : footer.contacts;
 
   return (
     <footer>
@@ -25,8 +34,8 @@ export default function SiteFooter({ locale }: { locale: Locale }) {
           <h2 className={styles.heading}>{footer.heading}</h2>
           <p className={styles.subheading}>{footer.subheading}</p>
 
-          <ul className={styles.cards}>
-            {footer.contacts.map((card) => {
+          <ul className={contacts.length === 1 ? styles.cardsSingle : styles.cards}>
+            {contacts.map((card) => {
               const Icon = ICONS[card.icon];
               return (
                 <li className={styles.card} key={card.title}>

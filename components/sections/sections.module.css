@@ -173,6 +173,17 @@
   line-height: 1.35;
 }
 
+/* A committee's logo in place of the heading text. */
+.teaserLogo {
+  margin: 6px 0 18px;
+}
+
+.teaserLogo img {
+  display: block;
+  width: min(300px, 100%);
+  height: auto;
+}
+
 .tagline {
   margin: 0 0 24px;
   color: #d9261c;
@@ -848,14 +859,21 @@
     gap: 28px;
   }
 
+  /* The right-to-left swaps above are more specific than a bare class, so
+     they are named here too; otherwise Arabic pages keep the photo in a
+     second column that no longer exists, and it collapses. */
   .mediaLeft,
-  .mediaRight {
+  .mediaRight,
+  :global([dir="rtl"]) .mediaLeft,
+  :global([dir="rtl"]) .mediaRight {
     grid-column: 1;
     grid-row: 1;
   }
 
   .copyLeft,
-  .copyRight {
+  .copyRight,
+  :global([dir="rtl"]) .copyLeft,
+  :global([dir="rtl"]) .copyRight {
     grid-column: 1;
     grid-row: 2;
   }

@@ -29,3 +29,28 @@ export const img = (name: string, alt: string): Img => ({
   src: `/sections/${name}.${PHOTOS.has(name) ? "jpg" : "svg"}`,
   alt,
 });
+
+/** JCD's two committees, each with its own logo and its own office line. */
+export type Committee = "mcd" | "club";
+
+export type Logo = { src: string; alt: string; width: number; height: number };
+
+/**
+ * The committees' logos, in public/logos, cut from the files JCD sent onto a
+ * transparent ground so they sit on any band colour. They stand in for the
+ * green "MCD" and "JCD Club" headings wherever a committee is introduced.
+ */
+export const LOGOS: Record<Committee, Logo> = {
+  mcd: {
+    src: "/logos/mcd.png",
+    alt: "MCD — Mères Contre la Drogue",
+    width: 390,
+    height: 149,
+  },
+  club: {
+    src: "/logos/jcd-club.png",
+    alt: "JCD Club",
+    width: 1105,
+    height: 340,
+  },
+};

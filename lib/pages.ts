@@ -1,5 +1,5 @@
 import type { Locale } from "./i18n";
-import { img, type Img } from "./images";
+import { img, type Committee, type Img } from "./images";
 
 /**
  * The inner pages: من نحن, the five programmes, MCD and JCD Club.
@@ -36,6 +36,11 @@ export type InnerPage = {
   image: Img;
   blocks: Block[];
   cta?: { heading: string; body?: string; actions: Action[] };
+  /**
+   * Set on a committee's page: its logo replaces the title, and the footer
+   * lists only its office.
+   */
+  committee?: Committee;
 };
 
 /* ------------------------------------------------------------------ shared */
@@ -576,6 +581,7 @@ const PROGRAMMES: Record<Locale, InnerPage[]> = {
 const MCD: Record<Locale, InnerPage> = {
   ar: {
     slug: "mcd",
+    committee: "mcd",
     eyebrow: "لجنة أمّهات ضدّ المخدّرات",
     title: "MCD",
     tagline: "من قلب الأمّ، بتبلّش الوقاية",
@@ -616,6 +622,7 @@ const MCD: Record<Locale, InnerPage> = {
   },
   en: {
     slug: "mcd",
+    committee: "mcd",
     eyebrow: "Mothers Against Drugs",
     title: "MCD",
     tagline: "Prevention begins in a mother's heart",
@@ -661,6 +668,7 @@ const MCD: Record<Locale, InnerPage> = {
 const CLUB: Record<Locale, InnerPage> = {
   ar: {
     slug: "jcd-club",
+    committee: "club",
     eyebrow: "أندية الشبيبة لمكافحة المخدّرات",
     title: "JCD Club",
     tagline: "عندك طاقة؟ خلّي إلها تأثير!",
@@ -698,6 +706,7 @@ const CLUB: Record<Locale, InnerPage> = {
   },
   en: {
     slug: "jcd-club",
+    committee: "club",
     eyebrow: "Youth Against Drugs clubs",
     title: "JCD Club",
     tagline: "Got energy? Make it count!",

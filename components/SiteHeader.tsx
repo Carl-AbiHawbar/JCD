@@ -2,7 +2,7 @@ import Image from "next/image";
 
 import { contentFor, shopEnabled } from "@/lib/content";
 import type { Locale } from "@/lib/i18n";
-import logo from "@/public/jcd-logo.png";
+import mark from "@/public/logos/jcd-mark-white.png";
 import AccountLink from "./AccountLink";
 import CartLink from "./CartLink";
 import LanguageToggle from "./LanguageToggle";
@@ -36,15 +36,18 @@ export default function SiteHeader({ locale }: { locale: Locale }) {
           label={languageToggle}
           next={locale === "ar" ? "en" : "ar"}
         />
-        <a className={styles.brand} href={brand.href}>
-          <Image
-            className={styles.logo}
-            src={logo}
-            alt={brand.alt}
-            width={136}
-            height={64}
-            priority
-          />
+        {/* The lockup is rebuilt from parts so it stays sharp and legible on
+            the grey bar: the jCD mark comes from JCD's own artwork (black
+            turned white, the red heart kept), and the name is real text in
+            white. The only logo file JCD had was a small image with its grey
+            ground baked in, too soft to enlarge. */}
+        <a className={styles.brand} href={brand.href} aria-label={brand.alt}>
+          <Image className={styles.mark} src={mark} alt="" priority />
+          <span className={styles.wordmark} lang="ar" dir="rtl" aria-hidden="true">
+            <span>الشبيبة</span>
+            <span>لمكافحة</span>
+            <span>المخدّرات</span>
+          </span>
         </a>
       </div>
     </header>

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import CommitteeLogo from "@/components/CommitteeLogo";
 import type { Locale } from "@/lib/i18n";
 import type {
   AccordionSection,
@@ -84,7 +85,13 @@ function Teaser({ section }: { section: TeaserSection }) {
             {section.eyebrow && (
               <p className={styles.eyebrow}>{section.eyebrow}</p>
             )}
-            <h2 className={styles.teaserHeading}>{section.heading}</h2>
+            {section.committee ? (
+              <h2 className={styles.teaserLogo}>
+                <CommitteeLogo committee={section.committee} />
+              </h2>
+            ) : (
+              <h2 className={styles.teaserHeading}>{section.heading}</h2>
+            )}
             {section.tagline && (
               <p className={styles.tagline}>{section.tagline}</p>
             )}

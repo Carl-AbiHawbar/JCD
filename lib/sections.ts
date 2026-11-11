@@ -1,5 +1,5 @@
 import type { Locale } from "./i18n";
-import { img, type Img } from "./images";
+import { img, type Committee, type Img } from "./images";
 import { programmes } from "./pages";
 
 export type { Img };
@@ -32,6 +32,8 @@ export type TeaserSection = {
   /** Small line above the heading, e.g. what an acronym stands for. */
   eyebrow?: string;
   heading: string;
+  /** A committee's front: its logo is shown in place of the heading text. */
+  committee?: Committee;
   /** A slogan, set large under the heading. */
   tagline?: string;
   body?: string[];
@@ -225,7 +227,7 @@ const AR: Section[] = [
     ],
   },
   {
-    kind: "teaser", id: "mcd", band: "mint", imageSide: "right",
+    kind: "teaser", id: "mcd", band: "mint", imageSide: "right", committee: "mcd",
     image: img("mcd", "لجنة أمّهات ضدّ المخدّرات"),
     eyebrow: "لجنة أمّهات ضدّ المخدّرات",
     heading: "MCD",
@@ -233,7 +235,7 @@ const AR: Section[] = [
     cta: { label: "اقرأ المزيد", href: "/mcd" },
   },
   {
-    kind: "teaser", id: "club", band: "cream", imageSide: "left",
+    kind: "teaser", id: "club", band: "cream", imageSide: "left", committee: "club",
     image: img("training-2", "شباب متطوعون في نشاط جماعي"),
     eyebrow: "أندية الشبيبة لمكافحة المخدّرات",
     heading: "JCD Club",
@@ -314,7 +316,7 @@ const EN: Section[] = [
     ],
   },
   {
-    kind: "teaser", id: "mcd", band: "mint", imageSide: "right",
+    kind: "teaser", id: "mcd", band: "mint", imageSide: "right", committee: "mcd",
     image: img("mcd", "Mothers Against Drugs"),
     eyebrow: "Mothers Against Drugs",
     heading: "MCD",
@@ -322,7 +324,7 @@ const EN: Section[] = [
     cta: { label: "Read more", href: "/mcd" },
   },
   {
-    kind: "teaser", id: "club", band: "cream", imageSide: "left",
+    kind: "teaser", id: "club", band: "cream", imageSide: "left", committee: "club",
     image: img("training-2", "Young volunteers in a group activity"),
     eyebrow: "Youth Against Drugs clubs",
     heading: "JCD Club",
