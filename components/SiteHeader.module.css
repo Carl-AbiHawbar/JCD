@@ -82,6 +82,12 @@
   height: 46px;
 }
 
+.lockup {
+  display: block;
+  width: auto;
+  height: 50px;
+}
+
 .wordmark {
   display: flex;
   flex-direction: column;
@@ -139,6 +145,10 @@
 
   .mark {
     height: 40px;
+  }
+
+  .lockup {
+    height: 42px;
   }
 
   .wordmark {

@@ -59,7 +59,7 @@ export const brand = {
     href: "/",
   },
   en: {
-    alt: "JCD — Youth Against Drugs",
+    alt: "JCD — Jeunesse Contre la Drogue",
     href: "/",
   },
 } as const;

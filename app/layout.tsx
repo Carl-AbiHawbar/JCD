@@ -19,7 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return locale === "en"
     ? {
-        title: { default: "JCD — Youth Against Drugs", template: "%s — JCD" },
+        title: { default: "JCD — Jeunesse Contre la Drogue", template: "%s — JCD" },
         description:
           "A Lebanese non-profit fighting addiction since 1994: rehabilitation, awareness, training and family support.",
       }

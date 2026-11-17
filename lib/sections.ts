@@ -326,7 +326,7 @@ const EN: Section[] = [
   {
     kind: "teaser", id: "club", band: "cream", imageSide: "left", committee: "club",
     image: img("training-2", "Young volunteers in a group activity"),
-    eyebrow: "Youth Against Drugs clubs",
+    eyebrow: "JCD youth clubs",
     heading: "JCD Club",
     tagline: "Got energy? Make it count!",
     cta: { label: "Read more", href: "/jcd-club" },

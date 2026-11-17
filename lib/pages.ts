@@ -132,7 +132,7 @@ const ABOUT: Record<Locale, InnerPage> = {
   },
   en: {
     slug: "about",
-    eyebrow: "Youth Against Drugs – JCD",
+    eyebrow: "Jeunesse Contre la Drogue – JCD",
     title: "About us",
     tagline: "Because we believe recovery is possible, and that asking for help is the first step towards change.",
     summary:
@@ -142,7 +142,7 @@ const ABOUT: Record<Locale, InnerPage> = {
       {
         kind: "paragraphs",
         paragraphs: [
-          "Youth Against Drugs (JCD) is a non-profit association founded on 4 February 1994 under notification no. 75/AD, amended by no. 1670. It fights addiction by raising awareness, training civil-society activists, receiving and counselling people with addiction and their families without any discrimination and from every country, and rehabilitating young people in its inpatient and outpatient centres — then following them after recovery so they can rejoin society.",
+          "Jeunesse Contre la Drogue (JCD) is a non-profit association founded on 4 February 1994 under notification no. 75/AD, amended by no. 1670. It fights addiction by raising awareness, training civil-society activists, receiving and counselling people with addiction and their families without any discrimination and from every country, and rehabilitating young people in its inpatient and outpatient centres — then following them after recovery so they can rejoin society.",
         ],
       },
       {
@@ -707,7 +707,7 @@ const CLUB: Record<Locale, InnerPage> = {
   en: {
     slug: "jcd-club",
     committee: "club",
-    eyebrow: "Youth Against Drugs clubs",
+    eyebrow: "JCD youth clubs",
     title: "JCD Club",
     tagline: "Got energy? Make it count!",
     summary:
